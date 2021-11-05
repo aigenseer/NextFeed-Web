@@ -27,8 +27,9 @@ jobs:
         npm install
         npm run test
         npm run build
-    - name: Create Package
-    - run: mkdir staging && cp dist/*.* staging
+        
+    - name: Package
+      run:  mkdir staging && cp dist/*.* staging
     - uses: actions/upload-artifact@v1
       with:
         name: Package
