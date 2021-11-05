@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "1ac24fd2-8b68-47a7-8137-23b1eb70bf0c"
+    "analytics": "2095f34c-9310-4c3d-8014-34d8932328fe"
   },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lecturefeed-ui": {
+    "lecturefeed-web": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/",
+            "outputPath": "dist/lecturefeed-web",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "lecturefeed-ui:build:production"
+              "browserTarget": "lecturefeed-web:build:production"
             },
             "development": {
-              "browserTarget": "lecturefeed-ui:build:development"
+              "browserTarget": "lecturefeed-web:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lecturefeed-ui:build"
+            "browserTarget": "lecturefeed-web:build"
           }
         },
         "test": {
@@ -98,7 +98,7 @@
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/avicon.ico",
+              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -110,5 +110,5 @@
       }
     }
   },
-  "defaultProject": "lecturefeed-ui"
+  "defaultProject": "lecturefeed-web"
 }
