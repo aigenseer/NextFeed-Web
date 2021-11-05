@@ -19,9 +19,9 @@ jobs:
           node-version: 14
       - run: npm install
       - run: npm test
-      - run: npm run build
-      - run: mkdir staging && cp dist/*.* staging
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Package
-          path: staging
+      #- run: npm run build
+      #- run: mkdir staging && cp dist/*.* staging
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Package
+      #    path: staging
