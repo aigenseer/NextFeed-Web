@@ -1,20 +1,27 @@
-name: Build
+name: Angular Build
+
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [ master ]
+
 jobs:
-  sonarcloud:
-    name: SonarCloud
+
+  build:
+  
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          node-version: 10
+      - run: npm install
+      - run: npm test
+      - run: npm run build
+      - run: mkdir staging && cp dist/*.* staging
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Package
+          path: staging
