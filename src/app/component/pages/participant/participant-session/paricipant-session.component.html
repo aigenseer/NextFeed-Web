@@ -1,0 +1,10 @@
+<app-header>
+  <span (click)="onClickLogout()" aria-label="Logout">
+    logout
+  </span>
+</app-header>
+<app-content>
+  <div *ngIf="sessionId">
+    <p>active session</p>
+  </div>
+</app-content>

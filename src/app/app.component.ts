@@ -21,14 +21,14 @@ export class AppComponent implements OnInit{
   }
 
   connect(){
-    this.authenticationService.getAdminToken().subscribe(token => {
-      this.adminSocket.connect(token.token).then(() => {
-        this.adminSocket.onQuestion().subscribe(question => {
-          console.log(question)
-        });
-        this.adminSocket.addQuestion(new Question("Test Question"));
-      });
-    })
+    // this.authenticationService.getAdminToken().subscribe(token => {
+    //   this.adminSocket.connect(token.token).then(() => {
+    //     this.adminSocket.onQuestion().subscribe(question => {
+    //       console.log(question)
+    //     });
+    //     this.adminSocket.addQuestion(new Question("Test Question"));
+    //   });
+    // })
 
 
   }
