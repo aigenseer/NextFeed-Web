@@ -4,6 +4,7 @@ import {Question} from "../../../../model/question/question.model";
 import {Participant} from "../../../../model/participant/participant.model";
 import {ParticipantSocket} from "../../../../socket/participantSocket/participant.socket";
 import {MessageService} from "primeng/api";
+import {SessionService} from "../../../../service/sessionService/session.service";
 
 @Component({
   selector: 'app-paricipant-session',
@@ -21,25 +22,32 @@ export class ParticipantSessionComponent implements OnInit {
     private route: ActivatedRoute,
     private participantSocket: ParticipantSocket,
     private messageService: MessageService,
+    private sessionService: SessionService,
     ){}
 
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('sessionId');
     this.sessionId = id ? parseInt(id) : null;
-    if (this.sessionId === null) {
+    let token: string | null = null;
+    token = "token" // token muss über den global store bezogen werden.
+
+    if(this.sessionId===null && token !== null){
       this.navigateToLogin();
       return;
     }
-    let token: string | null = null;
-    if (window.history.state.hasOwnProperty("token")) {
-      token = window.history.state.token;
-      //gerade vom login gekommen
+    if (!window.history.state.hasOwnProperty("newSession")){
+      this.sessionService.getInitialData(this.sessionId as number, token).subscribe(sessionData => {
+        this.questions = sessionData.questions;
+        this.participants = sessionData.participants;
+        this.startConnection(token as string);
+      });
+    }else{
+      this.connectToSocket(token);
     }
+  }
 
-    //prüfen ob die ID valide ist,
-    //gegebenfalls
-    //anonsten logOutSession aufrufen,.
-    if (token !== null) this.connectToSocket(token);
+  private startConnection(token: string){
+    this.connectToSocket(token);
   }
 
   private connectToSocket(token: string){

@@ -12,11 +12,15 @@ export class ParticipantLoginComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    this.connect();
+  }
 
+  connect(){
+    //token muss in den global store gespeichert werden.
   }
 
   onSubmit(){
-    this.router.navigate(['participant/1'], {state: { token: "string" }});
+    this.router.navigate(['participant/1'], {state: { newSession: true }});
   }
 
 }
