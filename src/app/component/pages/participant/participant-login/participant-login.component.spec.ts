@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ParticipantLoginComponent } from './participant-login.component';
 import {RouterTestingModule} from "@angular/router/testing";
 
-describe('ParicipantLoginComponent', () => {
+describe('ParticipantLoginComponent', () => {
   let component: ParticipantLoginComponent;
   let fixture: ComponentFixture<ParticipantLoginComponent>;
 

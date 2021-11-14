@@ -12,6 +12,10 @@ import { ParticipantSessionComponent } from './component/pages/participant/parti
 import { ContentComponent } from './component/organisms/content/content.component';
 import { AdminManagementComponent } from './component/pages/admin/admin-management/admin-management.component';
 import { AdminSessionComponent } from './component/pages/admin/admin-session/admin-session.component';
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
 
 @NgModule({
   declarations: [
@@ -28,9 +32,14 @@ import { AdminSessionComponent } from './component/pages/admin/admin-session/adm
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    ToastModule
   ],
-  providers: [],
+  providers: [
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
