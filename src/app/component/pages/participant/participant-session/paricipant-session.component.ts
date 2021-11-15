@@ -35,15 +35,11 @@ export class ParticipantSessionComponent implements OnInit {
       this.navigateToLogin();
       return;
     }
-    if (!window.history.state.hasOwnProperty("newSession")){
-      this.sessionService.getInitialData(this.sessionId as number, token).subscribe(sessionData => {
-        this.questions = sessionData.questions;
-        this.participants = sessionData.participants;
-        this.startConnection(token as string);
-      });
-    }else{
-      this.connectToSocket(token);
-    }
+    this.sessionService.getInitialData(this.sessionId as number, token).then(sessionData => {
+      this.questions = sessionData.questions;
+      this.participants = sessionData.participants;
+      this.startConnection(token as string);
+    }).catch();
   }
 
   private startConnection(token: string){

@@ -36,15 +36,11 @@ export class AdminSessionComponent implements OnInit {
       this.navigateToManagement();
       return;
     }
-    if (!window.history.state.hasOwnProperty("newSession")){
-      this.sessionService.getInitialData(this.sessionId as number, token).subscribe(sessionData => {
-        this.questions = sessionData.questions;
-        this.participants = sessionData.participants;
-        this.startConnection(token as string);
-      });
-    }else{
-      this.startConnection(token);
-    }
+    this.sessionService.getInitialData(this.sessionId as number, token).then(sessionData => {
+      this.questions = sessionData.questions;
+      this.participants = sessionData.participants;
+      this.startConnection(token as string);
+    });
   }
 
   private startConnection(token: string){

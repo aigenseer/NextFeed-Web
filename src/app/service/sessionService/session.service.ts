@@ -8,7 +8,7 @@ import {SessionData} from "../../model/sessionData/session-data.model";
 export class SessionService extends DefaultService{
 
   getInitialData(socketId: number, token: string){
-    return this.http.post<SessionData>(this.getAPIUrl()+"session/"+socketId+"/initial", { token });
+    return this.http.post<SessionData>(this.getAPIUrl()+"session/"+socketId+"/initial", { token }).toPromise();
   }
 
 }

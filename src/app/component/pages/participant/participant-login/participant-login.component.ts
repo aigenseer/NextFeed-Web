@@ -20,7 +20,7 @@ export class ParticipantLoginComponent implements OnInit {
   }
 
   onSubmit(){
-    this.router.navigate(['participant/1'], {state: { newSession: true }});
+    this.router.navigate(['participant/1']);
   }
 
 }

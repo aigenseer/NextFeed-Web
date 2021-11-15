@@ -29,7 +29,7 @@ export class AdminManagementComponent implements OnInit {
   }
 
   onCreateSession(){
-    this.router.navigate(['admin/1'], {state: { newSession: true }});
+    this.router.navigate(['admin/1']);
   }
 
 
