@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../../../../model/participant/participant.model";
 import {ParticipantSocket} from "../../../../socket/participantSocket/participant.socket";
@@ -14,7 +14,7 @@ import {
   templateUrl: './paricipant-session.component.html',
   styleUrls: ['./paricipant-session.component.scss']
 })
-export class ParticipantSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent  {
+export class ParticipantSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
 
   constructor(
     protected  router: Router,
@@ -24,6 +24,10 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     protected  participantSocket: ParticipantSocket,
   ){
     super(router, route, messageService, sessionService);
+  }
+
+  ngOnInit() {
+    this.validateSession();
   }
 
   public startConnection(token: string){

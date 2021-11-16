@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Participant} from "../../../../model/participant/participant.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "primeng/api";
@@ -14,7 +14,10 @@ import {
   templateUrl: './presenter-session.component.html',
   styleUrls: ['./presenter-session.component.scss']
 })
-export class PresenterSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent  {
+export class PresenterSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
+
+  sessionCode: string = "test123"
+  displayShareCodeDialog: boolean = true
 
   constructor(
     protected  router: Router,
@@ -24,6 +27,17 @@ export class PresenterSessionComponent extends AbstractSessionManagementComponen
     protected  adminSocket: AdminSocket,
   ) {
     super(router, route, messageService, sessionService);
+  }
+
+  ngOnInit(){
+    this.validateSession().then(_ => {
+
+
+    })
+  }
+
+  getShareLink(){
+    return location.origin+"/participant/?sessionId="+this.sessionId;
   }
 
   public startConnection(token: string){
@@ -47,6 +61,10 @@ export class PresenterSessionComponent extends AbstractSessionManagementComponen
 
   onClickCloseSession(){
     this.logOutSession();
+  }
+
+  onHideShareCodeDialog(){
+    this.displayShareCodeDialog = false;
   }
 
 }

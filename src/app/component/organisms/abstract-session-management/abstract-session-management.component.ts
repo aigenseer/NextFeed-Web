@@ -12,7 +12,7 @@ export interface IAbstractSessionManagementComponent{
 
 
 @Component({ template: '' })
-export class AbstractSessionManagementComponent implements OnInit, IAbstractSessionManagementComponent {
+export class AbstractSessionManagementComponent implements IAbstractSessionManagementComponent {
 
   sessionId: number|null = null;
   questions: Question[] = [];
@@ -25,25 +25,30 @@ export class AbstractSessionManagementComponent implements OnInit, IAbstractSess
     protected  sessionService: SessionService,
   ){}
 
+  protected validateSession(): Promise<void>
+  {
+    return new Promise((resolve, reject) =>{
+      let id = this.route.snapshot.paramMap.get('sessionId');
+      this.sessionId = id ? parseInt(id) : null;
+      let token: string | null = null;
+      token = "token" // token muss über den global store bezogen werden.
 
-  ngOnInit(): void {
-    let id = this.route.snapshot.paramMap.get('sessionId');
-    this.sessionId = id ? parseInt(id) : null;
-    let token: string | null = null;
-    token = "token" // token muss über den global store bezogen werden.
-
-    if(this.sessionId===null && token !== null){
-      this.navigateToLogin();
-      return;
-    }
-    this.sessionService.getInitialData(this.sessionId as number, token).then(sessionData => {
-      this.questions = sessionData.questions;
-      this.participants = sessionData.participants;
-      this.startConnection(token as string);
-    }).catch(err => {
-      this.displayNotify({ severity: 'error', summary: 'Failed to load session data', detail: err.name, life: 4000 });
-    });
+      if(this.sessionId===null && token !== null){
+        this.navigateToLogin();
+        return;
+      }
+      this.sessionService.getInitialData(this.sessionId as number, token).then(sessionData => {
+        this.questions = sessionData.questions;
+        this.participants = sessionData.participants;
+        this.startConnection(token as string);
+        resolve();
+      }).catch(err => {
+        this.displayNotify({ severity: 'error', summary: 'Failed to load session data', detail: err.name, life: 4000 });
+        reject(err);
+      });
+    })
   }
+
 
   protected logOutSession(){
     this.sessionId = null;

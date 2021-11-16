@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
@@ -15,6 +15,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {PresenterManagementComponent} from "./component/pages/presenter/presenter-management/presenter-management.component";
 import {PresenterSessionComponent} from "./component/pages/presenter/presenter-session/presenter-session.component";
 import {AbstractSessionManagementComponent} from './component/organisms/abstract-session-management/abstract-session-management.component';
+import {DialogModule} from "primeng/dialog";
+import {ClipboardModule} from 'ngx-clipboard';
+import {RippleModule} from "primeng/ripple";
+import {ButtonModule} from "primeng/button";
 
 @NgModule({
   declarations: [
@@ -35,7 +39,11 @@ import {AbstractSessionManagementComponent} from './component/organisms/abstract
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
-    ToastModule
+    ToastModule,
+    DialogModule,
+    ClipboardModule,
+    RippleModule,
+    ButtonModule
   ],
   providers: [
     MessageService
