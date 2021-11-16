@@ -1,4 +1,4 @@
-import { Token } from './token.model';
+import {Token} from './token.model';
 
 describe('Token', () => {
   it('should create an instance', () => {

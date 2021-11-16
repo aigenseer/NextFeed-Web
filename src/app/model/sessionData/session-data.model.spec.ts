@@ -1,4 +1,4 @@
-import { SessionData } from './session-data.model';
+import {SessionData} from './session-data.model';
 import {Question} from "../question/question.model";
 import {Participant} from "../participant/participant.model";
 

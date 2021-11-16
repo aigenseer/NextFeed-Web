@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../service/authenticationService/authentication.service";
 import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
 
 @Component({
-  selector: 'app-admin-management',
-  templateUrl: './admin-management.component.html',
-  styleUrls: ['./admin-management.component.scss']
+  selector: 'app-presenter-management',
+  templateUrl: './presenter-management.component.html',
+  styleUrls: ['./presenter-management.component.scss']
 })
-export class AdminManagementComponent implements OnInit {
+export class PresenterManagementComponent implements OnInit {
 
   constructor(
     private router: Router,
@@ -29,7 +29,7 @@ export class AdminManagementComponent implements OnInit {
   }
 
   onCreateSession(){
-    this.router.navigate(['admin/1']);
+    this.router.navigate(['presenter/1']);
   }
 
 

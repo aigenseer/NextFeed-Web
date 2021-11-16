@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../../../../model/participant/participant.model";
-import {ParticipantSocket} from "../../../../socket/participantSocket/participant.socket";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService} from "primeng/api";
+import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
 import {SessionService} from "../../../../service/sessionService/session.service";
 import {
   AbstractSessionManagementComponent,
@@ -10,19 +10,19 @@ import {
 } from "../../../organisms/abstract-session-management/abstract-session-management.component";
 
 @Component({
-  selector: 'app-paricipant-session',
-  templateUrl: './paricipant-session.component.html',
-  styleUrls: ['./paricipant-session.component.scss']
+  selector: 'app-presenter-session',
+  templateUrl: './presenter-session.component.html',
+  styleUrls: ['./presenter-session.component.scss']
 })
-export class ParticipantSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent  {
+export class PresenterSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent  {
 
   constructor(
     protected  router: Router,
     protected  route: ActivatedRoute,
     protected  messageService: MessageService,
     protected  sessionService: SessionService,
-    protected  participantSocket: ParticipantSocket,
-  ){
+    protected  adminSocket: AdminSocket,
+  ) {
     super(router, route, messageService, sessionService);
   }
 
@@ -30,13 +30,9 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     this.connectToSocket(token);
   }
 
-  public navigateToLogin(){
-    this.router.navigate(['/']);
-  }
-
   private connectToSocket(token: string){
-    this.participantSocket.connect(token).then(() => {
-      this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(this.onJoinParticipant);
+    this.adminSocket.connect(token).then(() => {
+      this.adminSocket.onJoinParticipant(this.sessionId as number).subscribe(this.onJoinParticipant);
     });
   }
 
@@ -45,10 +41,12 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     this.displayNotify({ severity: 'info', summary: 'User joined', detail: participant.nickname, life: 2000 });
   }
 
-  onClickLogout(){
+  public navigateToLogin(){
+    this.router.navigate(['/presenter']);
+  }
+
+  onClickCloseSession(){
     this.logOutSession();
   }
 
 }
-
-

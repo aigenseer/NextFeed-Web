@@ -1,30 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminSessionComponent } from './admin-session.component';
+import {PresenterSessionComponent} from './presenter-session.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {MessageService} from "primeng/api";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-describe('AdminSessionComponent', () => {
-  let component: AdminSessionComponent;
-  let fixture: ComponentFixture<AdminSessionComponent>;
+describe('PresenterSessionComponent', () => {
+  let component: PresenterSessionComponent;
+  let fixture: ComponentFixture<PresenterSessionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers:[MessageService],
-      declarations: [ AdminSessionComponent ]
+      declarations: [ PresenterSessionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminSessionComponent);
+    fixture = TestBed.createComponent(PresenterSessionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create an instance', () => {
     expect(component).toBeTruthy();
   });
 });

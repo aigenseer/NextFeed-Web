@@ -1,13 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ParticipantSessionComponent } from './paricipant-session.component';
+import { AbstractSessionManagementComponent } from './abstract-session-management.component';
 import {RouterTestingModule} from "@angular/router/testing";
-import {MessageService} from "primeng/api";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {MessageService} from "primeng/api";
+import {ParticipantSessionComponent} from "../../pages/participant/participant-session/paricipant-session.component";
 
-describe('ParticipantSessionComponent', () => {
-  let component: ParticipantSessionComponent;
-  let fixture: ComponentFixture<ParticipantSessionComponent>;
+describe('AbtractSessionManagementComponent', () => {
+  let component: AbstractSessionManagementComponent;
+  let fixture: ComponentFixture<AbstractSessionManagementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -19,7 +20,7 @@ describe('ParticipantSessionComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ParticipantSessionComponent);
+    fixture = TestBed.createComponent(AbstractSessionManagementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

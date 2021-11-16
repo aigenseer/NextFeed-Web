@@ -1,5 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import { ContentComponent } from './content.component';
 import {MessageService} from "primeng/api";
 
@@ -21,7 +20,7 @@ describe('ContentComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create an instance', () => {
     expect(component).toBeTruthy();
   });
 });

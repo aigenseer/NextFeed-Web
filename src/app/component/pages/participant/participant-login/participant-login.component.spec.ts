@@ -10,7 +10,7 @@ describe('ParticipantLoginComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ ParticipantLoginComponent ]
+      declarations: [ParticipantLoginComponent]
     })
     .compileComponents();
   });
@@ -21,7 +21,7 @@ describe('ParticipantLoginComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create an instance', () => {
     expect(component).toBeTruthy();
   });
 });

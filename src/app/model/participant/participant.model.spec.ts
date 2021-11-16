@@ -1,4 +1,4 @@
-import { Participant } from './participant.model';
+import {Participant} from './participant.model';
 
 describe('Participant', () => {
   const participant = new Participant(99, "nickname");

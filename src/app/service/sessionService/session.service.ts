@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {DefaultService} from "../defaultService/default.service";
 import {SessionData} from "../../model/sessionData/session-data.model";
 
