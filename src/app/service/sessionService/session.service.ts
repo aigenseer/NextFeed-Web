@@ -13,7 +13,6 @@ export class SessionService extends DefaultService{
   }
 
   createSession(){
-    return Promise.resolve({ sessionId: 99, sessionCode: "99code" });
     return this.http.get<SessionCreateData>(this.getAPIUrl()+"session/create").toPromise();
   }
 

@@ -1,5 +1,4 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {PresenterSessionComponent} from './presenter-session.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {MessageService} from "primeng/api";
@@ -13,7 +12,7 @@ describe('PresenterSessionComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers:[MessageService],
-      declarations: [ PresenterSessionComponent ]
+      declarations: [PresenterSessionComponent]
     })
     .compileComponents();
   });

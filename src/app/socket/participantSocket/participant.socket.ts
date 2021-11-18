@@ -13,8 +13,8 @@ export class ParticipantSocket extends DefaultSocket {
     try {
       const frame = await super.connect(token);
       return Promise.resolve(frame);
-    }catch (e){
-      return Promise.reject(e);
+    }catch (err){
+      return Promise.reject(err);
     }
   }
 

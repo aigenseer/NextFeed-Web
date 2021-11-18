@@ -17,11 +17,11 @@ import {
 export class ParticipantSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
 
   constructor(
-    protected  router: Router,
-    protected  route: ActivatedRoute,
-    protected  messageService: MessageService,
-    protected  sessionService: SessionService,
-    protected  participantSocket: ParticipantSocket,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected messageService: MessageService,
+    protected sessionService: SessionService,
+    protected participantSocket: ParticipantSocket,
   ){
     super(router, route, messageService, sessionService);
   }
@@ -40,7 +40,7 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
 
   private connectToSocket(token: string){
     this.participantSocket.connect(token).then(() => {
-      this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(this.onJoinParticipant);
+      this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(this.onJoinParticipant, this.displayErrorObjectNotify);
     });
   }
 

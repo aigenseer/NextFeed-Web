@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Question} from "../../../model/question/question.model";
 import {Participant} from "../../../model/participant/participant.model";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -10,7 +10,6 @@ export interface IAbstractSessionManagementComponent{
   startConnection(token: string): void;
 }
 
-
 @Component({ template: '' })
 export class AbstractSessionManagementComponent implements IAbstractSessionManagementComponent {
 
@@ -19,10 +18,10 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
   participants: Participant[] = [];
 
   constructor(
-    protected  router: Router,
-    protected  route: ActivatedRoute,
-    protected  messageService: MessageService,
-    protected  sessionService: SessionService,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected messageService: MessageService,
+    protected sessionService: SessionService,
   ){}
 
   protected validateSession(): Promise<void>
@@ -43,12 +42,11 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
         this.startConnection(token as string);
         resolve();
       }).catch(err => {
-        this.displayNotify({ severity: 'error', summary: 'Failed to load session data', detail: err.name, life: 4000 });
+        this.displayErrorNotify(err.name, 'Failed to load session data');
         reject(err);
       });
     })
   }
-
 
   protected logOutSession(){
     this.sessionId = null;
@@ -64,6 +62,16 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
   protected displayNotify(message: Message){
     this.messageService.add(message);
   }
+
+  protected displayErrorNotify(detail: string, summary = "Fatal Error"){
+    this.displayNotify({ severity: 'error', summary: summary, detail: detail, life: 4000 });
+  }
+
+  protected displayErrorObjectNotify(err: Error){
+    this.displayErrorNotify(err.name);
+  }
+
+
 
 
 }

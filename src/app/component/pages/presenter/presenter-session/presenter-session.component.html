@@ -9,11 +9,7 @@
     <p>active session</p>
   </div>
 
-  <p-dialog header="Share Link" [(visible)]="displayShareCodeDialog"  [draggable]="false" (onHide)="onHideShareCodeDialog()">
-    <p>Successfully created new Session</p>
-    <p><a href="{{getShareLink()}}" target="_blank">Participant-Link</a>
-      <button pButton pRipple type="button" title="copy" icon="pi pi-bookmark" class="p-button-rounded p-button-secondary p-button-outlined" ngxClipboard [cbContent]="getShareLink()" ></button></p>
-      <p>Session Code: <button pButton pRipple type="button" class="p-button-outlined" label="{{sessionCode}}" icon="pi pi-check" ngxClipboard [cbContent]="this.sessionCode"  ></button></p>
-  </p-dialog>
+
+  <app-share-session-code-dialog [visible]="displayShareCodeDialog" (onHide)="onHideShareCodeDialog()" [sessionId]="sessionId" [sessionCode]="sessionCode" ></app-share-session-code-dialog>
 
 </app-content>

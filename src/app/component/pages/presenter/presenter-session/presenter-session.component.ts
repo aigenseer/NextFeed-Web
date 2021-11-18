@@ -20,11 +20,11 @@ export class PresenterSessionComponent extends AbstractSessionManagementComponen
   displayShareCodeDialog: boolean = true
 
   constructor(
-    protected  router: Router,
-    protected  route: ActivatedRoute,
-    protected  messageService: MessageService,
-    protected  sessionService: SessionService,
-    protected  adminSocket: AdminSocket,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected messageService: MessageService,
+    protected sessionService: SessionService,
+    protected adminSocket: AdminSocket,
   ) {
     super(router, route, messageService, sessionService);
   }
@@ -32,12 +32,7 @@ export class PresenterSessionComponent extends AbstractSessionManagementComponen
   ngOnInit(){
     this.validateSession().then(_ => {
 
-
-    })
-  }
-
-  getShareLink(){
-    return location.origin+"/participant/?sessionId="+this.sessionId;
+    });
   }
 
   public startConnection(token: string){
