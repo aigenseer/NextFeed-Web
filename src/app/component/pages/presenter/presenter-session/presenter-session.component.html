@@ -1,0 +1,11 @@
+<app-header>
+  <span (click)="onClickCloseSession()" aria-label="close">
+    close Session
+  </span>
+</app-header>
+<app-content>
+  <p>admin-session works!</p>
+  <div *ngIf="sessionId">
+    <p>active session</p>
+  </div>
+</app-content>

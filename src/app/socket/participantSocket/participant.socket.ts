@@ -7,7 +7,7 @@ import {Participant} from "../../model/participant/participant.model";
 @Injectable({
   providedIn: 'root'
 })
-export class AdminSocket extends DefaultSocket {
+export class ParticipantSocket extends DefaultSocket {
 
   async connect(token: string) {
     try {
@@ -18,6 +18,10 @@ export class AdminSocket extends DefaultSocket {
     }
   }
 
+  addQuestion(question: Question){
+    this.getStompClient().send("/admin/question/add", {}, question.text);
+  }
+
   public onQuestion(): Observable<Question>
   {
     return this.subscribe<Question>('/admin/question')
@@ -25,7 +29,7 @@ export class AdminSocket extends DefaultSocket {
 
   public onJoinParticipant(sessionId: number): Observable<Participant>
   {
-    return this.subscribe<Participant>('/admin/session/'+sessionId+'/user/onjoin');
+    return this.subscribe<Participant>('/participant/session/'+sessionId+'/user/onjoin');
   }
 
 }
