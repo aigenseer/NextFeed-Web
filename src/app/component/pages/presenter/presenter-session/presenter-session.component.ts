@@ -8,6 +8,13 @@ import {
   AbstractSessionManagementComponent,
   IAbstractSessionManagementComponent
 } from "../../../organisms/abstract-session-management/abstract-session-management.component";
+import {select, Store} from "@ngrx/store";
+import {IAppAdminState} from "../../../../state/admin/app.admin.state";
+import {selectCurrentSessionData, selectTokenCode} from "../../../../state/admin/admin.selector";
+import {take} from "rxjs/operators";
+import {removeCurrentDataSession} from "../../../../state/admin/admin.actions";
+import {firstValueFrom} from "rxjs";
+
 
 @Component({
   selector: 'app-presenter-session',
@@ -16,23 +23,31 @@ import {
 })
 export class PresenterSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
 
-  sessionCode: string = "test123"
+  sessionCode: string = ""
   displayShareCodeDialog: boolean = true
 
   constructor(
-    protected router: Router,
-    protected route: ActivatedRoute,
-    protected messageService: MessageService,
-    protected sessionService: SessionService,
-    protected adminSocket: AdminSocket,
+    protected readonly router: Router,
+    protected readonly route: ActivatedRoute,
+    protected readonly messageService: MessageService,
+    protected readonly sessionService: SessionService,
+    protected readonly adminSocket: AdminSocket,
+    private readonly store: Store<IAppAdminState>
   ) {
     super(router, route, messageService, sessionService);
   }
 
   ngOnInit(){
     this.validateSession().then(_ => {
-
+      firstValueFrom(this.store.pipe(select(selectCurrentSessionData), take(1))).then(sessionData => {
+        this.sessionCode = sessionData.sessionCode;
+      });
     });
+  }
+
+  protected getToken()
+  {
+    return firstValueFrom(this.store.pipe(select(selectTokenCode), take(1)))
   }
 
   public startConnection(token: string){
@@ -55,6 +70,7 @@ export class PresenterSessionComponent extends AbstractSessionManagementComponen
   }
 
   onClickCloseSession(){
+    this.store.dispatch(removeCurrentDataSession());
     this.logOutSession();
   }
 

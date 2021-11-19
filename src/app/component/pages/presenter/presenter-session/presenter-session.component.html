@@ -9,7 +9,6 @@
     <p>active session</p>
   </div>
 
-
-  <app-share-session-code-dialog [visible]="displayShareCodeDialog" (onHide)="onHideShareCodeDialog()" [sessionId]="sessionId" [sessionCode]="sessionCode" ></app-share-session-code-dialog>
+  <app-share-session-code-dialog *ngIf="sessionCode" [visible]="displayShareCodeDialog" (onHide)="onHideShareCodeDialog()" [sessionId]="sessionId" [sessionCode]="sessionCode" ></app-share-session-code-dialog>
 
 </app-content>

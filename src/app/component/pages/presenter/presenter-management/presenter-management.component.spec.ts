@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-
-import { PresenterManagementComponent } from './presenter-management.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {PresenterManagementComponent} from './presenter-management.component';
 import {RouterTestingModule} from "@angular/router/testing";
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {StoreModule} from '@ngrx/store';
 
 
 describe('PresenterManagementComponent', () => {
@@ -12,8 +11,8 @@ describe('PresenterManagementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
-      declarations: [ PresenterManagementComponent ]
+      imports: [RouterTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
+      declarations: [PresenterManagementComponent]
     })
     .compileComponents();
   });

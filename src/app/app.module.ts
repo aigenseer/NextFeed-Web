@@ -20,6 +20,8 @@ import {ClipboardModule} from 'ngx-clipboard';
 import {RippleModule} from "primeng/ripple";
 import {ButtonModule} from "primeng/button";
 import { ShareSessionCodeDialogComponent } from './component/organisms/share-session-code-dialog/share-session-code-dialog.component';
+import {StoreModule} from "@ngrx/store";
+import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin.token.reducer";
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import { ShareSessionCodeDialogComponent } from './component/organisms/share-ses
     ToastModule,
     DialogModule,
     ClipboardModule,
+    StoreModule.forRoot({ token: adminTokenReducer, adminCurrentSessionData: adminCurrentSessionReducer }),
     RippleModule,
     ButtonModule
   ],

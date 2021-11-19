@@ -3,6 +3,7 @@ import {PresenterSessionComponent} from './presenter-session.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {MessageService} from "primeng/api";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {StoreModule} from "@ngrx/store";
 
 describe('PresenterSessionComponent', () => {
   let component: PresenterSessionComponent;
@@ -10,7 +11,7 @@ describe('PresenterSessionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [RouterTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
       providers:[MessageService],
       declarations: [PresenterSessionComponent]
     })

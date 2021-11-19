@@ -26,26 +26,28 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
 
   protected validateSession(): Promise<void>
   {
-    return new Promise((resolve, reject) =>{
+    return new Promise(async (resolve, reject) =>{
       let id = this.route.snapshot.paramMap.get('sessionId');
       this.sessionId = id ? parseInt(id) : null;
-      let token: string | null = null;
-      token = "token" // token muss über den global store bezogen werden.
-
-      if(this.sessionId===null && token !== null){
+      let token: string | null = await this.getToken();
+      if(this.sessionId===null || token === null || token.trim().length === 0){
         this.navigateToLogin();
-        return;
+      }else {
+        this.sessionService.getInitialData(this.sessionId as number, token).then(sessionData => {
+          this.questions = sessionData.questions;
+          this.participants = sessionData.participants;
+          this.startConnection(token as string);
+          resolve();
+        }).catch(err => {
+          this.displayErrorNotify(err.name, 'Failed to load session data');
+          reject(err);
+        });
       }
-      this.sessionService.getInitialData(this.sessionId as number, token).then(sessionData => {
-        this.questions = sessionData.questions;
-        this.participants = sessionData.participants;
-        this.startConnection(token as string);
-        resolve();
-      }).catch(err => {
-        this.displayErrorNotify(err.name, 'Failed to load session data');
-        reject(err);
-      });
     })
+  }
+
+  protected getToken(): Promise<string|null>{
+    return Promise.resolve(null)
   }
 
   protected logOutSession(){
@@ -70,8 +72,5 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
   protected displayErrorObjectNotify(err: Error){
     this.displayErrorNotify(err.name);
   }
-
-
-
 
 }
