@@ -3,6 +3,8 @@ import Cookies, {CookieAttributes} from "js-cookie";
 export enum StoreIds {
   adminToken = 'adminToken',
   adminCurrentSessionData = 'adminCurrentSessionData',
+  participantToken = 'participantToken',
+  participantQuestion = 'participantQuestion',
 }
 
 export type ParseCallback<T> = (jsonObject: any) => T

@@ -4,12 +4,12 @@ import {Token} from "../../model/token/token.model";
 import {ISessionData} from "../../model/sessionCreateData/session-create-data.model";
 
 export const selectToken = createSelector(
-  (state: IAppAdminState) => state.token,
+  (state: IAppAdminState) => state.adminToken,
   (token: Token) => token,
 );
 
 export const selectTokenCode = createSelector(
-  (state: IAppAdminState) => state.token,
+  (state: IAppAdminState) => state.adminToken,
   (token: Token) => token.token,
 );
 

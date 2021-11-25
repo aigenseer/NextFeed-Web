@@ -22,6 +22,7 @@ import {ButtonModule} from "primeng/button";
 import { ShareSessionCodeDialogComponent } from './component/organisms/share-session-code-dialog/share-session-code-dialog.component';
 import {StoreModule} from "@ngrx/store";
 import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin.token.reducer";
+import {participantQuestionReducer, participantTokenReducer} from "./state/participant/participant.reducer";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,12 @@ import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin
     ToastModule,
     DialogModule,
     ClipboardModule,
-    StoreModule.forRoot({ token: adminTokenReducer, adminCurrentSessionData: adminCurrentSessionReducer }),
+    StoreModule.forRoot({
+      adminToken: adminTokenReducer,
+      adminCurrentSessionData: adminCurrentSessionReducer,
+      participantToken: participantTokenReducer,
+      participantQuestionIds: participantQuestionReducer
+    }),
     RippleModule,
     ButtonModule
   ],

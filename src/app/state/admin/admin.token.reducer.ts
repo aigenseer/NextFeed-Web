@@ -6,7 +6,6 @@ import {CookieStore, StoreIds} from "../../lib/CookieStore";
 import jwt_decode from "jwt-decode";
 import {CookieAttributes} from "js-cookie";
 
-
 export const defaultSessionData: ISessionData = {
   id: 0,
   sessionCode: ""
@@ -28,7 +27,6 @@ export const adminCurrentSessionReducer = createReducer(
 function setTokenReducer(state: Token, { token }: { token: Token }): Token {
   let options: CookieAttributes = {}
   let payload = jwt_decode(token.token) as any;
-  console.log(payload)
   if(payload.hasOwnProperty("expirationDate")){
     options.expires = new Date(parseInt(payload?.expirationDate));
   }
