@@ -11,8 +11,8 @@ const routes: Routes = [
   { path: 'presenter', component: PresenterManagementComponent },
   { path: 'presenter/:sessionId',  component: PresenterSessionComponent },
   { path: 'participant/:sessionId',  component: ParticipantSessionComponent },
-  { path: 'participant', component: ParticipantLoginComponent },
-  { path: '',   redirectTo: 'participant', pathMatch: 'full' },
+  { path: 'participant/join/:sessionId', component: ParticipantLoginComponent },
+  { path: '',   redirectTo: 'participant/join/', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];
 

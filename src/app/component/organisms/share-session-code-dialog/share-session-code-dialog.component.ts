@@ -13,7 +13,7 @@ export class ShareSessionCodeDialogComponent {
   @Output() onHide: EventEmitter<void> = new EventEmitter();
 
   getShareLink(){
-    return location.origin+"/participant/?sessionId="+this.sessionId;
+    return location.origin+"/participant/join/"+this.sessionId;
   }
 
   onHideDialog() {

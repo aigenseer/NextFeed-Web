@@ -51,10 +51,10 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
   }
 
   protected logOutSession(){
+    this.navigateToLogin();
     this.sessionId = null;
     this.questions = [];
     this.participants = [];
-    this.navigateToLogin();
   }
 
   public navigateToLogin(){}

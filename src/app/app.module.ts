@@ -19,10 +19,14 @@ import {DialogModule} from "primeng/dialog";
 import {ClipboardModule} from 'ngx-clipboard';
 import {RippleModule} from "primeng/ripple";
 import {ButtonModule} from "primeng/button";
-import { ShareSessionCodeDialogComponent } from './component/organisms/share-session-code-dialog/share-session-code-dialog.component';
+import {CardModule} from 'primeng/card';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {ShareSessionCodeDialogComponent} from './component/organisms/share-session-code-dialog/share-session-code-dialog.component';
 import {StoreModule} from "@ngrx/store";
 import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin.token.reducer";
 import {participantQuestionReducer, participantTokenReducer} from "./state/participant/participant.reducer";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -46,7 +50,10 @@ import {participantQuestionReducer, participantTokenReducer} from "./state/parti
     BrowserAnimationsModule,
     ToastModule,
     DialogModule,
+    CardModule,
     ClipboardModule,
+    InputTextModule,
+    InputNumberModule,
     StoreModule.forRoot({
       adminToken: adminTokenReducer,
       adminCurrentSessionData: adminCurrentSessionReducer,
@@ -54,7 +61,8 @@ import {participantQuestionReducer, participantTokenReducer} from "./state/parti
       participantQuestionIds: participantQuestionReducer
     }),
     RippleModule,
-    ButtonModule
+    ButtonModule,
+    FormsModule
   ],
   providers: [
     MessageService

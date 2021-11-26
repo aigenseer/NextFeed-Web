@@ -13,4 +13,8 @@ export class AuthenticationService extends DefaultService{
     return firstValueFrom(this.http.get<Token>(this.getAPIUrl()+"auth/admin"));
   }
 
+  getParticipantToken(sessionId: number, nickname: string, sessionCode: string){
+    return firstValueFrom(this.http.post<Token>(this.getAPIUrl()+"auth/participant", {sessionId, nickname, sessionCode}));
+  }
+
 }

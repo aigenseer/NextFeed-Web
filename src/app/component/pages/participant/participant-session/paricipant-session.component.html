@@ -1,7 +1,5 @@
 <app-header>
-  <span (click)="onClickLogout()" aria-label="Logout">
-    logout
-  </span>
+  <button (click)="onClickLogout()" pButton type="button" [label]="nickname" icon="pi pi-power-off" iconPos="right" class="p-button-outlined"></button>
 </app-header>
 <app-content>
   <div *ngIf="sessionId">

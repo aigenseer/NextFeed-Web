@@ -8,6 +8,17 @@ import {
   AbstractSessionManagementComponent,
   IAbstractSessionManagementComponent
 } from "../../../organisms/abstract-session-management/abstract-session-management.component";
+import {firstValueFrom} from "rxjs";
+import {select, Store} from "@ngrx/store";
+import {take} from "rxjs/operators";
+import {IAppParticipantState} from "../../../../state/participant/app.participant.state";
+import {
+  selectParticipantData,
+  selectQuestionIds,
+  selectTokenCode
+} from "../../../../state/participant/participant.selector";
+import {removeToken} from "../../../../state/participant/participant.actions";
+
 
 @Component({
   selector: 'app-paricipant-session',
@@ -16,12 +27,18 @@ import {
 })
 export class ParticipantSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
 
+  nickname: string = "";
+  participantId: number = 0;
+  questionIds: number[] = [];
+
+
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
     protected messageService: MessageService,
     protected sessionService: SessionService,
     protected participantSocket: ParticipantSocket,
+    private readonly store: Store<IAppParticipantState>
   ){
     super(router, route, messageService, sessionService);
   }
@@ -30,12 +47,33 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     this.validateSession();
   }
 
+  protected getToken()
+  {
+    return firstValueFrom(this.store.pipe(select(selectTokenCode), take(1)));
+  }
+
+  private loadData(){
+    firstValueFrom(this.store.pipe(select(selectParticipantData), take(1))).then(participantData => {
+      this.nickname = participantData?.nickname
+      this.participantId = participantData?.id;
+    });
+    firstValueFrom(this.store.pipe(select(selectQuestionIds), take(1))).then(questionIds => {
+      this.questionIds = questionIds;
+    });
+  }
+
   public startConnection(token: string){
+    this.loadData();
+    this.store.select(selectQuestionIds).subscribe(questionIds => {
+      questionIds.map(id => this.questionIds.push(id));
+    });
     this.connectToSocket(token);
   }
 
   public navigateToLogin(){
-    this.router.navigate(['/']);
+    let path = 'participant/join/';
+    if(this.sessionId !== null) path += this.sessionId;
+    this.router.navigate([path]);
   }
 
   private connectToSocket(token: string){
@@ -50,6 +88,7 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   }
 
   onClickLogout(){
+    this.store.dispatch(removeToken());
     this.logOutSession();
   }
 

@@ -8,6 +8,11 @@ export const selectToken = createSelector(
   (token: Token) => token,
 );
 
+export const selectTokenCode = createSelector(
+  (state: IAppParticipantState) => state.participantToken,
+  (token: Token) => token.token,
+);
+
 export const selectParticipantData = createSelector(
   (state: IAppParticipantState) => {
     return state.participantToken;
