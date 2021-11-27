@@ -22,6 +22,7 @@ import {ButtonModule} from "primeng/button";
 import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputNumberModule} from 'primeng/inputnumber';
+import {InputSwitchModule} from 'primeng/inputswitch';
 import {ShareSessionCodeDialogComponent} from './component/organisms/share-session-code-dialog/share-session-code-dialog.component';
 import {StoreModule} from "@ngrx/store";
 import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin.token.reducer";
@@ -54,6 +55,7 @@ import {FormsModule} from "@angular/forms";
     ClipboardModule,
     InputTextModule,
     InputNumberModule,
+    InputSwitchModule,
     StoreModule.forRoot({
       adminToken: adminTokenReducer,
       adminCurrentSessionData: adminCurrentSessionReducer,
