@@ -1,9 +1,10 @@
 <div class="toolbar" role="banner">
   <img
+    [routerLink]="'/'"
     alt="LectureFeed"
     src="assets/lecturefeed_logo.svg"
   />
-  <h2>LectureFeed</h2>
+  <h2 [routerLink]="'/'" >LectureFeed</h2>
   <div class="spacer"></div>
   <ng-content></ng-content>
   <p-inputSwitch [(ngModel)]="dark" (onChange)="onChangeMode()"></p-inputSwitch>

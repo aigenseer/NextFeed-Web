@@ -28,6 +28,10 @@ import {StoreModule} from "@ngrx/store";
 import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin.token.reducer";
 import {participantQuestionReducer, participantTokenReducer} from "./state/participant/participant.reducer";
 import {FormsModule} from "@angular/forms";
+import { CopyrightComponent } from './component/pages/footerpages/copyright/copyright.component';
+import { AboutUsComponent } from './component/pages/footerpages/about-us/about-us.component';
+import { DataProtectionComponent } from './component/pages/footerpages/data-protection/data-protection.component';
+import { ImprintComponent } from './component/pages/footerpages/imprint/imprint.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,11 @@ import {FormsModule} from "@angular/forms";
     PresenterManagementComponent,
     PresenterSessionComponent,
     AbstractSessionManagementComponent,
-    ShareSessionCodeDialogComponent
+    ShareSessionCodeDialogComponent,
+    CopyrightComponent,
+    AboutUsComponent,
+    DataProtectionComponent,
+    ImprintComponent
   ],
   imports: [
     BrowserModule,
