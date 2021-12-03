@@ -18,6 +18,8 @@ import {
   selectTokenCode
 } from "../../../../state/participant/participant.selector";
 import {removeToken} from "../../../../state/participant/participant.actions";
+import {Question} from "../../../../model/question/question.model";
+import {IQuestionTemplate} from "../../../molecules/create-question/create-question.component";
 
 
 @Component({
@@ -30,7 +32,6 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   nickname: string = "";
   participantId: number = 0;
   questionIds: number[] = [];
-
 
   constructor(
     protected router: Router,
@@ -65,7 +66,7 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   public startConnection(token: string){
     this.loadData();
     this.store.select(selectQuestionIds).subscribe(questionIds => {
-      questionIds.map(id => this.questionIds.push(id));
+      if(questionIds !== undefined) questionIds.map(id => this.questionIds.push(id));
     });
     this.connectToSocket(token);
   }
@@ -78,7 +79,8 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
 
   private connectToSocket(token: string){
     this.participantSocket.connect(token).then(() => {
-      this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(this.onJoinParticipant, this.displayErrorObjectNotify);
+      this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
+      this.participantSocket.onCreateQuestion(this.sessionId as number).subscribe(q => this.onCreatedQuestion(q));
     });
   }
 
@@ -87,11 +89,18 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     this.displayNotify({ severity: 'info', summary: 'User joined', detail: participant.nickname, life: 2000 });
   }
 
+  private onCreateQuestion(question: Question){
+?????????????
+  }
+
   onClickLogout(){
     this.store.dispatch(removeToken());
     this.logOutSession();
   }
 
+  onCreatedQuestion(createdQuestion: IQuestionTemplate) {
+    this.participantSocket.createQuestion(this.sessionId as number, new Question(null, createdQuestion.anonymous? null: this.participantId, createdQuestion.message, 0, new Date().getTime(), null));
+  }
 }
 
 

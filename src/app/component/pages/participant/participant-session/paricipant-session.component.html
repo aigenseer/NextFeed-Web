@@ -3,6 +3,23 @@
 </app-header>
 <app-content>
   <div *ngIf="sessionId">
-    <p>active session</p>
+
+    <div class="grid">
+      <div class="col">
+        <p-card>
+          <app-new-question [questions]="questions" (onCreatedQuestion)="onCreatedQuestion($event)"></app-new-question>
+        </p-card>
+      </div>
+      <div class="col">
+        <p-card>
+          Mood Tracking
+        </p-card>
+      </div>
+    </div>
+    <p-card>
+      Content
+    </p-card>
+
+
   </div>
 </app-content>

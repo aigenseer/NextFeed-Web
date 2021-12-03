@@ -18,8 +18,18 @@ export class ParticipantSocket extends DefaultSocket {
     }
   }
 
-  addQuestion(question: Question){
-    this.getStompClient().send("/admin/question/add", {}, question.text);
+  createQuestion(sessionId: number, question: Question){
+    this.getStompClient().send(`/participant/session/${sessionId}/question/create`, {}, question);
+  }
+
+  public onCreateQuestion(sessionId: number): Observable<Question>
+  {
+    return this.subscribe<Question>(`participant/session/${sessionId}/question/oncreate`);
+  }
+
+  public onUpdateQuestion(sessionId: number): Observable<Question>
+  {
+    return this.subscribe<Question>(`participant/session/${sessionId}/question/onupdate`);
   }
 
   public onQuestion(): Observable<Question>
@@ -29,7 +39,7 @@ export class ParticipantSocket extends DefaultSocket {
 
   public onJoinParticipant(sessionId: number): Observable<Participant>
   {
-    return this.subscribe<Participant>('/participant/session/'+sessionId+'/user/onjoin');
+    return this.subscribe<Participant>(`/participant/session/${sessionId}/user/onjoin`);
   }
 
 }

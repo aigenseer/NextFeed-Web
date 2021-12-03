@@ -23,15 +23,21 @@ import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 import {ShareSessionCodeDialogComponent} from './component/organisms/share-session-code-dialog/share-session-code-dialog.component';
 import {StoreModule} from "@ngrx/store";
 import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin.token.reducer";
 import {participantQuestionReducer, participantTokenReducer} from "./state/participant/participant.reducer";
 import {FormsModule} from "@angular/forms";
-import { CopyrightComponent } from './component/pages/footerpages/copyright/copyright.component';
-import { AboutUsComponent } from './component/pages/footerpages/about-us/about-us.component';
-import { DataProtectionComponent } from './component/pages/footerpages/data-protection/data-protection.component';
-import { ImprintComponent } from './component/pages/footerpages/imprint/imprint.component';
+import {CopyrightComponent} from './component/pages/footerpages/copyright/copyright.component';
+import {AboutUsComponent} from './component/pages/footerpages/about-us/about-us.component';
+import {DataProtectionComponent} from './component/pages/footerpages/data-protection/data-protection.component';
+import {ImprintComponent} from './component/pages/footerpages/imprint/imprint.component';
+import {NewQuestionComponent} from './component/organisms/new-question/new-question.component';
+import {CreateQuestionComponent} from './component/molecules/create-question/create-question.component';
+import {TabViewModule} from 'primeng/tabview';
+import {CheckboxModule} from 'primeng/checkbox';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -49,7 +55,9 @@ import { ImprintComponent } from './component/pages/footerpages/imprint/imprint.
     CopyrightComponent,
     AboutUsComponent,
     DataProtectionComponent,
-    ImprintComponent
+    ImprintComponent,
+    NewQuestionComponent,
+    CreateQuestionComponent
   ],
   imports: [
     BrowserModule,
@@ -64,6 +72,10 @@ import { ImprintComponent } from './component/pages/footerpages/imprint/imprint.
     InputTextModule,
     InputNumberModule,
     InputSwitchModule,
+    TabViewModule,
+    InputTextareaModule,
+    CheckboxModule,
+    TableModule,
     StoreModule.forRoot({
       adminToken: adminTokenReducer,
       adminCurrentSessionData: adminCurrentSessionReducer,

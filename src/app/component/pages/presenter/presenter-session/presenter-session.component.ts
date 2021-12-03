@@ -55,8 +55,9 @@ export class PresenterSessionComponent extends AbstractSessionManagementComponen
   }
 
   private connectToSocket(token: string){
+    console.log(token)
     this.adminSocket.connect(token).then(() => {
-      this.adminSocket.onJoinParticipant(this.sessionId as number).subscribe(this.onJoinParticipant);
+      this.adminSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
     });
   }
 
