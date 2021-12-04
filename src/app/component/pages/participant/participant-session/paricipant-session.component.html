@@ -1,5 +1,5 @@
 <app-header>
-  <button (click)="onClickLogout()" pButton type="button" [label]="nickname" icon="pi pi-power-off" iconPos="right" class="p-button-outlined"></button>
+  <button (click)="onClickLogout()" pButton type="button" [label]="nickname" icon="pi pi-power-off" iconPos="right" class="p-button-outlined p-button-rounded p-button-info logout"></button>
 </app-header>
 <app-content>
   <div *ngIf="sessionId">
@@ -17,7 +17,7 @@
       </div>
     </div>
     <p-card>
-      <app-participant-question-table [questions]="questions" ></app-participant-question-table>
+      <app-participant-question-table [questions]="questions" [votedQuestions]="votedQuestions" (onVotedQuestion)="onVotedQuestion($event)" ></app-participant-question-table>
     </p-card>
   </div>
 </app-content>

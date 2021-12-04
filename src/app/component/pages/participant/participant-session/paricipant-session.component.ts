@@ -11,13 +11,18 @@ import {
 import {firstValueFrom} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {take} from "rxjs/operators";
-import {IAppParticipantState} from "../../../../state/participant/app.participant.state";
+import {IAppParticipantState, IVotedQuestion} from "../../../../state/participant/app.participant.state";
 import {
   selectParticipantData,
   selectQuestionIds,
-  selectTokenCode
+  selectTokenCode, selectVotedQuestions
 } from "../../../../state/participant/participant.selector";
-import {pushQuestionId, removeToken} from "../../../../state/participant/participant.actions";
+import {
+  deleteVotedQuestion,
+  pushQuestionId,
+  removeToken,
+  votedQuestion
+} from "../../../../state/participant/participant.actions";
 import {Question} from "../../../../model/question/question.model";
 import {IQuestionTemplate} from "../../../molecules/create-question/create-question.component";
 
@@ -32,6 +37,7 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   nickname: string = "";
   participantId: number = 0;
   questionIds: number[] = [];
+  votedQuestions: IVotedQuestion[] = [];
 
   constructor(
     protected router: Router,
@@ -46,10 +52,6 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
 
   ngOnInit() {
     this.validateSession();
-    setTimeout(() =>{
-      this.addQuestion(new Question(1, this.participantId, "qustion works!", 0, new Date().getTime(), null));
-    },1000)
-
   }
 
   protected getToken()
@@ -64,6 +66,9 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     });
     firstValueFrom(this.store.pipe(select(selectQuestionIds), take(1))).then(questionIds => {
       this.questionIds = Array.from(questionIds);
+    });
+    this.store.select(selectVotedQuestions).subscribe(votes => {
+      this.votedQuestions = votes;
     });
   }
 
@@ -99,19 +104,19 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
 
   onClickLogout(){
     this.store.dispatch(removeToken());
+    this.store.dispatch(deleteVotedQuestion())
     this.logOutSession();
   }
 
   onCreatedQuestionTemplate(createdQuestion: IQuestionTemplate) {
-    let question = new Question(1, this.participantId, "qustion works!", 0, new Date().getTime(), null);
-    this.addOwnQuestion(question);
-    this.addQuestion(question);
-    console.warn("muss wieder weg")
-
-    // this.sessionService.createQuestion(this.sessionId as number, new Question(null, createdQuestion.anonymous? null: this.participantId, createdQuestion.message, 0, new Date().getTime(), null))
-    //   .then(question => this.addOwnQuestion(question))
+    this.sessionService.createQuestion(this.sessionId as number, new Question(null, createdQuestion.anonymous? null: this.participantId, createdQuestion.message, 0, new Date().getTime(), null))
+      .then(question => this.addOwnQuestion(question))
   }
 
+  onVotedQuestion(vote: IVotedQuestion) {
+    this.store.dispatch(votedQuestion({ votedQuestion: vote }));
+    this.participantSocket.voteQuestionId(this.sessionId as number, vote.questionId, vote.vote);
+  }
 
 }
 

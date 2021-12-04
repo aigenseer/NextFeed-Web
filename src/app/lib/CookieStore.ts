@@ -5,6 +5,7 @@ export enum StoreIds {
   adminCurrentSessionData = 'adminCurrentSessionData',
   participantToken = 'participantToken',
   participantQuestion = 'participantQuestion',
+  participantVotedQuestions = 'participantVotedQuestions',
 }
 
 export type ParseCallback<T> = (jsonObject: any) => T

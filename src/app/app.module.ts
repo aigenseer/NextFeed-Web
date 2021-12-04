@@ -27,7 +27,11 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {ShareSessionCodeDialogComponent} from './component/organisms/share-session-code-dialog/share-session-code-dialog.component';
 import {StoreModule} from "@ngrx/store";
 import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin.token.reducer";
-import {participantQuestionReducer, participantTokenReducer} from "./state/participant/participant.reducer";
+import {
+  participantQuestionReducer,
+  participantTokenReducer,
+  participantVotedQuestionReducer
+} from "./state/participant/participant.reducer";
 import {FormsModule} from "@angular/forms";
 import {CopyrightComponent} from './component/pages/footerpages/copyright/copyright.component';
 import {AboutUsComponent} from './component/pages/footerpages/about-us/about-us.component';
@@ -42,6 +46,8 @@ import {QuestionFilterByIdsPipe} from "./transform/QuestionFilterByIdsPipe";
 import {AuthInterceptor} from "./lib/AuthInterceptor";
 import { ParticipantQuestionTableComponent} from './component/organisms/participant-question-table/participant-question-table.component';
 import {QuestionTableOverviewComponent} from "./component/molecules/question-table-overview/question-table-overview.component";
+import {VotedQuestionByVotePipe} from "./transform/VotedQuestionByVotePipe";
+import {UnvotedQuestionPipe} from "./transform/UnvotedQuestionPipe";
 
 @NgModule({
   declarations: [
@@ -65,6 +71,8 @@ import {QuestionTableOverviewComponent} from "./component/molecules/question-tab
     QuestionFilterByIdsPipe,
     QuestionTableOverviewComponent,
     ParticipantQuestionTableComponent,
+    VotedQuestionByVotePipe,
+    UnvotedQuestionPipe
   ],
   imports: [
     BrowserModule,
@@ -87,7 +95,8 @@ import {QuestionTableOverviewComponent} from "./component/molecules/question-tab
       adminToken: adminTokenReducer,
       adminCurrentSessionData: adminCurrentSessionReducer,
       participantToken: participantTokenReducer,
-      participantQuestionIds: participantQuestionReducer
+      participantQuestionIds: participantQuestionReducer,
+      participantVotedQuestions: participantVotedQuestionReducer
     }),
     RippleModule,
     ButtonModule,

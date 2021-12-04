@@ -1,5 +1,5 @@
 import {createSelector} from "@ngrx/store";
-import {IAppParticipantState} from "./app.participant.state";
+import {IAppParticipantState, IVotedQuestion} from "./app.participant.state";
 import {Token} from "../../model/token/token.model";
 import jwt_decode from "jwt-decode";
 
@@ -29,4 +29,9 @@ export const selectParticipantData = createSelector(
 export const selectQuestionIds = createSelector(
   (state: IAppParticipantState) => state.participantQuestionIds,
   (questionIds: number[]) => questionIds,
+);
+
+export const selectVotedQuestions = createSelector(
+  (state: IAppParticipantState) => state.participantVotedQuestions,
+  (votedQuestions: IVotedQuestion[]) => votedQuestions,
 );

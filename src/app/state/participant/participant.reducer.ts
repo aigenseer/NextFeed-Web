@@ -1,10 +1,19 @@
 import {Token} from "../../model/token/token.model";
 import {CookieStore, StoreIds} from "../../lib/CookieStore";
 import {createReducer, on} from "@ngrx/store";
-import {pushQuestionId, removeToken, setQuestionIds, setToken} from "./participant.actions";
+import {
+  deleteVotedQuestion,
+  pushQuestionId,
+  removeToken,
+  setQuestionIds,
+  setToken,
+  votedQuestion
+} from "./participant.actions";
+import {IVotedQuestion} from "./app.participant.state";
 
 export const initialTokenState: Token = CookieStore.getParsedJSONOrDefault<Token>(StoreIds.participantToken, obj => new Token(obj.token), new Token(""));
 export const initialQuestionIds: number[] = CookieStore.getJSONObjectOrDefault(StoreIds.participantQuestion,  []);
+export const initialVotedQuestions: IVotedQuestion[] = CookieStore.getJSONObjectOrDefault(StoreIds.participantVotedQuestions,  []);
 
 export const participantTokenReducer = createReducer(
   initialTokenState,
@@ -36,3 +45,26 @@ function pushQuestionIdReducer(state: number[], { questionId }: { questionId: nu
   let oldIds = state !== undefined? state: [];
   return setQuestionIdsReducer(state, { questionIds: [...oldIds, questionId] });
 }
+
+
+export const participantVotedQuestionReducer = createReducer(
+  initialVotedQuestions,
+  on(votedQuestion, pushVotedQuestionReducer),
+  on(deleteVotedQuestion, deleteVotedQuestionReducer),
+);
+
+function pushVotedQuestionReducer(state: IVotedQuestion[], { votedQuestion }: { votedQuestion: IVotedQuestion }): IVotedQuestion[] {
+  let oldIds = state !== undefined? state: [];
+  let newState = [...oldIds, votedQuestion]
+  CookieStore.setObject(StoreIds.participantVotedQuestions,  newState);
+  return newState;
+}
+
+function deleteVotedQuestionReducer(): IVotedQuestion[] {
+  return []
+}
+
+
+
+
+

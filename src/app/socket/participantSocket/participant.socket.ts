@@ -18,6 +18,11 @@ export class ParticipantSocket extends DefaultSocket {
     }
   }
 
+  voteQuestionId(sessionId: number, questionId: number, vote: boolean){
+    let path = vote ? `participant/session/${sessionId}/question/${questionId}/rating/up`: `participant/session/${sessionId}/question/${questionId}/rating/down`
+    this.getStompClient().send(path);
+  }
+
   public onUpdateQuestion(sessionId: number): Observable<Question>
   {
     return this.subscribe<Question>(`participant/session/${sessionId}/question/onupdate`);
