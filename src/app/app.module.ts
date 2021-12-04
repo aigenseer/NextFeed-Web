@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {NotFoundComponent} from './component/pages/error/not-found/not-found.component';
 import {FooterComponent} from './component/organisms/footer/footer.component';
 import {HeaderComponent} from './component/organisms/header/header.component';
@@ -39,6 +39,9 @@ import {TabViewModule} from 'primeng/tabview';
 import {CheckboxModule} from 'primeng/checkbox';
 import {TableModule} from 'primeng/table';
 import {QuestionFilterByIdsPipe} from "./transform/QuestionFilterByIdsPipe";
+import {AuthInterceptor} from "./lib/AuthInterceptor";
+import { ParticipantQuestionTableComponent} from './component/organisms/participant-question-table/participant-question-table.component';
+import {QuestionTableOverviewComponent} from "./component/molecules/question-table-overview/question-table-overview.component";
 
 @NgModule({
   declarations: [
@@ -59,7 +62,9 @@ import {QuestionFilterByIdsPipe} from "./transform/QuestionFilterByIdsPipe";
     ImprintComponent,
     NewQuestionComponent,
     CreateQuestionComponent,
-    QuestionFilterByIdsPipe
+    QuestionFilterByIdsPipe,
+    QuestionTableOverviewComponent,
+    ParticipantQuestionTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +94,8 @@ import {QuestionFilterByIdsPipe} from "./transform/QuestionFilterByIdsPipe";
     FormsModule
   ],
   providers: [
-    MessageService
+    MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

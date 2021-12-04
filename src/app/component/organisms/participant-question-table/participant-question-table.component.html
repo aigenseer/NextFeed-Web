@@ -1,0 +1,7 @@
+<app-question-table-overview [questions]="questions" [customColumnHeaders]="customColumnHeaders" [customHeader]="customHeader" ></app-question-table-overview>
+<ng-template #customHeader let-question='question'>
+  <td>
+    <button pButton type="button"  class="p-button-raised p-button-success p-button-rounded" icon="pi pi-check"></button>
+    <button pButton type="button"  class="p-button-raised p-button-danger p-button-rounded" icon="pi pi-times"></button>
+  </td>
+</ng-template>

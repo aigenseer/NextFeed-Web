@@ -18,15 +18,6 @@ export class ParticipantSocket extends DefaultSocket {
     }
   }
 
-  createQuestion(sessionId: number, question: Question){
-    this.getStompClient().send(`/participant/session/${sessionId}/question/create`, {}, question);
-  }
-
-  public onCreateQuestion(sessionId: number): Observable<Question>
-  {
-    return this.subscribe<Question>(`participant/session/${sessionId}/question/oncreate`);
-  }
-
   public onUpdateQuestion(sessionId: number): Observable<Question>
   {
     return this.subscribe<Question>(`participant/session/${sessionId}/question/onupdate`);

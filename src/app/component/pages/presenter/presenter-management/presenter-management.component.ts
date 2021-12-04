@@ -79,7 +79,7 @@ export class PresenterManagementComponent implements OnInit {
   }
 
   createSession(){
-    this.sessionService.createSession(this.token).then(sessionData => {
+    this.sessionService.createSession().then(sessionData => {
       this.store.dispatch(setCurrentDataSession({sessionData}));
       this.navigateToSession(sessionData);
     });

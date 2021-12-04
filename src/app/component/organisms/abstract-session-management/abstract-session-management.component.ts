@@ -33,7 +33,7 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
       if(this.sessionId===null || token === null || token.trim().length === 0){
         this.navigateToLogin();
       }else {
-        this.sessionService.getInitialData(this.sessionId as number, token).then(sessionData => {
+        this.sessionService.getInitialData(this.sessionId as number).then(sessionData => {
           this.questions = sessionData.questions;
           this.participants = sessionData.participants;
           this.startConnection(token as string);

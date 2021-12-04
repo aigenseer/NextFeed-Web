@@ -17,7 +17,7 @@ import {
   selectQuestionIds,
   selectTokenCode
 } from "../../../../state/participant/participant.selector";
-import {pushQuestionId, removeToken, setQuestionIds} from "../../../../state/participant/participant.actions";
+import {pushQuestionId, removeToken} from "../../../../state/participant/participant.actions";
 import {Question} from "../../../../model/question/question.model";
 import {IQuestionTemplate} from "../../../molecules/create-question/create-question.component";
 
@@ -46,6 +46,10 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
 
   ngOnInit() {
     this.validateSession();
+    setTimeout(() =>{
+      this.addQuestion(new Question(1, this.participantId, "qustion works!", 0, new Date().getTime(), null));
+    },1000)
+
   }
 
   protected getToken()
@@ -80,7 +84,6 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   private connectToSocket(token: string){
     this.participantSocket.connect(token).then(() => {
       this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
-      this.participantSocket.onCreateQuestion(this.sessionId as number).subscribe(q => this.onCreateQuestion(q));
       this.participantSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q))
     });
   }
@@ -90,7 +93,7 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     this.displayNotify({ severity: 'info', summary: 'User joined', detail: participant.nickname, life: 2000 });
   }
 
-  private onCreateQuestion(question: Question){
+  private addOwnQuestion(question: Question){
     this.store.dispatch(pushQuestionId({questionId: question.id as number}));
   }
 
@@ -100,11 +103,13 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   }
 
   onCreatedQuestionTemplate(createdQuestion: IQuestionTemplate) {
-    let question = new Question(1, this.participantId, "message", 0, new Date().getTime(), null);
-    this.onCreateQuestion(question);
+    let question = new Question(1, this.participantId, "qustion works!", 0, new Date().getTime(), null);
+    this.addOwnQuestion(question);
     this.addQuestion(question);
+    console.warn("muss wieder weg")
 
-    this.participantSocket.createQuestion(this.sessionId as number, new Question(null, createdQuestion.anonymous? null: this.participantId, createdQuestion.message, 0, new Date().getTime(), null));
+    // this.sessionService.createQuestion(this.sessionId as number, new Question(null, createdQuestion.anonymous? null: this.participantId, createdQuestion.message, 0, new Date().getTime(), null))
+    //   .then(question => this.addOwnQuestion(question))
   }
 
 
