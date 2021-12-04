@@ -33,5 +33,6 @@ function setQuestionIdsReducer(state: number[], { questionIds }: { questionIds: 
 }
 
 function pushQuestionIdReducer(state: number[], { questionId }: { questionId: number }): number[] {
-  return setQuestionIdsReducer(state, { questionIds: [...state, questionId] });
+  let oldIds = state !== undefined? state: [];
+  return setQuestionIdsReducer(state, { questionIds: [...oldIds, questionId] });
 }

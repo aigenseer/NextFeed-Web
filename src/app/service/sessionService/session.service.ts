@@ -10,7 +10,7 @@ import {firstValueFrom} from "rxjs";
 export class SessionService extends DefaultService{
 
   getInitialData(socketId: number, token: string){
-    return firstValueFrom(this.http.post<SessionData>(this.getAPIUrl()+"session/"+socketId+"/initial", { token }));
+    return firstValueFrom(this.http.post<SessionData>(this.getAPIUrl()+`session/${socketId}/initial`, { token }));
   }
 
   createSession(token: string){

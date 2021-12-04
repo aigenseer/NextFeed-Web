@@ -17,7 +17,7 @@ import {
   selectQuestionIds,
   selectTokenCode
 } from "../../../../state/participant/participant.selector";
-import {removeToken} from "../../../../state/participant/participant.actions";
+import {pushQuestionId, removeToken, setQuestionIds} from "../../../../state/participant/participant.actions";
 import {Question} from "../../../../model/question/question.model";
 import {IQuestionTemplate} from "../../../molecules/create-question/create-question.component";
 
@@ -59,7 +59,7 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
       this.participantId = participantData?.id;
     });
     firstValueFrom(this.store.pipe(select(selectQuestionIds), take(1))).then(questionIds => {
-      this.questionIds = questionIds;
+      this.questionIds = Array.from(questionIds);
     });
   }
 
@@ -80,7 +80,8 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   private connectToSocket(token: string){
     this.participantSocket.connect(token).then(() => {
       this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
-      this.participantSocket.onCreateQuestion(this.sessionId as number).subscribe(q => this.onCreatedQuestion(q));
+      this.participantSocket.onCreateQuestion(this.sessionId as number).subscribe(q => this.onCreateQuestion(q));
+      this.participantSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q))
     });
   }
 
@@ -90,7 +91,7 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   }
 
   private onCreateQuestion(question: Question){
-?????????????
+    this.store.dispatch(pushQuestionId({questionId: question.id as number}));
   }
 
   onClickLogout(){
@@ -98,9 +99,15 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     this.logOutSession();
   }
 
-  onCreatedQuestion(createdQuestion: IQuestionTemplate) {
+  onCreatedQuestionTemplate(createdQuestion: IQuestionTemplate) {
+    let question = new Question(1, this.participantId, "message", 0, new Date().getTime(), null);
+    this.onCreateQuestion(question);
+    this.addQuestion(question);
+
     this.participantSocket.createQuestion(this.sessionId as number, new Question(null, createdQuestion.anonymous? null: this.participantId, createdQuestion.message, 0, new Date().getTime(), null));
   }
+
+
 }
 
 

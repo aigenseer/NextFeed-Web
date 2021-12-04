@@ -27,6 +27,6 @@ export const selectParticipantData = createSelector(
 );
 
 export const selectQuestionIds = createSelector(
-  (state: IAppParticipantState) => state.questionIds,
+  (state: IAppParticipantState) => state.participantQuestionIds,
   (questionIds: number[]) => questionIds,
 );

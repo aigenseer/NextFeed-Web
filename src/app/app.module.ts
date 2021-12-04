@@ -38,6 +38,7 @@ import {CreateQuestionComponent} from './component/molecules/create-question/cre
 import {TabViewModule} from 'primeng/tabview';
 import {CheckboxModule} from 'primeng/checkbox';
 import {TableModule} from 'primeng/table';
+import {QuestionFilterByIdsPipe} from "./transform/QuestionFilterByIdsPipe";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {TableModule} from 'primeng/table';
     DataProtectionComponent,
     ImprintComponent,
     NewQuestionComponent,
-    CreateQuestionComponent
+    CreateQuestionComponent,
+    QuestionFilterByIdsPipe
   ],
   imports: [
     BrowserModule,

@@ -73,4 +73,8 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
     this.displayErrorNotify(err.name);
   }
 
+  protected addQuestion(question: Question){
+    this.questions.push(question);
+  }
+
 }

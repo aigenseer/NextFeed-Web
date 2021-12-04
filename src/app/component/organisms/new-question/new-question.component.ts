@@ -7,14 +7,10 @@ import {IQuestionTemplate} from "../../molecules/create-question/create-question
   templateUrl: './new-question.component.html',
   styleUrls: ['./new-question.component.scss']
 })
-export class NewQuestionComponent implements OnInit {
+export class NewQuestionComponent{
 
   @Input() questions: Question[] = [];
   @Output() onCreatedQuestion: EventEmitter<IQuestionTemplate> = new EventEmitter();
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
