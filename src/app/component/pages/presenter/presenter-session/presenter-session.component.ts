@@ -11,9 +11,10 @@ import {
 import {select, Store} from "@ngrx/store";
 import {IAppAdminState} from "../../../../state/admin/app.admin.state";
 import {selectCurrentSessionData, selectTokenCode} from "../../../../state/admin/admin.selector";
-import {take} from "rxjs/operators";
+import {mergeWith, take} from "rxjs/operators";
 import {removeCurrentDataSession} from "../../../../state/admin/admin.actions";
 import {firstValueFrom} from "rxjs";
+import {Question} from "../../../../model/question/question.model";
 
 
 @Component({
@@ -55,9 +56,9 @@ export class PresenterSessionComponent extends AbstractSessionManagementComponen
   }
 
   private connectToSocket(token: string){
-    console.log(token)
     this.adminSocket.connect(token).then(() => {
       this.adminSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
+      this.adminSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q))
     });
   }
 
@@ -79,4 +80,7 @@ export class PresenterSessionComponent extends AbstractSessionManagementComponen
     this.displayShareCodeDialog = false;
   }
 
+  onClosedQuestion(question: Question) {
+    this.adminSocket.closeQuestion(this.sessionId as number, question);
+  }
 }

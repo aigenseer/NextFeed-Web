@@ -17,7 +17,7 @@
       </div>
     </div>
     <p-card>
-      <app-participant-question-table [questions]="questions" [votedQuestions]="votedQuestions" (onVotedQuestion)="onVotedQuestion($event)" ></app-participant-question-table>
+      <app-participant-question-table [questions]="questions | questionFilterByClosed" [votedQuestions]="votedQuestions" (onVotedQuestion)="onVotedQuestion($event)" ></app-participant-question-table>
     </p-card>
   </div>
 </app-content>

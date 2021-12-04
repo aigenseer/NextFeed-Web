@@ -44,10 +44,12 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {TableModule} from 'primeng/table';
 import {QuestionFilterByIdsPipe} from "./transform/QuestionFilterByIdsPipe";
 import {AuthInterceptor} from "./lib/AuthInterceptor";
-import { ParticipantQuestionTableComponent} from './component/organisms/participant-question-table/participant-question-table.component';
+import {ParticipantQuestionTableComponent} from './component/organisms/participant-question-table/participant-question-table.component';
 import {QuestionTableOverviewComponent} from "./component/molecules/question-table-overview/question-table-overview.component";
 import {VotedQuestionByVotePipe} from "./transform/VotedQuestionByVotePipe";
 import {UnvotedQuestionPipe} from "./transform/UnvotedQuestionPipe";
+import {PresenterQuestionTableComponent} from './component/organisms/presenter-question-table/presenter-question-table.component';
+import {QuestionFilterByClosedPipe} from "./transform/QuestionFilterByClosedPipe";
 
 @NgModule({
   declarations: [
@@ -72,7 +74,9 @@ import {UnvotedQuestionPipe} from "./transform/UnvotedQuestionPipe";
     QuestionTableOverviewComponent,
     ParticipantQuestionTableComponent,
     VotedQuestionByVotePipe,
-    UnvotedQuestionPipe
+    UnvotedQuestionPipe,
+    PresenterQuestionTableComponent,
+    QuestionFilterByClosedPipe
   ],
   imports: [
     BrowserModule,

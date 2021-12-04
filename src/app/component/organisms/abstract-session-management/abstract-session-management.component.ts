@@ -74,6 +74,7 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
   }
 
   protected addQuestion(question: Question){
+    this.questions = this.questions.filter(q => q.id !== question.id);
     this.questions.push(question);
   }
 
