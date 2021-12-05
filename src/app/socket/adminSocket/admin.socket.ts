@@ -29,12 +29,12 @@ export class AdminSocket extends DefaultSocket {
   }
 
   public closeQuestion(sessionId: number, question: Question){
-    this.getStompClient().send(`participant/session/${sessionId}/question/${question.id}/close`);
+    this.getStompClient().send(`/admin/session/${sessionId}/question/${question.id}/close`);
   }
 
   public onUpdateQuestion(sessionId: number): Observable<Question>
   {
-    return this.subscribe<Question>(`admin/session/${sessionId}/question/onupdate`);
+    return this.subscribe<Question>(`/admin/session/${sessionId}/question/onupdate`);
   }
 
 }
