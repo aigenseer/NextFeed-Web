@@ -1,10 +1,23 @@
 <app-header>
-  <span (click)="onClickLogout()" aria-label="Logout">
-    logout
-  </span>
+  <button (click)="onClickLogout()" pButton type="button" [label]="nickname" icon="pi pi-power-off" iconPos="right" class="p-button-outlined p-button-rounded p-button-info logout"></button>
 </app-header>
 <app-content>
   <div *ngIf="sessionId">
-    <p>active session</p>
+
+    <div class="grid">
+      <div class="col">
+        <p-card>
+          <app-new-question [questions]="questions | questionFilterByIds: questionIds" (onCreatedQuestion)="onCreatedQuestionTemplate($event)"></app-new-question>
+        </p-card>
+      </div>
+      <div class="col">
+        <p-card>
+          Mood Tracking
+        </p-card>
+      </div>
+    </div>
+    <p-card>
+      <app-participant-question-table [questions]="questions | questionFilterByClosed" [votedQuestions]="votedQuestions" (onVotedQuestion)="onVotedQuestion($event)" ></app-participant-question-table>
+    </p-card>
   </div>
 </app-content>

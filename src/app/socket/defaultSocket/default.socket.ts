@@ -34,6 +34,10 @@ export abstract class DefaultSocket {
     });
   }
 
+  public disconnect(){
+    this.stompClient?.disconnect(() => {});
+  }
+
   protected getDataByFrame<T>(res: Frame): T|null
   {
     try{

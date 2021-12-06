@@ -3,7 +3,7 @@ import {Question} from "../question/question.model";
 import {Participant} from "../participant/participant.model";
 
 describe('SessionData', () => {
-  let question = new Question("text");
+  let question = new Question(null, null, "message", 0, new Date().getTime(), null);
   let participant = new Participant(99, "nickname");
   let sessionData = new SessionData([question], [participant]);
 
@@ -12,7 +12,7 @@ describe('SessionData', () => {
   });
 
   it('get text', () => {
-    expect(question.text).toEqual("text");
+    expect(question.message).toEqual("message");
   });
 
 });

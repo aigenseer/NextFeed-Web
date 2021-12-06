@@ -13,8 +13,8 @@ export class AdminSocket extends DefaultSocket {
     try {
       const frame = await super.connect(token);
       return Promise.resolve(frame);
-    }catch (e){
-      return Promise.reject(e);
+    }catch (err){
+      return Promise.reject(err);
     }
   }
 
@@ -26,6 +26,15 @@ export class AdminSocket extends DefaultSocket {
   public onJoinParticipant(sessionId: number): Observable<Participant>
   {
     return this.subscribe<Participant>('/admin/session/'+sessionId+'/user/onjoin');
+  }
+
+  public closeQuestion(sessionId: number, question: Question){
+    this.getStompClient().send(`/admin/session/${sessionId}/question/${question.id}/close`);
+  }
+
+  public onUpdateQuestion(sessionId: number): Observable<Question>
+  {
+    return this.subscribe<Question>(`/admin/session/${sessionId}/question/onupdate`);
   }
 
 }

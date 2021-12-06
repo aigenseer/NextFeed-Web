@@ -13,13 +13,19 @@ export class ParticipantSocket extends DefaultSocket {
     try {
       const frame = await super.connect(token);
       return Promise.resolve(frame);
-    }catch (e){
-      return Promise.reject(e);
+    }catch (err){
+      return Promise.reject(err);
     }
   }
 
-  addQuestion(question: Question){
-    this.getStompClient().send("/admin/question/add", {}, question.text);
+  voteQuestionId(sessionId: number, questionId: number, vote: boolean){
+    let path = vote ? `/participant/session/${sessionId}/question/${questionId}/rating/up`: `/participant/session/${sessionId}/question/${questionId}/rating/down`
+    this.getStompClient().send(path, {});
+  }
+
+  public onUpdateQuestion(sessionId: number): Observable<Question>
+  {
+    return this.subscribe<Question>(`/participant/session/${sessionId}/question/onupdate`);
   }
 
   public onQuestion(): Observable<Question>
@@ -29,7 +35,7 @@ export class ParticipantSocket extends DefaultSocket {
 
   public onJoinParticipant(sessionId: number): Observable<Participant>
   {
-    return this.subscribe<Participant>('/participant/session/'+sessionId+'/user/onjoin');
+    return this.subscribe<Participant>(`/participant/session/${sessionId}/user/onjoin`);
   }
 
 }

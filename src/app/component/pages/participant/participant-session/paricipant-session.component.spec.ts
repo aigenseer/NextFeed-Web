@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ParticipantSessionComponent } from './paricipant-session.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ParticipantSessionComponent} from './paricipant-session.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {MessageService} from "primeng/api";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {StoreModule} from "@ngrx/store";
 
 describe('ParticipantSessionComponent', () => {
   let component: ParticipantSessionComponent;
@@ -11,9 +11,9 @@ describe('ParticipantSessionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
+      imports: [RouterTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
       providers:[MessageService],
-      declarations: [ ParticipantSessionComponent ]
+      declarations: [ParticipantSessionComponent]
     })
     .compileComponents();
   });
