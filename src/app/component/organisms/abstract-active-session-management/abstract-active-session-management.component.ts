@@ -25,16 +25,18 @@ export class AbstractActiveSessionManagementComponent extends AbstractSessionMan
   protected validateSession(): Promise<void>
   {
     return new Promise(async (resolve, reject) =>{
-      this.sessionService.getInitialData(this.sessionId as number).then(async sessionData => {
-        this.questions = sessionData.questions;
-        this.participants = sessionData.participants;
-        this.startConnection(await this.getToken() as string);
-        resolve();
-      }).catch(err => {
-        this.displayErrorNotify(err.name, 'Failed to load session data');
-        reject(err);
+      super.validateSession().then(() => {
+        this.sessionService.getInitialData(this.sessionId as number).then(async sessionData => {
+          this.questions = sessionData.questions;
+          this.participants = sessionData.participants;
+          this.startConnection(await this.getToken() as string);
+          resolve();
+        }).catch(err => {
+          this.displayErrorNotify(err.name, 'Failed to load session data');
+          reject(err);
+        });
       });
-    })
+    });
   }
 
   protected logOutSession(){

@@ -12,7 +12,8 @@
       </div>
       <div class="col">
         <p-card>
-          Mood Tracking
+          <app-participant-mood-chart [moodLineValues]="moodLineValues" ></app-participant-mood-chart>
+          <app-participant-mood-slider (onChange)="onSliderChange($event)" ></app-participant-mood-slider>
         </p-card>
       </div>
     </div>

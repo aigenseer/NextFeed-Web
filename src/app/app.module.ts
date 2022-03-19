@@ -57,6 +57,10 @@ import {AbstractActiveSessionManagementComponent} from './component/organisms/ab
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService} from 'primeng/api';
 import {WaitDialogComponent} from './component/molecules/wait-dialog/wait-dialog.component';
+import {ParticipantMoodSliderComponent} from './component/organisms/participant-mood-slider/participant-mood-slider.component';
+import {NgxSliderModule} from '@angular-slider/ngx-slider';
+import {ParticipantMoodChartComponent} from './component/organisms/participant-mood-chart/participant-mood-chart.component';
+import {ChartModule} from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -88,7 +92,9 @@ import {WaitDialogComponent} from './component/molecules/wait-dialog/wait-dialog
     PresenterSessionMetadataOverviewComponent,
     PresenterSessionDataComponent,
     AbstractActiveSessionManagementComponent,
-    WaitDialogComponent
+    WaitDialogComponent,
+    ParticipantMoodSliderComponent,
+    ParticipantMoodChartComponent
   ],
   imports: [
     BrowserModule,
@@ -118,6 +124,8 @@ import {WaitDialogComponent} from './component/molecules/wait-dialog/wait-dialog
     ButtonModule,
     FormsModule,
     ConfirmDialogModule,
+    NgxSliderModule,
+    ChartModule
   ],
   providers: [
     MessageService,

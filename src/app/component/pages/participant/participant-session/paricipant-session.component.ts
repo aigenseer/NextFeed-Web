@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../../../../model/participant/participant.model";
 import {ParticipantSocket} from "../../../../socket/participantSocket/participant.socket";
@@ -29,6 +29,8 @@ import {
 } from "../../../organisms/abstract-active-session-management/abstract-active-session-management.component";
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 
+const AVERAGE_LABEL = "Average";
+
 
 @Component({
   selector: 'app-paricipant-session',
@@ -41,6 +43,9 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   participantId: number = 0;
   questionIds: number[] = [];
   votedQuestions: IVotedQuestion[] = [];
+  moodLineValues: {[key: string]: number} = {
+    [AVERAGE_LABEL]: 0
+  };
 
   constructor(
     protected router: Router,
@@ -55,8 +60,11 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   ngOnInit() {
+    this.testMoodChart();
     this.validateSession();
   }
+
+
 
   protected getToken()
   {
@@ -127,6 +135,23 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
     this.store.dispatch(votedQuestion({ votedQuestion: vote }));
     this.participantSocket.voteQuestionId(this.sessionId as number, vote.questionId, vote.vote);
   }
+
+  onSliderChange(value: number) {
+    this.participantSocket.sendMood(this.getSessionId() as number, this.participantId, value);
+  }
+
+  testMoodChart(){
+    setInterval(() =>{
+      let randomValue = Math.floor(Math.random() * (5 - (-5) + 1) + (-5));
+      this.updateMoodChart(randomValue);
+    }, 1000);
+  }
+
+  updateMoodChart(value: number){
+    this.moodLineValues[AVERAGE_LABEL] = value;
+  }
+
+
 
 }
 

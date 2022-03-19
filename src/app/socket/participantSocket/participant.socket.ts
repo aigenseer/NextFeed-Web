@@ -29,4 +29,8 @@ export class ParticipantSocket extends DefaultSocket {
     return this.subscribe<Participant>(`/participant/session/${sessionId}/user/onjoin`);
   }
 
+  sendMood(sessionId: number, participantId: number, value: number){
+    this.getStompClient().send(`/participant/session/${sessionId}/mood/${participantId}/${value}`, {});
+  }
+
 }

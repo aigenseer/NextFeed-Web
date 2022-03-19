@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-slider/ngx-slider": "^2.0.4",
     "@angular/animations": "~12.2.0",
     "@angular/cdk": "^13.0.3",
     "@angular/common": "~12.2.0",
@@ -24,6 +25,7 @@
     "@types/js-cookie": "^3.0.1",
     "js-cookie": "^3.0.1",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
     "net": "^1.0.2",
     "ngx-clipboard": "^14.0.2",
     "primeflex": "^3.1.0",
