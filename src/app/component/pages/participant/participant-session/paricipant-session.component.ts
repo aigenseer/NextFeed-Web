@@ -30,7 +30,7 @@ import {
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 
 const AVERAGE_LABEL = "Average";
-
+const MY_MOOD_LABEL = "You";
 
 @Component({
   selector: 'app-paricipant-session',
@@ -44,8 +44,10 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   questionIds: number[] = [];
   votedQuestions: IVotedQuestion[] = [];
   moodLineValues: {[key: string]: number} = {
-    [AVERAGE_LABEL]: 0
+    [AVERAGE_LABEL]: 0,
+    [MY_MOOD_LABEL]: 0
   };
+
 
   constructor(
     protected router: Router,
@@ -137,6 +139,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   onSliderChange(value: number) {
+    this.moodLineValues[MY_MOOD_LABEL] = value;
     this.participantSocket.sendMood(this.getSessionId() as number, this.participantId, value);
   }
 

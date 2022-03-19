@@ -12,8 +12,10 @@
       </div>
       <div class="col">
         <p-card>
-          <app-participant-mood-chart [moodLineValues]="moodLineValues" ></app-participant-mood-chart>
-          <app-participant-mood-slider (onChange)="onSliderChange($event)" ></app-participant-mood-slider>
+          <div class="flex justify-content-center align-items-center mood-content">
+            <app-participant-mood-chart  [moodLineValues]="moodLineValues" ></app-participant-mood-chart>
+            <app-participant-mood-slider (onChange)="onSliderChange($event)" ></app-participant-mood-slider>
+          </div>
         </p-card>
       </div>
     </div>

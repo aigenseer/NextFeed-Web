@@ -2,3 +2,14 @@
   color: var(--surface-f);
   margin-right: 1em;
 }
+
+
+.mood-content *{
+  width: 20%;
+}
+
+.mood-content *:first-child{
+  width: 80%;
+}
+
+
