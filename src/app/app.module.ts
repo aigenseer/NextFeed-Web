@@ -50,6 +50,13 @@ import {VotedQuestionByVotePipe} from "./transform/VotedQuestionByVotePipe";
 import {UnvotedQuestionPipe} from "./transform/UnvotedQuestionPipe";
 import {PresenterQuestionTableComponent} from './component/organisms/presenter-question-table/presenter-question-table.component';
 import {QuestionFilterByClosedPipe} from "./transform/QuestionFilterByClosedPipe";
+import {PresenterCreateSessionDialogComponent} from './component/organisms/presenter-create-session-dialog/presenter-create-session-dialog.component';
+import {PresenterSessionMetadataOverviewComponent} from './component/organisms/presenter-session-metadata-overview/presenter-session-metadata-overview.component';
+import {PresenterSessionDataComponent} from './component/pages/presenter/presenter-session-data/presenter-session-data.component';
+import {AbstractActiveSessionManagementComponent} from './component/organisms/abstract-active-session-management/abstract-active-session-management.component';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+import {WaitDialogComponent} from './component/molecules/wait-dialog/wait-dialog.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +83,12 @@ import {QuestionFilterByClosedPipe} from "./transform/QuestionFilterByClosedPipe
     VotedQuestionByVotePipe,
     UnvotedQuestionPipe,
     PresenterQuestionTableComponent,
-    QuestionFilterByClosedPipe
+    QuestionFilterByClosedPipe,
+    PresenterCreateSessionDialogComponent,
+    PresenterSessionMetadataOverviewComponent,
+    PresenterSessionDataComponent,
+    AbstractActiveSessionManagementComponent,
+    WaitDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -104,10 +116,12 @@ import {QuestionFilterByClosedPipe} from "./transform/QuestionFilterByClosedPipe
     }),
     RippleModule,
     ButtonModule,
-    FormsModule
+    FormsModule,
+    ConfirmDialogModule,
   ],
   providers: [
     MessageService,
+    ConfirmationService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

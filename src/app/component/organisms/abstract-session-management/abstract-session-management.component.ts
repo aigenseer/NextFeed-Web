@@ -1,9 +1,6 @@
 import {Component} from '@angular/core';
-import {Question} from "../../../model/question/question.model";
-import {Participant} from "../../../model/participant/participant.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MessageService, Message} from "primeng/api";
-import {SessionService} from "../../../service/sessionService/session.service";
 
 export interface IAbstractSessionManagementComponent{
   navigateToLogin(): void;
@@ -14,14 +11,11 @@ export interface IAbstractSessionManagementComponent{
 export class AbstractSessionManagementComponent implements IAbstractSessionManagementComponent {
 
   sessionId: number|null = null;
-  questions: Question[] = [];
-  participants: Participant[] = [];
 
   constructor(
     protected router: Router,
     protected route: ActivatedRoute,
-    protected messageService: MessageService,
-    protected sessionService: SessionService,
+    protected messageService: MessageService
   ){}
 
   protected validateSession(): Promise<void>
@@ -33,28 +27,22 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
       if(this.sessionId===null || token === null || token.trim().length === 0){
         this.navigateToLogin();
       }else {
-        this.sessionService.getInitialData(this.sessionId as number).then(sessionData => {
-          this.questions = sessionData.questions;
-          this.participants = sessionData.participants;
-          this.startConnection(token as string);
-          resolve();
-        }).catch(err => {
-          this.displayErrorNotify(err.name, 'Failed to load session data');
-          reject(err);
-        });
+        resolve();
       }
     })
   }
 
+  public getSessionId(){
+    return this.sessionId;
+  }
+
   protected getToken(): Promise<string|null>{
-    return Promise.resolve(null)
+    return Promise.resolve(null);
   }
 
   protected logOutSession(){
     this.navigateToLogin();
     this.sessionId = null;
-    this.questions = [];
-    this.participants = [];
   }
 
   public navigateToLogin(){}
@@ -71,11 +59,6 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
 
   protected displayErrorObjectNotify(err: Error){
     this.displayErrorNotify(err.name);
-  }
-
-  protected addQuestion(question: Question){
-    this.questions = this.questions.filter(q => q.id !== question.id);
-    this.questions.push(question);
   }
 
 }

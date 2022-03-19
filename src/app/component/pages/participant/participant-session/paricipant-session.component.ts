@@ -5,7 +5,6 @@ import {ParticipantSocket} from "../../../../socket/participantSocket/participan
 import {MessageService} from "primeng/api";
 import {SessionService} from "../../../../service/sessionService/session.service";
 import {
-  AbstractSessionManagementComponent,
   IAbstractSessionManagementComponent
 } from "../../../organisms/abstract-session-management/abstract-session-management.component";
 import {firstValueFrom} from "rxjs";
@@ -25,6 +24,10 @@ import {
 } from "../../../../state/participant/participant.actions";
 import {Question} from "../../../../model/question/question.model";
 import {IQuestionTemplate} from "../../../molecules/create-question/create-question.component";
+import {
+  AbstractActiveSessionManagementComponent
+} from "../../../organisms/abstract-active-session-management/abstract-active-session-management.component";
+import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 
 
 @Component({
@@ -32,7 +35,7 @@ import {IQuestionTemplate} from "../../../molecules/create-question/create-quest
   templateUrl: './paricipant-session.component.html',
   styleUrls: ['./paricipant-session.component.scss']
 })
-export class ParticipantSessionComponent extends AbstractSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
+export class ParticipantSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
 
   nickname: string = "";
   participantId: number = 0;
@@ -45,7 +48,8 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
     protected messageService: MessageService,
     protected sessionService: SessionService,
     protected participantSocket: ParticipantSocket,
-    private readonly store: Store<IAppParticipantState>
+    private readonly store: Store<IAppParticipantState>,
+    private readonly waitDialogService: WaitDialogService
   ){
     super(router, route, messageService, sessionService);
   }
@@ -87,9 +91,15 @@ export class ParticipantSessionComponent extends AbstractSessionManagementCompon
   }
 
   private connectToSocket(token: string){
-    this.participantSocket.connect(token).then(() => {
-      this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
-      this.participantSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q))
+    this.waitDialogService.open("Wait for connection");
+    this.participantSocket.connect(token).subscribe((next) => {
+      if(next instanceof Error){
+        this.waitDialogService.open("Connection lost");
+      }else {
+        this.waitDialogService.close();
+        this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
+        this.participantSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q));
+      }
     });
   }
 

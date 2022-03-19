@@ -1,13 +1,18 @@
 <app-header></app-header>
 <app-content>
 
-  <div class="grid justify-content-center">
-    <div class="md:col-3 sm:-m-1">
+  <app-presenter-create-session-dialog [visible]="openNewSessionDialog" (onHide)="onClosedCreateSessionDialog($event)" ></app-presenter-create-session-dialog>
+
+  <div class="grid flex-column">
+    <div class="col">
       <p-card>
-        <h2>No open Session</h2>
-        <ng-template pTemplate="footer">
-          <button (click)="onCreateSession()" pButton type="button" label="Start Session" ></button>
-        </ng-template>
+        <button (click)="onCreateSession()" pButton type="button" label="Create Session" ></button>
+      </p-card>
+    </div>
+    <div class="col">
+      <p-card>
+        <h2>All Sessions</h2>
+        <app-presenter-session-metadata-overview [sessionsMetadata]="sessionsMetadata" (onSelectSessionMetadata)="onSelectSessionMetadata($event)" ></app-presenter-session-metadata-overview>
       </p-card>
     </div>
   </div>

@@ -9,6 +9,9 @@ import {AboutUsComponent} from "./component/pages/footerpages/about-us/about-us.
 import {CopyrightComponent} from "./component/pages/footerpages/copyright/copyright.component";
 import {DataProtectionComponent} from "./component/pages/footerpages/data-protection/data-protection.component";
 import {ImprintComponent} from "./component/pages/footerpages/imprint/imprint.component";
+import {
+  PresenterSessionDataComponent
+} from "./component/pages/presenter/presenter-session-data/presenter-session-data.component";
 
 
 const routes: Routes = [
@@ -18,6 +21,7 @@ const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   { path: 'presenter', component: PresenterManagementComponent },
   { path: 'presenter/:sessionId',  component: PresenterSessionComponent },
+  { path: 'presenter/:sessionId/data',  component: PresenterSessionDataComponent },
   { path: 'participant/:sessionId',  component: ParticipantSessionComponent },
   { path: 'participant/join/:sessionId', component: ParticipantLoginComponent },
   { path: '',   redirectTo: 'participant/join/', pathMatch: 'full' },

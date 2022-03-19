@@ -8,7 +8,6 @@ export abstract class DefaultSocket {
 
   private stompClient: Stomp.Client|null = null;
 
-
   protected getEndpointUrl(): String{
     if(!environment.production){
       return location.origin.replace("4200", "8080")+"/";
@@ -20,17 +19,28 @@ export abstract class DefaultSocket {
     return this.stompClient;
   }
 
-  public connect(token: string): Promise<Frame>
+  public connect(token: string, autoReconnect: boolean = true): Observable<Frame|Error>
   {
-    return new Promise((resolve, reject) => {
-      this.stompClient = Stomp.over(new SockJS(this.getEndpointUrl()+'ws'));
-      this.stompClient.connect({token: token}, (frame) => {
-        if(frame !== undefined){
-          resolve(frame);
-        }else {
-          reject(new Error("Can not connect to server"));
-        }
-      });
+    return new Observable<Frame|Error>(observer => {
+      this.stompClientConnect(observer, token, autoReconnect);
+    });
+  }
+
+  private stompClientConnect(observer: any, token: string, autoReconnect: boolean = true){
+    this.stompClient = Stomp.over(new SockJS(this.getEndpointUrl()+'ws'));
+    this.stompClient.connect({token}, (frame) => {
+      if(frame !== undefined){
+        observer.next(frame);
+      }else {
+        observer.next(new Error("Can not connect to server"));
+      }
+    }, (msg) =>{
+      observer.next(new Error("Connection lost"));
+      if(autoReconnect){
+        setTimeout(() =>{
+          this.stompClientConnect(observer, token, autoReconnect);
+        }, 3000);
+      }
     });
   }
 

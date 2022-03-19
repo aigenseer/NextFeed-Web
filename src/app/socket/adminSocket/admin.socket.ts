@@ -9,15 +9,6 @@ import {Participant} from "../../model/participant/participant.model";
 })
 export class AdminSocket extends DefaultSocket {
 
-  async connect(token: string) {
-    try {
-      const frame = await super.connect(token);
-      return Promise.resolve(frame);
-    }catch (err){
-      return Promise.reject(err);
-    }
-  }
-
   public onQuestion(): Observable<Question>
   {
     return this.subscribe<Question>('/admin/question')
