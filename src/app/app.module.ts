@@ -60,7 +60,7 @@ import {WaitDialogComponent} from './component/molecules/wait-dialog/wait-dialog
 import {ParticipantMoodSliderComponent} from './component/organisms/participant-mood-slider/participant-mood-slider.component';
 import {NgxSliderModule} from '@angular-slider/ngx-slider';
 import {ParticipantMoodChartComponent} from './component/organisms/participant-mood-chart/participant-mood-chart.component';
-import {ChartModule} from 'primeng/chart';
+import {NgxEchartsModule} from 'ngx-echarts';
 
 @NgModule({
   declarations: [
@@ -125,7 +125,9 @@ import {ChartModule} from 'primeng/chart';
     FormsModule,
     ConfirmDialogModule,
     NgxSliderModule,
-    ChartModule
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    })
   ],
   providers: [
     MessageService,

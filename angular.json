@@ -46,9 +46,7 @@
                 "inject": false
               }
             ],
-            "scripts": [
-              "../node_modules/chart.js/dist/Chart.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
