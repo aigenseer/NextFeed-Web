@@ -9,15 +9,6 @@ import {Participant} from "../../model/participant/participant.model";
 })
 export class ParticipantSocket extends DefaultSocket {
 
-  async connect(token: string) {
-    try {
-      const frame = await super.connect(token);
-      return Promise.resolve(frame);
-    }catch (err){
-      return Promise.reject(err);
-    }
-  }
-
   voteQuestionId(sessionId: number, questionId: number, vote: boolean){
     let path = vote ? `/participant/session/${sessionId}/question/${questionId}/rating/up`: `/participant/session/${sessionId}/question/${questionId}/rating/down`
     this.getStompClient().send(path, {});

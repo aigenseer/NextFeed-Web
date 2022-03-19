@@ -12,6 +12,9 @@ import {Token} from "../../../../model/token/token.model";
 import {take} from "rxjs/operators";
 import {defaultSessionData} from "../../../../state/admin/admin.token.reducer";
 import {ISessionData} from "../../../../model/sessionCreateData/session-create-data.model";
+import {Question} from "../../../../model/question/question.model";
+import {SessionMetadata} from "../../../../model/sessionMetadata/session-metadata.model";
+import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 
 @Component({
   selector: 'app-presenter-management',
@@ -21,19 +24,22 @@ import {ISessionData} from "../../../../model/sessionCreateData/session-create-d
 export class PresenterManagementComponent implements OnInit {
 
   private token: string = "";
+  sessionsMetadata: SessionMetadata[] = [];
+  openNewSessionDialog: boolean = false;
 
   constructor(
     private readonly router: Router,
     private readonly authenticationService: AuthenticationService,
     private readonly sessionService: SessionService,
     private readonly adminSocket: AdminSocket,
-    private readonly store: Store<IAppAdminState>
-  )
-  {}
+    private readonly store: Store<IAppAdminState>,
+    private readonly waitDialogService: WaitDialogService
+  ) {}
 
   ngOnInit(): void {
     this.observerToken().subscribe(token => {
       this.connectToEndpoints(token);
+      this.loadPageData();
     });
   }
 
@@ -58,14 +64,19 @@ export class PresenterManagementComponent implements OnInit {
   connectToEndpoints(token: Token){
     this.token = token.token;
     this.adminSocket.disconnect();
-    this.adminSocket.connect(token.token).then(() => {
-      //connect to endpoints
-      this.existsCurrentSession().then(([exists, sessionData]) => {
-        if(exists){
-          this.navigateToSession(sessionData);
+    this.waitDialogService.open("Wait for connection");
+    this.adminSocket.connect(token.token).subscribe((next) => {
+        if(next instanceof Error){
+          this.waitDialogService.open("Connection lost");
+        }else {
+          //connect to endpoints
+          this.waitDialogService.close();
+          this.existsCurrentSession().then(([exists, sessionData]) => {
+            if(exists){
+              this.navigateToSession(sessionData);
+            }
+          });
         }
-      });
-
     });
   }
 
@@ -78,20 +89,37 @@ export class PresenterManagementComponent implements OnInit {
     });
   }
 
-  createSession(){
-    this.sessionService.createSession().then(sessionData => {
+  loadPageData(){
+    this.sessionService.getSessionsMetadata().then((sessionsMetadata) => this.sessionsMetadata = sessionsMetadata)
+  }
+
+  createSession(name: string){
+    this.sessionService.createSession(name).then(sessionData => {
       this.store.dispatch(setCurrentDataSession({sessionData}));
       this.navigateToSession(sessionData);
     });
   }
 
   navigateToSession(sessionData: ISessionData){
-    this.router.navigate(['presenter/'+sessionData.id]);
+    this.router.navigate([['presenter', sessionData.id].join('/')]);
   }
 
   onCreateSession(){
-    this.createSession();
+    this.openCreateSessionDialog();
   }
 
+  onClosedCreateSessionDialog(name: string) {
+    if(name.length > 0){
+      this.createSession(name);
+    }
+  }
+
+  openCreateSessionDialog(){
+    this.openNewSessionDialog = true;
+  }
+
+  onSelectSessionMetadata(sessionMetadata: SessionMetadata) {
+    this.router.navigate([['presenter', sessionMetadata.sessionId, 'data'].join('/')]);
+  }
 
 }

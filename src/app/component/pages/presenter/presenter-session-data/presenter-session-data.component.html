@@ -1,0 +1,21 @@
+
+<app-header></app-header>
+
+<app-content>
+  <div *ngIf="getSessionId">
+    <div class="grid flex-column">
+      <div class="col">
+        <p-card>
+          <p-tabView>
+            <p-tabPanel header="Data">
+              Data
+            </p-tabPanel>
+            <p-tabPanel header="Settings" rightIcon="pi pi-cog" >
+              <button (click)="onDeleteSession()" pButton label="Delete Session" type="button" icon="pi pi-trash" class="p-button-danger" iconPos="right"></button>
+            </p-tabPanel>
+          </p-tabView>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</app-content>

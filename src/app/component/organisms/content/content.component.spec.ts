@@ -1,6 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import { ContentComponent } from './content.component';
+import {ContentComponent} from './content.component';
 import {MessageService} from "primeng/api";
+import {ConfirmationService} from 'primeng/api';
 
 describe('ContentComponent', () => {
   let component: ContentComponent;
@@ -8,7 +9,7 @@ describe('ContentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers:[MessageService],
+      providers:[MessageService, ConfirmationService],
       declarations: [ ContentComponent ],
     })
     .compileComponents();
