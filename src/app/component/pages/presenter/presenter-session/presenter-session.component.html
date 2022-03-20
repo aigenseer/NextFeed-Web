@@ -7,14 +7,12 @@
 
     <div class="grid flex-column">
       <div class="col">
-        <p-card>
-          Mood Tracking
+        <p-card header="Mood">
+          <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
         </p-card>
       </div>
       <div class="col">
-
-        <p-card>
-          <h2>Top Questions</h2>
+        <p-card header="Top Questions">
           <app-presenter-question-table [questions]="questions | questionFilterByClosed" (onClosedQuestion)="onClosedQuestion($event)" ></app-presenter-question-table>
         </p-card>
       </div>

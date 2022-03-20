@@ -1,6 +1,6 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {EChartsOption} from "echarts";
 import moment from "moment";
-import { EChartsOption } from 'echarts';
 
 export interface IMoodLineValue{
   label: string
@@ -13,11 +13,11 @@ interface IMoodValue{
 }
 
 @Component({
-  selector: 'app-participant-mood-chart',
-  templateUrl: './participant-mood-chart.component.html',
-  styleUrls: ['./participant-mood-chart.component.scss']
+  selector: 'app-mood-chart',
+  templateUrl: './mood-chart.component.html',
+  styleUrls: ['./mood-chart.component.scss']
 })
-export class ParticipantMoodChartComponent implements OnInit, OnDestroy {
+export class MoodChartComponent implements OnInit {
 
   @Input() moodLineValues: {[key: string]: number} = {};
   @Input() maxValues: number = 30;
@@ -47,6 +47,7 @@ export class ParticipantMoodChartComponent implements OnInit, OnDestroy {
       },
       tooltip: {
         trigger: 'axis',
+        className: 'tooltip',
         formatter: (params: any) => {
           params = params[0];
           return params.axisValueLabel+ ' : ' + params.data;
@@ -114,16 +115,16 @@ export class ParticipantMoodChartComponent implements OnInit, OnDestroy {
     let hslHFactor = 100 / labels.length;
 
     for (let i = 0; i < labels.length; i++) {
-       let label = labels[i];
-       data.series.push({
-         name: label,
-         type: 'line',
-         showSymbol: false,
-         hoverAnimation: false,
-         data: series[label],
-         color: this.hslToHex(i*hslHFactor + 190, 67, 67)
-       });
-       data.legend.data.push(label)
+      let label = labels[i];
+      data.series.push({
+        name: label,
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: series[label],
+        color: this.hslToHex(i*hslHFactor + 190, 67, 67)
+      });
+      data.legend.data.push(label)
     }
     return data;
   }

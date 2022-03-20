@@ -28,4 +28,8 @@ export class AdminSocket extends DefaultSocket {
     return this.subscribe<Question>(`/admin/session/${sessionId}/question/onupdate`);
   }
 
+  public onUpdateMood(sessionId: number){
+    return this.subscribe<number>(`/admin/session/${sessionId}/mood/onupdate`);
+  }
+
 }

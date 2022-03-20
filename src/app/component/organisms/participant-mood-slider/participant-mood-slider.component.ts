@@ -8,7 +8,7 @@ import {Options} from '@angular-slider/ngx-slider';
 })
 export class ParticipantMoodSliderComponent implements OnDestroy{
 
-  private interval: NodeJS.Timeout|null = null;
+  private timeout: NodeJS.Timeout = setTimeout(()=>{}, 0);
   @Output() onChange: EventEmitter<number> = new EventEmitter();
   @Output() onUserChange: EventEmitter<number> = new EventEmitter();
 
@@ -20,26 +20,23 @@ export class ParticipantMoodSliderComponent implements OnDestroy{
   };
 
   ngOnDestroy(): void {
-    this.stopInterval();
+    clearTimeout(this.timeout);
   }
 
   private startInterval(){
-    this.interval = setInterval(() => {
-      if(this.value > 0) this.value -= 1;
-      if(this.value < 0) this.value += 1;
-      if(this.value === 0) this.stopInterval();
-      this.onChange.emit(this.value);
-    }, 1000);
-  }
-
-  private stopInterval(){
-    if(this.interval !== null){
-      clearInterval(this.interval);
+    clearTimeout(this.timeout);
+    if(this.value > 0) this.value -= 1;
+    if(this.value < 0) this.value += 1;
+    if(this.value !== 0) {
+      this.timeout = setTimeout(() => this.startInterval(), 1000);
     }
+    this.onChange.emit(this.value);
   }
 
   userChangeEnd() {
     this.onUserChange.emit(this.value);
-    this.startInterval();
+    this.onChange.emit(this.value);
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => this.startInterval(), 1000);
   }
 }

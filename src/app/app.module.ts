@@ -59,8 +59,8 @@ import {ConfirmationService} from 'primeng/api';
 import {WaitDialogComponent} from './component/molecules/wait-dialog/wait-dialog.component';
 import {ParticipantMoodSliderComponent} from './component/organisms/participant-mood-slider/participant-mood-slider.component';
 import {NgxSliderModule} from '@angular-slider/ngx-slider';
-import {ParticipantMoodChartComponent} from './component/organisms/participant-mood-chart/participant-mood-chart.component';
 import {NgxEchartsModule} from 'ngx-echarts';
+import { MoodChartComponent } from './component/molecules/mood-chart/mood-chart.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +94,7 @@ import {NgxEchartsModule} from 'ngx-echarts';
     AbstractActiveSessionManagementComponent,
     WaitDialogComponent,
     ParticipantMoodSliderComponent,
-    ParticipantMoodChartComponent
+    MoodChartComponent
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,7 @@ import {Participant} from "../../model/participant/participant.model";
 })
 export class ParticipantSocket extends DefaultSocket {
 
-  voteQuestionId(sessionId: number, questionId: number, vote: boolean){
+  public voteQuestionId(sessionId: number, questionId: number, vote: boolean){
     let path = vote ? `/participant/session/${sessionId}/question/${questionId}/rating/up`: `/participant/session/${sessionId}/question/${questionId}/rating/down`
     this.getStompClient().send(path, {});
   }
@@ -29,8 +29,12 @@ export class ParticipantSocket extends DefaultSocket {
     return this.subscribe<Participant>(`/participant/session/${sessionId}/user/onjoin`);
   }
 
-  sendMood(sessionId: number, participantId: number, value: number){
+  public sendMood(sessionId: number, participantId: number, value: number){
     this.getStompClient().send(`/participant/session/${sessionId}/mood/${participantId}/${value}`, {});
+  }
+
+  public onUpdateMood(sessionId: number){
+    return this.subscribe<number>(`/participant/session/${sessionId}/mood/onupdate`);
   }
 
 }
