@@ -62,11 +62,8 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   ngOnInit() {
-    this.testMoodChart();
     this.validateSession();
   }
-
-
 
   protected getToken()
   {
@@ -109,6 +106,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
         this.waitDialogService.close();
         this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
         this.participantSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q));
+        this.participantSocket.onUpdateMood(this.sessionId as number).subscribe(value => this.updateMoodAverageLineChart(value));
       }
     });
   }
@@ -139,18 +137,12 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   onSliderChange(value: number) {
+    console.log(value)
     this.moodLineValues[MY_MOOD_LABEL] = value;
     this.participantSocket.sendMood(this.getSessionId() as number, this.participantId, value);
   }
 
-  testMoodChart(){
-    setInterval(() =>{
-      let randomValue = Math.floor(Math.random() * (5 - (-5) + 1) + (-5));
-      this.updateMoodChart(randomValue);
-    }, 1000);
-  }
-
-  updateMoodChart(value: number){
+  updateMoodAverageLineChart(value: number){
     this.moodLineValues[AVERAGE_LABEL] = value;
   }
 

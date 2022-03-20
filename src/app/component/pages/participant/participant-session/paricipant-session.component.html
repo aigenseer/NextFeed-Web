@@ -6,12 +6,12 @@
 
     <div class="grid">
       <div class="col">
-        <p-card>
+        <p-card header="My Questions">
           <app-new-question [questions]="questions | questionFilterByIds: questionIds" (onCreatedQuestion)="onCreatedQuestionTemplate($event)"></app-new-question>
         </p-card>
       </div>
       <div class="col">
-        <p-card>
+        <p-card class="mood-card" header="Mood" >
           <div class="flex justify-content-center align-items-center mood-content">
             <app-participant-mood-chart  [moodLineValues]="moodLineValues" ></app-participant-mood-chart>
             <app-participant-mood-slider (onChange)="onSliderChange($event)" ></app-participant-mood-slider>
