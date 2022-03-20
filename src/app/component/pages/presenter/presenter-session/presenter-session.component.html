@@ -7,8 +7,15 @@
 
     <div class="grid flex-column">
       <div class="col">
-        <p-card header="Mood">
-          <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
+        <p-card>
+          <p-tabView>
+            <p-tabPanel header="Mood">
+              <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
+            </p-tabPanel>
+            <p-tabPanel header="Servey" [selected]="true">
+              <app-presenter-survey></app-presenter-survey>
+            </p-tabPanel>
+          </p-tabView>
         </p-card>
       </div>
       <div class="col">

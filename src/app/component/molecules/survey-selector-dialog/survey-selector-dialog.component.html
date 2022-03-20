@@ -1,0 +1,17 @@
+<p-dialog header="New Survey" [(visible)]="visible"  [draggable]="false">
+
+
+  <p-tabView>
+    <p-tabPanel header="New" [selected]="true">
+      <app-survey-form></app-survey-form>
+    </p-tabPanel>
+    <p-tabPanel header="old">
+
+    </p-tabPanel>
+  </p-tabView>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Create" (click)="onSubmit()" ></button>
+  </ng-template>
+</p-dialog>
+<app-backdrop [visible]="visible" ></app-backdrop>

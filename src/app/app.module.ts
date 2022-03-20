@@ -60,7 +60,12 @@ import {WaitDialogComponent} from './component/molecules/wait-dialog/wait-dialog
 import {ParticipantMoodSliderComponent} from './component/organisms/participant-mood-slider/participant-mood-slider.component';
 import {NgxSliderModule} from '@angular-slider/ngx-slider';
 import {NgxEchartsModule} from 'ngx-echarts';
-import { MoodChartComponent } from './component/molecules/mood-chart/mood-chart.component';
+import {MoodChartComponent} from './component/molecules/mood-chart/mood-chart.component';
+import {PresenterSurveyComponent} from './component/organisms/presenter-survey/presenter-survey.component';
+import {SurveySelectorDialogComponent} from './component/molecules/survey-selector-dialog/survey-selector-dialog.component';
+import {SurveyFormComponent} from './component/molecules/survey-form/survey-form.component';
+import {BackdropComponent} from './component/atoms/backdrop/backdrop.component';
+import {SelectButtonModule} from 'primeng/selectbutton';
 
 @NgModule({
   declarations: [
@@ -94,7 +99,11 @@ import { MoodChartComponent } from './component/molecules/mood-chart/mood-chart.
     AbstractActiveSessionManagementComponent,
     WaitDialogComponent,
     ParticipantMoodSliderComponent,
-    MoodChartComponent
+    MoodChartComponent,
+    PresenterSurveyComponent,
+    SurveySelectorDialogComponent,
+    SurveyFormComponent,
+    BackdropComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +136,8 @@ import { MoodChartComponent } from './component/molecules/mood-chart/mood-chart.
     NgxSliderModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
-    })
+    }),
+    SelectButtonModule
   ],
   providers: [
     MessageService,

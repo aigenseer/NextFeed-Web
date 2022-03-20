@@ -33,7 +33,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   };
 
   sessionCode: string = ""
-  displayShareCodeDialog: boolean = true
+  displayShareCodeDialog: boolean = false
 
   constructor(
     protected readonly router: Router,
