@@ -13,7 +13,7 @@
       <div class="col">
         <p-card class="mood-card" header="Mood" >
           <div class="flex justify-content-center align-items-center mood-content">
-            <app-participant-mood-chart  [moodLineValues]="moodLineValues" ></app-participant-mood-chart>
+            <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
             <app-participant-mood-slider (onChange)="onSliderChange($event)" ></app-participant-mood-slider>
           </div>
         </p-card>

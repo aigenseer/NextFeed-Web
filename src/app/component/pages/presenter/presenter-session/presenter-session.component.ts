@@ -19,12 +19,18 @@ import {
 } from "../../../organisms/abstract-active-session-management/abstract-active-session-management.component";
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 
+const AVERAGE_LABEL = "Average";
+
 @Component({
   selector: 'app-presenter-session',
   templateUrl: './presenter-session.component.html',
   styleUrls: ['./presenter-session.component.scss']
 })
 export class PresenterSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
+
+  moodLineValues: {[key: string]: number} = {
+    [AVERAGE_LABEL]: 0
+  };
 
   sessionCode: string = ""
   displayShareCodeDialog: boolean = true
@@ -67,6 +73,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
         this.waitDialogService.close();
         this.adminSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
         this.adminSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q))
+        this.adminSocket.onUpdateMood(this.sessionId as number).subscribe(value => this.updateMoodAverageLineChart(value));
       }
     });
   }
@@ -92,4 +99,9 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   onClosedQuestion(question: Question) {
     this.adminSocket.closeQuestion(this.sessionId as number, question);
   }
+
+  updateMoodAverageLineChart(value: number){
+    this.moodLineValues[AVERAGE_LABEL] = value;
+  }
+
 }

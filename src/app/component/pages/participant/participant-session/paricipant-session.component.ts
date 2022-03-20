@@ -137,7 +137,6 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   onSliderChange(value: number) {
-    console.log(value)
     this.moodLineValues[MY_MOOD_LABEL] = value;
     this.participantSocket.sendMood(this.getSessionId() as number, this.participantId, value);
   }
