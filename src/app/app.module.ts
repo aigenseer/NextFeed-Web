@@ -66,6 +66,7 @@ import {SurveySelectorDialogComponent} from './component/molecules/survey-select
 import {SurveyFormComponent} from './component/molecules/survey-form/survey-form.component';
 import {BackdropComponent} from './component/atoms/backdrop/backdrop.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
+import { SurveyObjectFormComponent } from './component/molecules/survey-object-form/survey-object-form.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import {SelectButtonModule} from 'primeng/selectbutton';
     PresenterSurveyComponent,
     SurveySelectorDialogComponent,
     SurveyFormComponent,
-    BackdropComponent
+    BackdropComponent,
+    SurveyObjectFormComponent
   ],
   imports: [
     BrowserModule,
