@@ -1,6 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PresenterSurveyComponent } from './presenter-survey.component';
+import {PresenterSurveyComponent} from './presenter-survey.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {SurveyService} from "../../../service/surveyService/survey.service";
 
 describe('PresenterSurveyComponent', () => {
   let component: PresenterSurveyComponent;
@@ -8,9 +10,11 @@ describe('PresenterSurveyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PresenterSurveyComponent ]
+      imports: [HttpClientTestingModule],
+      providers:[SurveyService],
+      declarations: [PresenterSurveyComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +23,7 @@ describe('PresenterSurveyComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create an instance', () => {
     expect(component).toBeTruthy();
   });
 });

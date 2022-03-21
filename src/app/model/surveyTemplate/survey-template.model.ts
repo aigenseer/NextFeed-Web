@@ -1,30 +1,29 @@
-export enum SurveyEntityType{
+export enum SurveyType{
   YesNo = 0,
   Rating = 1 ,
   OpenAnswer = 2
 }
 
-export interface ISurveyEntityTemplate{
-  id?: number
+export interface ISurveyTemplate{
   name: string
-  type: SurveyEntityType
+  type: SurveyType
   question: string
   duration: number
   publishResults: boolean
 }
 
-export class SurveyEntity implements ISurveyEntityTemplate{
+export class SurveyTemplate {
   private readonly _id: number
   private readonly _name: string
-  private readonly _type: SurveyEntityType
+  private readonly _type: SurveyType
   private readonly _question: string
   private readonly _duration: number
   private readonly _publishResults: boolean
 
-  constructor(id: number, name: string, type: SurveyEntityType, question: string, duration: number, publishResults: boolean) {
+  constructor(id: number, name: string, type: SurveyType, question: string, duration: number, publishResults: boolean) {
     this._id = id;
     this._name = name;
-    this._type = type;
+    this._type = SurveyType[type] as any;
     this._question = question;
     this._duration = duration;
     this._publishResults = publishResults;
@@ -38,7 +37,7 @@ export class SurveyEntity implements ISurveyEntityTemplate{
     return this._name;
   }
 
-  get type(): SurveyEntityType {
+  get type(): SurveyType {
     return this._type;
   }
 
@@ -53,6 +52,4 @@ export class SurveyEntity implements ISurveyEntityTemplate{
   get publishResults(): boolean {
     return this._publishResults;
   }
-
 }
-

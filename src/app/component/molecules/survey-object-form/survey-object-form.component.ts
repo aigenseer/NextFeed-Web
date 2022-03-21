@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ISurveyEntityTemplate, SurveyEntityType} from "../../../model/surveyEntity/survey-entity.model";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ISurveyTemplate, SurveyType} from "../../../model/surveyTemplate/survey-template.model";
 
 @Component({
   selector: 'app-survey-object-form',
@@ -8,15 +8,16 @@ import {ISurveyEntityTemplate, SurveyEntityType} from "../../../model/surveyEnti
 })
 export class SurveyObjectFormComponent {
 
-  @Input() template: ISurveyEntityTemplate = {
+  @Input() template: ISurveyTemplate = {
     name: "",
-    type: SurveyEntityType.YesNo,
+    type: SurveyType.YesNo,
     duration: 5,
     question: "",
     publishResults: true
   };
-  @Output() templateChange: EventEmitter<ISurveyEntityTemplate> = new EventEmitter();
+  @Output() templateChange: EventEmitter<ISurveyTemplate> = new EventEmitter();
   @Output() onValid: EventEmitter<boolean> = new EventEmitter();
+  @Input() disabledForm: boolean = false;
 
 
   onChange(valid: boolean) {

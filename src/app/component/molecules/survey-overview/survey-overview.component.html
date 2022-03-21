@@ -1,0 +1,39 @@
+<p-table [value]="surveys" dataKey="id" responsiveLayout="scroll">
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem"></th>
+      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+      <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
+      <th pSortableColumn="answers">Answers <p-sortIcon field="answers"></p-sortIcon></th>
+      <th>Timestamp</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-survey let-expanded="expanded">
+    <tr>
+      <td>
+        <button type="button" pButton pRipple [pRowToggler]="survey" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+      </td>
+      <td>{{survey.template.name}}</td>
+      <td>{{survey.template.type | displaySurveyEnumName}}</td>
+      <td>{{survey.answers.length}}</td>
+      <td>{{survey.timestamp | date}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-survey>
+    <tr>
+      <td colspan="5">
+        <div class="p-3">
+          <p-tabView>
+            <p-tabPanel header="Template">
+              <app-survey-object-form [template]="survey.template" [disabledForm]="true" ></app-survey-object-form>
+            </p-tabPanel>
+            <p-tabPanel header="Data" [selected]="true">
+              <app-survey-answer-visualization [survey]="survey" ></app-survey-answer-visualization>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </td>
+    </tr>
+
+  </ng-template>
+</p-table>

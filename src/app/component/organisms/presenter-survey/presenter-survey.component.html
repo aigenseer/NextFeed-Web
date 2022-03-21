@@ -1,3 +1,4 @@
-<app-survey-selector-dialog></app-survey-selector-dialog>
+<app-survey-selector-dialog [(visible)]="visibleSelectorDialog" (onCreateTemplate)="onCreateSurveyByTemplate($event)" (onSelectTemplate)="onCreateBySelectTemplateId($event)" [templates]="templates" ></app-survey-selector-dialog>
 
 <button pButton type="button" label="New" (click)="onClickNew()" ></button>
+<app-survey-overview [surveys]="surveys" ></app-survey-overview>

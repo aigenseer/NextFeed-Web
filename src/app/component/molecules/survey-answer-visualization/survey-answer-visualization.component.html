@@ -1,0 +1,11 @@
+<div *ngIf="survey" >
+
+  <div *ngIf="isOpenAnswerType()" >
+    <ng-template ngFor let-item [ngForOf]="survey.answers">
+      <p>{{item}}</p>
+    </ng-template>
+  </div>
+
+</div>
+
+

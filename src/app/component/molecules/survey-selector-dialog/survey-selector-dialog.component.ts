@@ -1,33 +1,50 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ISurveyEntityTemplate, SurveyEntityType} from "../../../model/surveyEntity/survey-entity.model";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ISurveyTemplate, SurveyTemplate, SurveyType} from "../../../model/surveyTemplate/survey-template.model";
+
+enum Tabs {
+  NewSurvey,
+  SelectSurvey
+}
 
 @Component({
   selector: 'app-survey-selector-dialog',
   templateUrl: './survey-selector-dialog.component.html',
   styleUrls: ['./survey-selector-dialog.component.scss']
 })
-export class SurveySelectorDialogComponent implements OnInit {
+export class SurveySelectorDialogComponent {
 
-  @Input() visible: boolean = true
-  template: ISurveyEntityTemplate = {
-    name: "Tets",
-    type: SurveyEntityType.YesNo,
+  @Input() visible: boolean = false;
+  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter();
+  @Input() templates: ISurveyTemplate[] = [];
+  @Output() onCreateTemplate: EventEmitter<ISurveyTemplate> = new EventEmitter();
+  @Output() onSelectTemplate: EventEmitter<number> = new EventEmitter();
+
+  template: ISurveyTemplate = {
+    name: "",
+    type: SurveyType.YesNo,
     duration: 5,
     question: "",
     publishResults: true
   };
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  activeIndex: Tabs = Tabs.NewSurvey;
+  disabledSubmit: boolean = true;
+  selectedTemplate: SurveyTemplate|null = null;
 
   onSubmit() {
-
+    if(this.activeIndex === Tabs.NewSurvey){
+      this.onCreateTemplate.emit(this.template);
+    }else if(this.activeIndex === Tabs.SelectSurvey && this.selectedTemplate !== null){
+      this.onSelectTemplate.emit(this.selectedTemplate.id);
+    }
+    this.onHide();
   }
 
   onTemplateValid(valid: boolean) {
-    console.log(this.template)
+    this.disabledSubmit = !valid;
   }
 
+  onHide() {
+    this.visible = false;
+    this.visibleChange.emit(this.visible);
+  }
 }

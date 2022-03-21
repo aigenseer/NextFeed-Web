@@ -1,17 +1,17 @@
-<p-dialog header="New Survey" [(visible)]="visible"  [draggable]="false">
+<p-dialog header="New Survey" [(visible)]="visible"  [draggable]="false" (onHide)="onHide()" >
 
 
-  <p-tabView>
-    <p-tabPanel header="New" [selected]="true">
+  <p-tabView [(activeIndex)]="activeIndex" >
+    <p-tabPanel header="New" [tabIndex]="0">
       <app-survey-object-form [(template)]="template" (onValid)="onTemplateValid($event)" ></app-survey-object-form>
     </p-tabPanel>
-    <p-tabPanel header="old">
+    <p-tabPanel header="old" [tabIndex]="1" >
 
     </p-tabPanel>
   </p-tabView>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" label="Create" (click)="onSubmit()" ></button>
+    <button pButton type="button" label="Create" (click)="onSubmit()" [disabled]="activeIndex === 0 && disabledSubmit" ></button>
   </ng-template>
 </p-dialog>
 <app-backdrop [visible]="visible" ></app-backdrop>

@@ -66,7 +66,11 @@ import {SurveySelectorDialogComponent} from './component/molecules/survey-select
 import {SurveyFormComponent} from './component/molecules/survey-form/survey-form.component';
 import {BackdropComponent} from './component/atoms/backdrop/backdrop.component';
 import {SelectButtonModule} from 'primeng/selectbutton';
-import { SurveyObjectFormComponent } from './component/molecules/survey-object-form/survey-object-form.component';
+import {SurveyObjectFormComponent} from './component/molecules/survey-object-form/survey-object-form.component';
+import {SurveyOverviewComponent} from './component/molecules/survey-overview/survey-overview.component';
+import {DisplaySurveyEnumNamePipe} from "./transform/DisplaySurveyEnumNamePipe";
+import {SurveyAnswerVisualizationComponent} from './component/molecules/survey-answer-visualization/survey-answer-visualization.component';
+import {ListboxModule} from 'primeng/listbox';
 
 @NgModule({
   declarations: [
@@ -94,6 +98,7 @@ import { SurveyObjectFormComponent } from './component/molecules/survey-object-f
     UnvotedQuestionPipe,
     PresenterQuestionTableComponent,
     QuestionFilterByClosedPipe,
+    DisplaySurveyEnumNamePipe,
     PresenterCreateSessionDialogComponent,
     PresenterSessionMetadataOverviewComponent,
     PresenterSessionDataComponent,
@@ -105,7 +110,9 @@ import { SurveyObjectFormComponent } from './component/molecules/survey-object-f
     SurveySelectorDialogComponent,
     SurveyFormComponent,
     BackdropComponent,
-    SurveyObjectFormComponent
+    SurveyObjectFormComponent,
+    SurveyOverviewComponent,
+    SurveyAnswerVisualizationComponent
   ],
   imports: [
     BrowserModule,
@@ -139,7 +146,8 @@ import { SurveyObjectFormComponent } from './component/molecules/survey-object-f
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
-    SelectButtonModule
+    SelectButtonModule,
+    ListboxModule
   ],
   providers: [
     MessageService,
