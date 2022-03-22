@@ -71,6 +71,9 @@ import {SurveyOverviewComponent} from './component/molecules/survey-overview/sur
 import {DisplaySurveyEnumNamePipe} from "./transform/DisplaySurveyEnumNamePipe";
 import {SurveyAnswerVisualizationComponent} from './component/molecules/survey-answer-visualization/survey-answer-visualization.component';
 import {ListboxModule} from 'primeng/listbox';
+import {DropdownModule} from 'primeng/dropdown';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
 
 @NgModule({
   declarations: [
@@ -147,7 +150,10 @@ import {ListboxModule} from 'primeng/listbox';
       echarts: () => import('echarts')
     }),
     SelectButtonModule,
-    ListboxModule
+    ListboxModule,
+    DropdownModule,
+    MessagesModule,
+    MessageModule
   ],
   providers: [
     MessageService,

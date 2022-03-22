@@ -5,7 +5,23 @@
     <p-tabPanel header="New" [tabIndex]="0">
       <app-survey-object-form [(template)]="template" (onValid)="onTemplateValid($event)" ></app-survey-object-form>
     </p-tabPanel>
-    <p-tabPanel header="old" [tabIndex]="1" >
+    <p-tabPanel header="Templates" [tabIndex]="1" >
+
+      <div *ngIf="selectedTemplate">
+        <div class="grid p-fluid">
+          <div class="col-12">
+            <label class="block">Templates</label>
+            <p-dropdown [options]="templates" [(ngModel)]="selectedTemplate" optionLabel="name"></p-dropdown>
+          </div>
+          <div class="col-12">
+            <app-survey-object-form [template]="selectedTemplate.toInterface()" [disabledForm]="true" ></app-survey-object-form>
+          </div>
+        </div>
+
+      </div>
+      <div *ngIf="selectedTemplate==null">
+        <p-message severity="info" text="No templates found." styleClass="mr-2"></p-message>
+      </div>
 
     </p-tabPanel>
   </p-tabView>

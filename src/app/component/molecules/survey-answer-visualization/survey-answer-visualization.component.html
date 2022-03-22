@@ -1,9 +1,15 @@
 <div *ngIf="survey" >
 
   <div *ngIf="isOpenAnswerType()" >
-    <ng-template ngFor let-item [ngForOf]="survey.answers">
-      <p>{{item}}</p>
-    </ng-template>
+    <ul>
+      <ng-template ngFor let-item [ngForOf]="survey.answers">
+        <li>{{item}}</li>
+      </ng-template>
+    </ul>
+  </div>
+
+  <div *ngIf="isRatingType() || isYesNoType()" >
+    <div echarts [options]="options" class="demo-chart"></div>
   </div>
 
 </div>

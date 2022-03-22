@@ -23,14 +23,14 @@
     <tr>
       <td colspan="5">
         <div class="p-3">
-          <p-tabView>
-            <p-tabPanel header="Template">
+          <div class="grid">
+            <div class="col">
               <app-survey-object-form [template]="survey.template" [disabledForm]="true" ></app-survey-object-form>
-            </p-tabPanel>
-            <p-tabPanel header="Data" [selected]="true">
+            </div>
+            <div class="col">
               <app-survey-answer-visualization [survey]="survey" ></app-survey-answer-visualization>
-            </p-tabPanel>
-          </p-tabView>
+            </div>
+          </div>
         </div>
       </td>
     </tr>

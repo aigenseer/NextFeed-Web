@@ -52,4 +52,15 @@ export class SurveyTemplate {
   get publishResults(): boolean {
     return this._publishResults;
   }
+
+  toInterface(): ISurveyTemplate
+  {
+    return {
+      name: this._name,
+      type: this._type,
+      question: this._question,
+      duration: this._duration,
+      publishResults: this._publishResults,
+    }
+  }
 }

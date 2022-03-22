@@ -13,7 +13,7 @@ export class PresenterSurveyComponent implements OnInit {
   @Input() sessionId: number = 0;
   templates: SurveyTemplate[] = [];
   surveys: Survey[] = [];
-  visibleSelectorDialog: boolean = false;
+  visibleSelectorDialog: boolean = true;
 
   constructor(
     private readonly surveyService: SurveyService
@@ -25,7 +25,6 @@ export class PresenterSurveyComponent implements OnInit {
     });
     this.surveyService.getSurveysBySessionId(this.sessionId).then(surveys => {
       this.surveys = surveys;
-      console.log(surveys)
     });
   }
 
