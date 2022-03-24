@@ -49,6 +49,7 @@ export class SurveySelectorDialogComponent implements OnInit, OnChanges {
     if(this.activeIndex === Tabs.NewSurvey){
       this.onCreateTemplate.emit(this.template);
     }else if(this.activeIndex === Tabs.SelectSurvey && this.selectedTemplate !== null){
+      console.log(this.templates, this.selectedTemplate)
       this.onSelectTemplate.emit(this.selectedTemplate.id);
     }
     this.onHide();

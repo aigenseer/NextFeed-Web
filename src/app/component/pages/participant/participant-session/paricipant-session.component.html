@@ -3,6 +3,8 @@
 </app-header>
 <app-content>
   <div *ngIf="sessionId">
+    <app-survey-live-answer-dialog [(template)]="currentSurveyTemplate" (onClose)="onCloseSurveyLiveAnswerDialog($event)" ></app-survey-live-answer-dialog>
+    <app-survey-result-visualization-dialog [survey]="this.currentSurvey" (onClose)="onCloseSurveyResult()" ></app-survey-result-visualization-dialog>
 
     <div class="grid">
       <div class="col">

@@ -1,25 +1,56 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Survey} from "../../../model/survey/survey.model";
 import {SurveyService} from "../../../service/surveyService/survey.service";
 import {ISurveyTemplate, SurveyTemplate} from "../../../model/surveyTemplate/survey-template.model";
+import {AdminSocket} from "../../../socket/adminSocket/admin.socket";
 
 @Component({
   selector: 'app-presenter-survey',
   templateUrl: './presenter-survey.component.html',
   styleUrls: ['./presenter-survey.component.scss']
 })
-export class PresenterSurveyComponent implements OnInit {
+export class PresenterSurveyComponent implements OnInit, OnChanges {
 
   @Input() sessionId: number = 0;
+  @Input() adminSocket: AdminSocket|null = null;
   templates: SurveyTemplate[] = [];
   surveys: Survey[] = [];
-  visibleSelectorDialog: boolean = true;
+  visibleSelectorDialog: boolean = false;
+
+  currentSurveyTemplate: SurveyTemplate|null = null;
+  currentSurvey: Survey|null = null;
+  currentSurveyDisplayResult: boolean = false;
+  private connected: boolean = false;
 
   constructor(
-    private readonly surveyService: SurveyService
+    private readonly surveyService: SurveyService,
   ){}
 
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.hasOwnProperty("adminSocket")){
+      this.adminSocket = changes.adminSocket.currentValue;
+    }
+  }
+
   ngOnInit(): void {
+    this.adminSocket?.waitForConnection().subscribe(next => {
+      if(!(next instanceof Error) && !this.connected){
+        this.adminSocket?.onCreateSurvey(this.sessionId).subscribe(survey =>{
+          this.currentSurveyTemplate = survey.template;
+          this.currentSurvey = survey;
+          this.currentSurveyDisplayResult = false;
+          console.log("?????")
+          this.adminSocket?.onUpdateSurvey(this.sessionId, this.currentSurvey.id).subscribe(survey =>{
+            this.currentSurvey = survey;
+          });
+          this.adminSocket?.onSurveyResult(this.sessionId, this.currentSurvey.id).subscribe(survey =>{
+            this.currentSurvey = survey;
+            this.currentSurveyDisplayResult = true;
+          });
+        });
+      }
+    });
+
     this.surveyService.getTemplatesBySessionId(this.sessionId).then(templates => {
       this.templates = templates;
     });
@@ -39,9 +70,12 @@ export class PresenterSurveyComponent implements OnInit {
   }
 
   onCreateBySelectTemplateId(id: number) {
-    this.surveyService.createByTemplateId(this.sessionId, id).then(template => {
-
-    });
+    this.surveyService.createByTemplateId(this.sessionId, id);
   }
 
+  onCloseCurrentSurvey() {
+    console.log("???")
+    this.currentSurveyTemplate = null;
+    this.currentSurvey = null;
+  }
 }

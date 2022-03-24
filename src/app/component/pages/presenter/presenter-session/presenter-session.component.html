@@ -13,7 +13,7 @@
               <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
             </p-tabPanel>
             <p-tabPanel header="Servey" [selected]="true">
-              <app-presenter-survey [sessionId]="getSessionId()" ></app-presenter-survey>
+              <app-presenter-survey [adminSocket]="adminSocket" [sessionId]="getSessionId()" ></app-presenter-survey>
             </p-tabPanel>
           </p-tabView>
         </p-card>

@@ -34,10 +34,11 @@ export class SurveyService extends DefaultService{
   }
 
   createByTemplateId(sessionId: number, id: number){
-    return firstValueFrom(this.http.get<SurveyTemplate>(this.getAPIUrl()+`admin/session/${sessionId}/survey/create/${id}`)
-      .pipe(
-        map((v: SurveyTemplate) =>  new SurveyTemplate(v.id, v.name, v.type, v.question, v.duration, v.publishResults))
-      ));
+    return firstValueFrom(this.http.get(this.getAPIUrl()+`admin/session/${sessionId}/survey/create/${id}`));
+  }
+
+  sendAnswer(sessionId: number, surveyId: number, value: string){
+    return firstValueFrom(this.http.post(this.getAPIUrl()+`participant/session/${sessionId}/survey/${surveyId}/answer`, {text: value}));
   }
 
 }

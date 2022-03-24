@@ -74,6 +74,11 @@ import {ListboxModule} from 'primeng/listbox';
 import {DropdownModule} from 'primeng/dropdown';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import {SurveyLiveViewDialogComponent} from './component/molecules/survey-live-view-dialog/survey-live-view-dialog.component';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {SurveyLiveAnswerDialogComponent} from './component/molecules/survey-live-answer-dialog/survey-live-answer-dialog.component';
+import {SurveyAnswerEventVisualizationComponent} from './component/molecules/survey-answer-event-visualization/survey-answer-event-visualization.component';
+import {SurveyResultVisualizationDialogComponent} from './component/molecules/survey-result-visualization-dialog/survey-result-visualization-dialog.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +120,11 @@ import {MessageModule} from 'primeng/message';
     BackdropComponent,
     SurveyObjectFormComponent,
     SurveyOverviewComponent,
-    SurveyAnswerVisualizationComponent
+    SurveyAnswerVisualizationComponent,
+    SurveyLiveViewDialogComponent,
+    SurveyLiveAnswerDialogComponent,
+    SurveyAnswerEventVisualizationComponent,
+    SurveyResultVisualizationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -153,7 +162,8 @@ import {MessageModule} from 'primeng/message';
     ListboxModule,
     DropdownModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    ProgressBarModule
   ],
   providers: [
     MessageService,

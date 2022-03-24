@@ -2,11 +2,12 @@ import * as SockJS from "sockjs-client";
 import * as Stomp from "stompjs";
 import {environment} from "../../../environments/environment";
 import {Frame} from "stompjs";
-import {Observable} from "rxjs";
+import {Observable, Subscriber} from "rxjs";
 
 export abstract class DefaultSocket {
 
   private stompClient: Stomp.Client|null = null;
+  private observersWaitForConnection: Subscriber<Frame|Error>[] = []
 
   protected getEndpointUrl(): String{
     if(!environment.production){
@@ -26,16 +27,28 @@ export abstract class DefaultSocket {
     });
   }
 
+  public waitForConnection(): Observable<Frame|Error>
+  {
+    return new Observable<Frame|Error>(observer => {
+      this.observersWaitForConnection.push(observer);
+    });
+  }
+
   private stompClientConnect(observer: any, token: string, autoReconnect: boolean = true){
     this.stompClient = Stomp.over(new SockJS(this.getEndpointUrl()+'ws'));
     this.stompClient.connect({token}, (frame) => {
       if(frame !== undefined){
         observer.next(frame);
+        this.observersWaitForConnection.map(o => o.next(frame));
       }else {
-        observer.next(new Error("Can not connect to server"));
+        let error = new Error("Can not connect to server");
+        observer.next(error);
+        this.observersWaitForConnection.map(o => o.next(error));
       }
     }, (msg) =>{
-      observer.next(new Error("Connection lost"));
+      let error = new Error("Connection lost");
+      observer.next(error);
+      this.observersWaitForConnection.map(o => o.next(error));
       if(autoReconnect){
         setTimeout(() =>{
           this.stompClientConnect(observer, token, autoReconnect);

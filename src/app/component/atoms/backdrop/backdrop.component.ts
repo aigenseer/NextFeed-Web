@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-backdrop',
@@ -8,5 +8,6 @@ import {Component, Input, OnInit} from '@angular/core';
 export class BackdropComponent {
 
   @Input() visible: boolean = true;
+  @Output() visibleChange: EventEmitter<boolean> = new EventEmitter();
 
 }

@@ -1,13 +1,15 @@
-import {DefaultSocket} from "../defaultSocket/default.socket";
 import {Question} from "../../model/question/question.model";
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 import {Participant} from "../../model/participant/participant.model";
+import {Survey} from "../../model/survey/survey.model";
+import {SharedCallsSocket} from "../sharedCallsSocket/sharedcalls.socket";
+import {SurveyTemplate} from "../../model/surveyTemplate/survey-template.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ParticipantSocket extends DefaultSocket {
+export class ParticipantSocket extends SharedCallsSocket {
 
   public voteQuestionId(sessionId: number, questionId: number, vote: boolean){
     let path = vote ? `/participant/session/${sessionId}/question/${questionId}/rating/up`: `/participant/session/${sessionId}/question/${questionId}/rating/down`
@@ -35,6 +37,20 @@ export class ParticipantSocket extends DefaultSocket {
 
   public onUpdateMood(sessionId: number){
     return this.subscribe<number>(`/participant/session/${sessionId}/mood/onupdate`);
+  }
+
+  public onSurveyResult(sessionId: number, surveyId: number){
+    return this.subscribe<Survey>(`/participant/session/${sessionId}/survey/${surveyId}/onresult`)
+      .pipe(
+        map(v => this.castSurvey(v))
+      );
+  }
+
+  public onCreateSurvey(sessionId: number): Observable<{surveyId: number, surveyTemplate: SurveyTemplate}>
+  {
+    return this.subscribe<{surveyId: number, surveyTemplate: SurveyTemplate}>(`/participant/session/${sessionId}/survey/oncreate`).pipe(
+      map((data: {surveyId: number, surveyTemplate: SurveyTemplate}) =>  ({surveyId: data.surveyId, surveyTemplate: this.castSurveyTemplate(data.surveyTemplate)}))
+    );
   }
 
 }
