@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Survey} from "../../../model/survey/survey.model";
 
 @Component({
@@ -6,13 +6,18 @@ import {Survey} from "../../../model/survey/survey.model";
   templateUrl: './survey-result-visualization-dialog.component.html',
   styleUrls: ['./survey-result-visualization-dialog.component.scss']
 })
-export class SurveyResultVisualizationDialogComponent {
+export class SurveyResultVisualizationDialogComponent implements OnChanges{
 
   @Input() survey: Survey|null = null;
   @Output() templateChange: EventEmitter<Survey|null> = new EventEmitter();
   @Output() onClose: EventEmitter<void> = new EventEmitter();
 
-  isVisible() {
-    return this.survey !== null;
+  visible:boolean = false;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes.hasOwnProperty("survey")){
+      this.visible = changes.survey.currentValue !== null;
+    }
   }
+
 }

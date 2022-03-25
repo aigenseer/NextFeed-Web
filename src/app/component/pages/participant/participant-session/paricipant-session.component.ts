@@ -70,6 +70,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
 
   ngOnInit() {
     this.validateSession();
+    //this.currentSurvey = new Survey(99, new SurveyTemplate(1, "", "Rating" as any, "Question", 30, true), ["1"], new Date().getTime())
   }
 
   protected getToken()
@@ -163,11 +164,8 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   onCloseSurveyLiveAnswerDialog(value: string) {
-    console.log("1")
     if(this.currentSurveyTemplate !== null && this.currentSurveyId !== null){
-      console.log("2")
       this.surveyService.sendAnswer(this.getSessionId() as number, this.currentSurveyId, value).then(() =>{
-        console.log("3")
         this.messageService.add({ severity: 'success', summary: 'Successfully', detail: 'Data has been sent.', life: 2000 })
       })
     }

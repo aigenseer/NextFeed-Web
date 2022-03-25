@@ -39,7 +39,6 @@ export class PresenterSurveyComponent implements OnInit, OnChanges {
           this.currentSurveyTemplate = survey.template;
           this.currentSurvey = survey;
           this.currentSurveyDisplayResult = false;
-          console.log("?????")
           this.adminSocket?.onUpdateSurvey(this.sessionId, this.currentSurvey.id).subscribe(survey =>{
             this.currentSurvey = survey;
           });
@@ -74,7 +73,6 @@ export class PresenterSurveyComponent implements OnInit, OnChanges {
   }
 
   onCloseCurrentSurvey() {
-    console.log("???")
     this.currentSurveyTemplate = null;
     this.currentSurvey = null;
   }

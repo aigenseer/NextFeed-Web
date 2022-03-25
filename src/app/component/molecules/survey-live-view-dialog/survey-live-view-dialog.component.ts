@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Survey} from "../../../model/survey/survey.model";
 import {SurveyTemplate} from "../../../model/surveyTemplate/survey-template.model";
 

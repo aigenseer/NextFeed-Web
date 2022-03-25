@@ -1,4 +1,4 @@
-<p-dialog *ngIf="survey" header="Survey" [visible]="isVisible()"  [draggable]="false" [closable]="true" (onHide)="onClose.emit()"   [style]="{minWidth: '50vw'}" >
+<p-dialog *ngIf="survey" header="Survey" [(visible)]="visible"  [draggable]="false" [closable]="true" (onHide)="onClose.emit()"   [style]="{minWidth: '50vw'}" >
 
   <div class="grid p-fluid">
 
@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 ">
       <ng-template [ngIf]="survey">
         <app-survey-answer-visualization [survey]="survey" ></app-survey-answer-visualization>
       </ng-template>
@@ -19,4 +19,4 @@
   <ng-template pTemplate="footer"></ng-template>
 
 </p-dialog>
-<app-backdrop [visible]="isVisible()" ></app-backdrop>
+<app-backdrop [visible]="visible" ></app-backdrop>

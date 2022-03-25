@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Survey} from "../../../model/survey/survey.model";
 import {SurveyType} from "../../../model/surveyTemplate/survey-template.model";
 import {EChartsOption} from "echarts";
@@ -8,7 +8,7 @@ import {EChartsOption} from "echarts";
   templateUrl: './survey-answer-visualization.component.html',
   styleUrls: ['./survey-answer-visualization.component.scss']
 })
-export class SurveyAnswerVisualizationComponent implements OnInit{
+export class SurveyAnswerVisualizationComponent implements OnInit, OnChanges{
 
   @Input() survey: Survey|null = null
   options: EChartsOption = {};
@@ -30,6 +30,17 @@ export class SurveyAnswerVisualizationComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.updateSurveyOptions(this.survey);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.hasOwnProperty("survey")){
+      this.survey = changes.survey.currentValue;
+      this.updateSurveyOptions(this.survey);
+    }
+  }
+
+  private updateSurveyOptions(survey: Survey|null){
     if(this.isRatingType() && this.survey !== null){
       this.options = this.createRatingOptionsBySurvey(this.survey)
     }else if(this.isYesNoType() && this.survey !== null){
@@ -48,7 +59,7 @@ export class SurveyAnswerVisualizationComponent implements OnInit{
     };
     let values: number[] = survey.answers.map(s => parseInt(s));
     const minValue = Math.min.apply(Math, values);
-    const maxValue = Math.max.apply(Math, values);
+    const maxValue = Math.max.apply(Math, values)+1;
     for (let i = minValue; i < maxValue; i++) {
       let count = values.filter(v => v === i).length;
       if(count > 0){

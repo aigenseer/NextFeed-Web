@@ -39,7 +39,6 @@ export class SurveyLiveAnswerDialogComponent implements OnChanges {
     this.timer = setInterval(() => {
       if(this.currentTime >= maxTime){
         clearInterval(this.timer as NodeJS.Timeout);
-        console.log(this.currentValue)
       }else{
         this.currentTime += 1;
         this.progressBarValue = 100 - this.currentTime / maxTime * 100;
