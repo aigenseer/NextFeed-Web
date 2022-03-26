@@ -1,7 +1,7 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Survey} from "../../../model/survey/survey.model";
 import {SurveyService} from "../../../service/surveyService/survey.service";
-import {ISurveyTemplate, SurveyTemplate} from "../../../model/surveyTemplate/survey-template.model";
+import {ISurveyTemplate, SurveyTemplate, SurveyType} from "../../../model/surveyTemplate/survey-template.model";
 import {AdminSocket} from "../../../socket/adminSocket/admin.socket";
 
 @Component({
@@ -45,6 +45,7 @@ export class PresenterSurveyComponent implements OnInit, OnChanges {
           this.adminSocket?.onSurveyResult(this.sessionId, this.currentSurvey.id).subscribe(survey =>{
             this.currentSurvey = survey;
             this.currentSurveyDisplayResult = true;
+            this.surveys = [...this.surveys, survey];
           });
         });
       }
@@ -64,7 +65,7 @@ export class PresenterSurveyComponent implements OnInit, OnChanges {
 
   onCreateSurveyByTemplate(templ: ISurveyTemplate) {
     this.surveyService.createByTemplate(this.sessionId, templ).then(template => {
-      this.templates.push(template);
+      this.templates = [...this.templates, template];
     });
   }
 

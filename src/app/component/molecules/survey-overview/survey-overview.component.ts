@@ -6,14 +6,8 @@ import {Survey} from "../../../model/survey/survey.model";
   templateUrl: './survey-overview.component.html',
   styleUrls: ['./survey-overview.component.scss']
 })
-export class SurveyOverviewComponent implements OnInit {
+export class SurveyOverviewComponent {
 
   @Input() surveys: Survey[] = [];
-
-  constructor() { }
-
-  ngOnInit(): void {
-
-  }
 
 }

@@ -1,4 +1,9 @@
 <p-table [value]="surveys" dataKey="id" responsiveLayout="scroll" sortField="timestamp" [sortOrder]="-1" >
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-start">
+      <ng-content></ng-content>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 3rem"></th>
@@ -17,6 +22,11 @@
       <td>{{survey.template.type | displaySurveyEnumName}}</td>
       <td>{{survey.answers.length}}</td>
       <td>{{survey.timestamp | date : 'hh:mm:ss'}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">No surveys exists.</td>
     </tr>
   </ng-template>
   <ng-template pTemplate="rowexpansion" let-survey>

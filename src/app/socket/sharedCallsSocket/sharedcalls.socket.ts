@@ -15,7 +15,6 @@ export class SharedCallsSocket extends DefaultSocket {
   }
 
   protected castSurvey(v: Survey){
-    console.log(v, new Survey(v.id, this.castSurveyTemplate(v.template), v.answers, v.timestamp))
     return new Survey(v.id, this.castSurveyTemplate(v.template), v.answers, v.timestamp);
   }
 

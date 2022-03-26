@@ -25,7 +25,7 @@
   </p-tabView>
 
   <ng-template pTemplate="footer">
-    <button pButton type="button" label="Create" (click)="onSubmit()" [disabled]="activeIndex === 0 && disabledSubmit" ></button>
+    <button pButton type="button" label="Start" (click)="onSubmit()" [disabled]="activeIndex === 0 && disabledSubmit || activeIndex === 1 && templates.length === 0" ></button>
   </ng-template>
 </p-dialog>
 <app-backdrop [visible]="visible" ></app-backdrop>
