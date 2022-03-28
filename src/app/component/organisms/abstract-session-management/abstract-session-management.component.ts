@@ -33,7 +33,7 @@ export class AbstractSessionManagementComponent implements IAbstractSessionManag
   }
 
   public getSessionId(){
-    return this.sessionId;
+    return this.sessionId as number;
   }
 
   protected getToken(): Promise<string|null>{

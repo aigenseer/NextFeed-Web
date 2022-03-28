@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../../../../model/participant/participant.model";
 import {ParticipantSocket} from "../../../../socket/participantSocket/participant.socket";
@@ -14,7 +14,8 @@ import {IAppParticipantState, IVotedQuestion} from "../../../../state/participan
 import {
   selectParticipantData,
   selectQuestionIds,
-  selectTokenCode, selectVotedQuestions
+  selectTokenCode,
+  selectVotedQuestions
 } from "../../../../state/participant/participant.selector";
 import {
   deleteVotedQuestion,
@@ -28,6 +29,9 @@ import {
   AbstractActiveSessionManagementComponent
 } from "../../../organisms/abstract-active-session-management/abstract-active-session-management.component";
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
+import {SurveyTemplate, SurveyType} from "../../../../model/surveyTemplate/survey-template.model";
+import {SurveyService} from "../../../../service/surveyService/survey.service";
+import {Survey} from "../../../../model/survey/survey.model";
 
 const AVERAGE_LABEL = "Average";
 const MY_MOOD_LABEL = "You";
@@ -47,22 +51,26 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
     [AVERAGE_LABEL]: 0,
     [MY_MOOD_LABEL]: 0
   };
-
+  currentSurvey: Survey|null = null;
+  currentSurveyId: number|null = null;
+  currentSurveyTemplate: SurveyTemplate|null = null;
 
   constructor(
-    protected router: Router,
-    protected route: ActivatedRoute,
-    protected messageService: MessageService,
-    protected sessionService: SessionService,
-    protected participantSocket: ParticipantSocket,
+    protected readonly router: Router,
+    protected readonly route: ActivatedRoute,
+    protected readonly messageService: MessageService,
+    protected readonly sessionService: SessionService,
+    protected readonly participantSocket: ParticipantSocket,
     private readonly store: Store<IAppParticipantState>,
-    private readonly waitDialogService: WaitDialogService
+    private readonly waitDialogService: WaitDialogService,
+    private readonly surveyService: SurveyService
   ){
     super(router, route, messageService, sessionService);
   }
 
   ngOnInit() {
     this.validateSession();
+    //this.currentSurvey = new Survey(99, new SurveyTemplate(1, "", "Rating" as any, "Question", 30, true), ["1"], new Date().getTime())
   }
 
   protected getToken()
@@ -107,6 +115,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
         this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
         this.participantSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q));
         this.participantSocket.onUpdateMood(this.sessionId as number).subscribe(value => this.updateMoodAverageLineChart(value));
+        this.participantSocket.onCreateSurvey(this.sessionId as number).subscribe(t => this.onCreateSurvey(t.surveyId, t.surveyTemplate));
       }
     });
   }
@@ -141,12 +150,30 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
     this.participantSocket.sendMood(this.getSessionId() as number, this.participantId, value);
   }
 
+  onCreateSurvey(surveyId: number, surveyTemplate: SurveyTemplate){
+    this.currentSurvey = null;
+    this.currentSurveyId = surveyId;
+    this.currentSurveyTemplate = surveyTemplate;
+    this.participantSocket.onSurveyResult(this.sessionId as number, this.currentSurveyId).subscribe(survey => {
+      this.currentSurvey = survey;
+    });
+  }
+
   updateMoodAverageLineChart(value: number){
     this.moodLineValues[AVERAGE_LABEL] = value;
   }
 
+  onCloseSurveyLiveAnswerDialog(value: string) {
+    if(this.currentSurveyTemplate !== null && this.currentSurveyId !== null){
+      this.surveyService.sendAnswer(this.getSessionId() as number, this.currentSurveyId, value).then(() =>{
+        this.messageService.add({ severity: 'success', summary: 'Successfully', detail: 'Data has been sent.', life: 2000 })
+      })
+    }
+  }
 
-
+  onCloseSurveyResult() {
+    this.currentSurvey = null;
+  }
 }
 
 

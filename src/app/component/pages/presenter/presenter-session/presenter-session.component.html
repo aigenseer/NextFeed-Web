@@ -3,12 +3,19 @@
 </app-header>
 
 <app-content>
-  <div *ngIf="sessionId">
+  <div *ngIf="getSessionId">
 
     <div class="grid flex-column">
       <div class="col">
-        <p-card header="Mood">
-          <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
+        <p-card>
+          <p-tabView>
+            <p-tabPanel header="Mood" [selected]="true" >
+              <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
+            </p-tabPanel>
+            <p-tabPanel header="Servey">
+              <app-presenter-survey [adminSocket]="adminSocket" [sessionId]="getSessionId()" ></app-presenter-survey>
+            </p-tabPanel>
+          </p-tabView>
         </p-card>
       </div>
       <div class="col">

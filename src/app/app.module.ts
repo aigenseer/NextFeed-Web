@@ -60,7 +60,25 @@ import {WaitDialogComponent} from './component/molecules/wait-dialog/wait-dialog
 import {ParticipantMoodSliderComponent} from './component/organisms/participant-mood-slider/participant-mood-slider.component';
 import {NgxSliderModule} from '@angular-slider/ngx-slider';
 import {NgxEchartsModule} from 'ngx-echarts';
-import { MoodChartComponent } from './component/molecules/mood-chart/mood-chart.component';
+import {MoodChartComponent} from './component/molecules/mood-chart/mood-chart.component';
+import {PresenterSurveyComponent} from './component/organisms/presenter-survey/presenter-survey.component';
+import {SurveySelectorDialogComponent} from './component/molecules/survey-selector-dialog/survey-selector-dialog.component';
+import {SurveyFormComponent} from './component/molecules/survey-form/survey-form.component';
+import {BackdropComponent} from './component/atoms/backdrop/backdrop.component';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {SurveyObjectFormComponent} from './component/molecules/survey-object-form/survey-object-form.component';
+import {SurveyOverviewComponent} from './component/molecules/survey-overview/survey-overview.component';
+import {DisplaySurveyEnumNamePipe} from "./transform/DisplaySurveyEnumNamePipe";
+import {SurveyAnswerVisualizationComponent} from './component/molecules/survey-answer-visualization/survey-answer-visualization.component';
+import {ListboxModule} from 'primeng/listbox';
+import {DropdownModule} from 'primeng/dropdown';
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {SurveyLiveViewDialogComponent} from './component/molecules/survey-live-view-dialog/survey-live-view-dialog.component';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {SurveyLiveAnswerDialogComponent} from './component/molecules/survey-live-answer-dialog/survey-live-answer-dialog.component';
+import {SurveyAnswerEventVisualizationComponent} from './component/molecules/survey-answer-event-visualization/survey-answer-event-visualization.component';
+import {SurveyResultVisualizationDialogComponent} from './component/molecules/survey-result-visualization-dialog/survey-result-visualization-dialog.component';
 
 @NgModule({
   declarations: [
@@ -88,13 +106,25 @@ import { MoodChartComponent } from './component/molecules/mood-chart/mood-chart.
     UnvotedQuestionPipe,
     PresenterQuestionTableComponent,
     QuestionFilterByClosedPipe,
+    DisplaySurveyEnumNamePipe,
     PresenterCreateSessionDialogComponent,
     PresenterSessionMetadataOverviewComponent,
     PresenterSessionDataComponent,
     AbstractActiveSessionManagementComponent,
     WaitDialogComponent,
     ParticipantMoodSliderComponent,
-    MoodChartComponent
+    MoodChartComponent,
+    PresenterSurveyComponent,
+    SurveySelectorDialogComponent,
+    SurveyFormComponent,
+    BackdropComponent,
+    SurveyObjectFormComponent,
+    SurveyOverviewComponent,
+    SurveyAnswerVisualizationComponent,
+    SurveyLiveViewDialogComponent,
+    SurveyLiveAnswerDialogComponent,
+    SurveyAnswerEventVisualizationComponent,
+    SurveyResultVisualizationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +157,13 @@ import { MoodChartComponent } from './component/molecules/mood-chart/mood-chart.
     NgxSliderModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
-    })
+    }),
+    SelectButtonModule,
+    ListboxModule,
+    DropdownModule,
+    MessagesModule,
+    MessageModule,
+    ProgressBarModule
   ],
   providers: [
     MessageService,

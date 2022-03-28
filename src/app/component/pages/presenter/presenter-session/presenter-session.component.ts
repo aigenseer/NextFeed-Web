@@ -40,7 +40,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
     protected readonly route: ActivatedRoute,
     protected readonly messageService: MessageService,
     protected readonly sessionService: SessionService,
-    protected readonly adminSocket: AdminSocket,
+    public readonly adminSocket: AdminSocket,
     private readonly store: Store<IAppAdminState>,
     private readonly waitDialogService: WaitDialogService
   ) {

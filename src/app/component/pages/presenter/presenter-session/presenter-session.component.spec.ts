@@ -4,6 +4,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {MessageService} from "primeng/api";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {StoreModule} from "@ngrx/store";
+import {QuestionFilterByClosedPipe} from "../../../../transform/QuestionFilterByClosedPipe";
 
 describe('PresenterSessionComponent', () => {
   let component: PresenterSessionComponent;
@@ -13,7 +14,7 @@ describe('PresenterSessionComponent', () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule, StoreModule.forRoot({})],
       providers:[MessageService],
-      declarations: [PresenterSessionComponent]
+      declarations: [PresenterSessionComponent, QuestionFilterByClosedPipe]
     })
     .compileComponents();
   });
