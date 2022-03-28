@@ -3,6 +3,11 @@
          [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
          selectionMode="single" [(selection)]="selectedSessionMetadata" (onRowSelect)="onRowSelect()"
 >
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-start">
+      <ng-content></ng-content>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>

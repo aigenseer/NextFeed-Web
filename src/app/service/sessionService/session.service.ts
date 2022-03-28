@@ -19,6 +19,10 @@ export class SessionService extends DefaultService{
     return firstValueFrom(this.http.post<SessionCreateData>(this.getAPIUrl()+"session/presenter/create", {name}));
   }
 
+  closeSession(sessionId: number){
+    return firstValueFrom(this.http.get<void>(this.getAPIUrl()+`session/presenter/${sessionId}/close`));
+  }
+
   getSessionsMetadata(){
     return firstValueFrom(this.http.get<SessionMetadata[]>(this.getAPIUrl()+"session/presenter/sessions/metadata"));
   }

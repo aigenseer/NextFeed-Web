@@ -5,14 +5,10 @@
 
   <div class="grid flex-column">
     <div class="col">
-      <p-card>
-        <button (click)="onCreateSession()" pButton type="button" label="Create Session" ></button>
-      </p-card>
-    </div>
-    <div class="col">
-      <p-card>
-        <h2>All Sessions</h2>
-        <app-presenter-session-metadata-overview [sessionsMetadata]="sessionsMetadata" (onSelectSessionMetadata)="onSelectSessionMetadata($event)" ></app-presenter-session-metadata-overview>
+      <p-card header="Sessions" >
+        <app-presenter-session-metadata-overview [sessionsMetadata]="sessionsMetadata" (onSelectSessionMetadata)="onSelectSessionMetadata($event)" >
+          <button (click)="onCreateSession()" pButton type="button" label="Create Session" ></button>
+        </app-presenter-session-metadata-overview>
       </p-card>
     </div>
   </div>

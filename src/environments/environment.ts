@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  port: 8080
+  port: 8080,
+  displayShareSessionDialog: false
 };
 
 /*

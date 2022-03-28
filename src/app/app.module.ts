@@ -79,6 +79,9 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {SurveyLiveAnswerDialogComponent} from './component/molecules/survey-live-answer-dialog/survey-live-answer-dialog.component';
 import {SurveyAnswerEventVisualizationComponent} from './component/molecules/survey-answer-event-visualization/survey-answer-event-visualization.component';
 import {SurveyResultVisualizationDialogComponent} from './component/molecules/survey-result-visualization-dialog/survey-result-visualization-dialog.component';
+import {SidebarModule} from 'primeng/sidebar';
+import {TooltipModule} from 'primeng/tooltip';
+import { AcceptDialogComponent } from './component/molecules/accept-dialog/accept-dialog.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +127,8 @@ import {SurveyResultVisualizationDialogComponent} from './component/molecules/su
     SurveyLiveViewDialogComponent,
     SurveyLiveAnswerDialogComponent,
     SurveyAnswerEventVisualizationComponent,
-    SurveyResultVisualizationDialogComponent
+    SurveyResultVisualizationDialogComponent,
+    AcceptDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -163,7 +167,9 @@ import {SurveyResultVisualizationDialogComponent} from './component/molecules/su
     DropdownModule,
     MessagesModule,
     MessageModule,
-    ProgressBarModule
+    ProgressBarModule,
+    SidebarModule,
+    TooltipModule
   ],
   providers: [
     MessageService,

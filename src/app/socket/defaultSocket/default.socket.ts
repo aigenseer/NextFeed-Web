@@ -69,6 +69,7 @@ export abstract class DefaultSocket {
       }
     }catch (e){
       console.warn("failed to parse body of ", res.body)
+      throw Error("failed to parse body of ");
     }
     return null;
   }
@@ -77,8 +78,10 @@ export abstract class DefaultSocket {
   {
     return new Observable<T>(observer => {
       this.getStompClient().subscribe(subscribePath, (req: Frame) => {
-        let data = this.getDataByFrame<T>(req);
-        if(data !== null) observer.next(data);
+        try {
+          let data = this.getDataByFrame<T>(req);
+          observer.next(data as T);
+        }catch (e){}
       });
     });
   }
