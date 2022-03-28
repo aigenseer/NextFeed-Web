@@ -14,6 +14,11 @@ export class SharedCallsSocket extends DefaultSocket {
     return this.subscribe<number>(`/session/${sessionId}/survey/${surveyId}/onclose`);
   }
 
+  public onClose(sessionId: number): Observable<void>
+  {
+    return this.subscribe<void>(`/session/${sessionId}/onclose`);
+  }
+
   protected castSurvey(v: Survey){
     return new Survey(v.id, this.castSurveyTemplate(v.template), v.answers, v.timestamp);
   }

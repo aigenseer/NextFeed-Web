@@ -1,9 +1,22 @@
-<app-header>
-  <button (click)="onClickCloseSession()" pButton type="button" label="Close Session" icon="pi pi-power-off" iconPos="right" class="p-button-outlined p-button-rounded p-button-info logout"></button>
+<app-header [(visibleSidebar)]="visibleSidebar">
+
+  <div class="p-sidebar-element p-sidebar-element-button" (click)="onClickOpenWelcomeDialog()" >
+    <span class="p-sidebar-element-icon" ><i class="pi pi-info"></i></span>
+    <span class="p-sidebar-element-text" >Show Welcome Dialog</span>
+  </div>
+
+  <div class="p-sidebar-element p-sidebar-element-button" (click)="onClickCloseSession()" >
+    <span class="p-sidebar-element-icon" ><i class="pi pi-power-off"></i></span>
+    <span class="p-sidebar-element-text" >Close Session</span>
+  </div>
+
+
 </app-header>
 
 <app-content>
   <div *ngIf="getSessionId">
+
+    <app-share-session-code-dialog *ngIf="sessionCode" [visible]="displayShareCodeDialog" (onHide)="onHideShareCodeDialog()" [sessionId]="sessionId" [sessionCode]="sessionCode" ></app-share-session-code-dialog>
 
     <div class="grid flex-column">
       <div class="col">
@@ -25,7 +38,5 @@
       </div>
     </div>
   </div>
-
-  <app-share-session-code-dialog *ngIf="sessionCode" [visible]="displayShareCodeDialog" (onHide)="onHideShareCodeDialog()" [sessionId]="sessionId" [sessionCode]="sessionCode" ></app-share-session-code-dialog>
 
 </app-content>

@@ -6,6 +6,25 @@
   />
   <h2 [routerLink]="'/'" >LectureFeed</h2>
   <div class="spacer"></div>
-  <ng-content></ng-content>
-  <p-inputSwitch [(ngModel)]="dark" (onChange)="onChangeMode()" class="theme-switch" ></p-inputSwitch>
+  <button pButton pRipple type="button" icon="pi pi-ellipsis-v" pTooltip="Settings" styleClass="p-button-sm" class="p-button-rounded p-button-text p-button-secondary" (click)="onCloseSidebar()"></button>
+
 </div>
+<p-sidebar [(visible)]="visibleSidebar" position="right" [baseZIndex]="103" [showCloseIcon]="false" (onHide)="onHideSidebar()" (onShow)="onShowSidebar()"  >
+  <div class="p-sidebar-header p-sidebar-header-custom p-sidebar-container">
+    <h2>Settings</h2>
+    <button type="button" class="p-sidebar-close p-sidebar-icon p-link" (click)="onCloseSidebar()"  pRipple>
+      <span class="p-sidebar-close-icon pi pi-times"></span>
+    </button>
+  </div>
+  <div class="p-sidebar-custom-content p-sidebar-container" >
+    <ng-content></ng-content>
+  </div>
+  <hr />
+  <div class="p-sidebar-footer p-sidebar-container" >
+    <div class="p-sidebar-element" (click)="onChangeMode()" >
+      <span class="p-sidebar-element-icon" ><i class="pi pi-sun"></i></span>
+      <span class="p-sidebar-element-text" >Darkmode</span>
+      <p-inputSwitch [(ngModel)]="dark" (onChange)="onChangeMode()" class="theme-switch" ></p-inputSwitch>
+    </div>
+  </div>
+</p-sidebar>

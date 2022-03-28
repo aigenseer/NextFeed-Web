@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../../../../model/participant/participant.model";
 import {ParticipantSocket} from "../../../../socket/participantSocket/participant.socket";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {SessionService} from "../../../../service/sessionService/session.service";
 import {
   IAbstractSessionManagementComponent
@@ -32,6 +32,8 @@ import {WaitDialogService} from "../../../../service/waitDialogService/wait-dial
 import {SurveyTemplate, SurveyType} from "../../../../model/surveyTemplate/survey-template.model";
 import {SurveyService} from "../../../../service/surveyService/survey.service";
 import {Survey} from "../../../../model/survey/survey.model";
+import {removeCurrentDataSession} from "../../../../state/admin/admin.actions";
+import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
 
 const AVERAGE_LABEL = "Average";
 const MY_MOOD_LABEL = "You";
@@ -41,7 +43,7 @@ const MY_MOOD_LABEL = "You";
   templateUrl: './paricipant-session.component.html',
   styleUrls: ['./paricipant-session.component.scss']
 })
-export class ParticipantSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
+export class ParticipantSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit, OnDestroy  {
 
   nickname: string = "";
   participantId: number = 0;
@@ -54,6 +56,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   currentSurvey: Survey|null = null;
   currentSurveyId: number|null = null;
   currentSurveyTemplate: SurveyTemplate|null = null;
+  visibleSidebar: boolean = false;
 
   constructor(
     protected readonly router: Router,
@@ -63,14 +66,19 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
     protected readonly participantSocket: ParticipantSocket,
     private readonly store: Store<IAppParticipantState>,
     private readonly waitDialogService: WaitDialogService,
-    private readonly surveyService: SurveyService
+    private readonly surveyService: SurveyService,
+    private readonly confirmationService: ConfirmationService,
+    private readonly acceptDialogService: AcceptDialogService
   ){
     super(router, route, messageService, sessionService);
   }
 
   ngOnInit() {
     this.validateSession();
-    //this.currentSurvey = new Survey(99, new SurveyTemplate(1, "", "Rating" as any, "Question", 30, true), ["1"], new Date().getTime())
+  }
+
+  ngOnDestroy() {
+    this.participantSocket.disconnect();
   }
 
   protected getToken()
@@ -112,10 +120,11 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
         this.waitDialogService.open("Connection lost");
       }else {
         this.waitDialogService.close();
-        this.participantSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
-        this.participantSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q));
-        this.participantSocket.onUpdateMood(this.sessionId as number).subscribe(value => this.updateMoodAverageLineChart(value));
-        this.participantSocket.onCreateSurvey(this.sessionId as number).subscribe(t => this.onCreateSurvey(t.surveyId, t.surveyTemplate));
+        this.participantSocket.onJoinParticipant(this.getSessionId()).subscribe(p => this.onJoinParticipant(p));
+        this.participantSocket.onUpdateQuestion(this.getSessionId()).subscribe(q => this.addQuestion(q));
+        this.participantSocket.onUpdateMood(this.getSessionId()).subscribe(value => this.updateMoodAverageLineChart(value));
+        this.participantSocket.onCreateSurvey(this.getSessionId()).subscribe(t => this.onCreateSurvey(t.surveyId, t.surveyTemplate));
+        this.participantSocket.onClose(this.getSessionId()).subscribe(() => this.onCloseSession());
       }
     });
   }
@@ -130,9 +139,26 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   onClickLogout(){
+    this.visibleSidebar = false;
+    this.confirmationService.confirm({
+      header: 'Leave session',
+      message: 'Are you sure you want to leave the session?',
+      accept: () => {
+        this.logOutSession();
+      }
+    });
+  }
+
+  private onCloseSession() {
+    this.acceptDialogService.open("Session closed", "This session was closed by the organizer.").then(() => {
+      this.logOutSession();
+    });
+  }
+
+  protected logOutSession(){
     this.store.dispatch(removeToken());
     this.store.dispatch(deleteVotedQuestion())
-    this.logOutSession();
+    super.logOutSession();
   }
 
   onCreatedQuestionTemplate(createdQuestion: IQuestionTemplate) {
@@ -174,6 +200,9 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   onCloseSurveyResult() {
     this.currentSurvey = null;
   }
+
+
+
 }
 
 

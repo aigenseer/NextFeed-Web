@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Participant} from "../../../../model/participant/participant.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
 import {SessionService} from "../../../../service/sessionService/session.service";
 import {
@@ -18,6 +18,7 @@ import {
   AbstractActiveSessionManagementComponent
 } from "../../../organisms/abstract-active-session-management/abstract-active-session-management.component";
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
+import {environment} from "../../../../../environments/environment";
 
 const AVERAGE_LABEL = "Average";
 
@@ -26,14 +27,15 @@ const AVERAGE_LABEL = "Average";
   templateUrl: './presenter-session.component.html',
   styleUrls: ['./presenter-session.component.scss']
 })
-export class PresenterSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
+export class PresenterSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit, OnDestroy  {
 
   moodLineValues: {[key: string]: number} = {
     [AVERAGE_LABEL]: 0
   };
 
   sessionCode: string = ""
-  displayShareCodeDialog: boolean = true
+  displayShareCodeDialog: boolean = environment.displayShareSessionDialog
+  visibleSidebar: boolean = false;
 
   constructor(
     protected readonly router: Router,
@@ -42,7 +44,8 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
     protected readonly sessionService: SessionService,
     public readonly adminSocket: AdminSocket,
     private readonly store: Store<IAppAdminState>,
-    private readonly waitDialogService: WaitDialogService
+    private readonly waitDialogService: WaitDialogService,
+    private readonly confirmationService: ConfirmationService
   ) {
     super(router, route, messageService, sessionService);
   }
@@ -53,6 +56,10 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
         this.sessionCode = sessionData.sessionCode;
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.adminSocket.disconnect();
   }
 
   protected getToken()
@@ -71,9 +78,10 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
         this.waitDialogService.open("Connection lost");
       }else {
         this.waitDialogService.close();
-        this.adminSocket.onJoinParticipant(this.sessionId as number).subscribe(p => this.onJoinParticipant(p));
-        this.adminSocket.onUpdateQuestion(this.sessionId as number).subscribe(q => this.addQuestion(q))
-        this.adminSocket.onUpdateMood(this.sessionId as number).subscribe(value => this.updateMoodAverageLineChart(value));
+        this.adminSocket.onJoinParticipant(this.getSessionId()).subscribe(p => this.onJoinParticipant(p));
+        this.adminSocket.onUpdateQuestion(this.getSessionId()).subscribe(q => this.addQuestion(q))
+        this.adminSocket.onUpdateMood(this.getSessionId()).subscribe(value => this.updateMoodAverageLineChart(value));
+        this.adminSocket.onClose(this.getSessionId()).subscribe(value => this.onCloseSession());
       }
     });
   }
@@ -88,8 +96,24 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   }
 
   onClickCloseSession(){
-    this.store.dispatch(removeCurrentDataSession());
+    this.visibleSidebar = false;
+    this.confirmationService.confirm({
+      header: 'Close Session',
+      message: 'Are you sure you want to finish the session?',
+      accept: () => {
+        this.sessionService.closeSession(this.getSessionId());
+        this.logOutSession();
+      }
+    });
+  }
+
+  private onCloseSession() {
     this.logOutSession();
+  }
+
+  protected logOutSession(){
+    this.store.dispatch(removeCurrentDataSession());
+    super.logOutSession();
   }
 
   onHideShareCodeDialog(){
@@ -103,5 +127,11 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   updateMoodAverageLineChart(value: number){
     this.moodLineValues[AVERAGE_LABEL] = value;
   }
+
+  onClickOpenWelcomeDialog() {
+    this.visibleSidebar = false;
+    this.displayShareCodeDialog = true;
+  }
+
 
 }

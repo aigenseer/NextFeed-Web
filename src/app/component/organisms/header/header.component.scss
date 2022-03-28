@@ -23,6 +23,7 @@ img{
   background-color: var(--primary-color);
   font-weight: 600;
   color: var(--text-color);
+  padding-right: 10px;
 
 }
 .toolbar h2,
@@ -36,3 +37,75 @@ img{
 .theme-switch{
   margin-right: 0.5em;
 }
+
+::ng-deep {
+  .p-sidebar-header:not(.p-sidebar-header-custom){
+    display: none;
+  }
+
+
+  .p-sidebar-content{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 0 !important;
+
+    .p-sidebar-container{
+
+    }
+
+    .p-sidebar-header{
+      margin-bottom: 1.25rem;
+    }
+
+    .p-sidebar-footer{
+      padding: 1.25rem 0;
+    }
+
+    .p-sidebar-header-custom{
+      justify-content: space-between !important;
+      padding-bottom: 0.25rem !important;
+      padding: 0 1.25rem !important;
+    }
+
+    hr{
+      margin: 0px;
+      flex-shrink: 0;
+      border-width: 0px 0px thin;
+      border-style: solid;
+      border-color: rgba(0, 0, 0, 0.12);
+    }
+
+    .p-sidebar-custom-content{
+      height: 100%;
+    }
+
+    .p-sidebar-element{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+
+      .p-sidebar-element-text{
+        width: 100%;
+        padding: 0 0.5rem;
+        font-size: 16px;
+      }
+
+    }
+
+    .p-sidebar-element:hover {
+      text-decoration: none;
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .p-sidebar-element-icon i{
+      font-size: 1.3rem;
+    }
+
+  }
+
+
+}
+
