@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Participant} from "../../../../model/participant/participant.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ConfirmationService, MessageService} from "primeng/api";
@@ -27,7 +27,7 @@ const AVERAGE_LABEL = "Average";
   templateUrl: './presenter-session.component.html',
   styleUrls: ['./presenter-session.component.scss']
 })
-export class PresenterSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
+export class PresenterSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit, OnDestroy  {
 
   moodLineValues: {[key: string]: number} = {
     [AVERAGE_LABEL]: 0
@@ -56,6 +56,10 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
         this.sessionCode = sessionData.sessionCode;
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.adminSocket.disconnect();
   }
 
   protected getToken()

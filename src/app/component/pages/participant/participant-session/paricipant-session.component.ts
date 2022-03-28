@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../../../../model/participant/participant.model";
 import {ParticipantSocket} from "../../../../socket/participantSocket/participant.socket";
@@ -43,7 +43,7 @@ const MY_MOOD_LABEL = "You";
   templateUrl: './paricipant-session.component.html',
   styleUrls: ['./paricipant-session.component.scss']
 })
-export class ParticipantSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit  {
+export class ParticipantSessionComponent extends AbstractActiveSessionManagementComponent implements IAbstractSessionManagementComponent, OnInit, OnDestroy  {
 
   nickname: string = "";
   participantId: number = 0;
@@ -75,6 +75,10 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
 
   ngOnInit() {
     this.validateSession();
+  }
+
+  ngOnDestroy() {
+    this.participantSocket.disconnect();
   }
 
   protected getToken()
