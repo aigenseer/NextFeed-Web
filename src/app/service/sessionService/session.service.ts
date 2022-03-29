@@ -12,7 +12,7 @@ import {SessionMetadata} from "../../model/sessionMetadata/session-metadata.mode
 export class SessionService extends DefaultService{
 
   getInitialData(sessionId: number){
-    return firstValueFrom(this.http.get<SessionData>(this.getAPIUrl()+`session/presenter/${sessionId}/initial`));
+    return firstValueFrom(this.http.get<SessionData>(this.getAPIUrl()+`session/${sessionId}/initial`));
   }
 
   createSession(name: string){
