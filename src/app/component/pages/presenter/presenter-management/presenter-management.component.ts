@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../service/authenticationService/authentication.service";
 import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
@@ -21,7 +21,7 @@ import {WaitDialogService} from "../../../../service/waitDialogService/wait-dial
   templateUrl: './presenter-management.component.html',
   styleUrls: ['./presenter-management.component.scss']
 })
-export class PresenterManagementComponent implements OnInit {
+export class PresenterManagementComponent implements OnInit{
 
   private token: string = "";
   sessionsMetadata: SessionMetadata[] = [];

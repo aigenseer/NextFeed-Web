@@ -10,6 +10,7 @@ import {LocalStorage} from "../../../lib/LocalStorage";
 export class HeaderComponent implements OnInit, OnChanges{
   dark: boolean = false;
   @Input() visibleSidebar: boolean = false;
+  @Input() headerLinkPrefix: string = "";
   @Output() visibleSidebarChange: EventEmitter<boolean> = new EventEmitter();
   constructor(private readonly themeService: ThemeService) {}
 
@@ -23,6 +24,10 @@ export class HeaderComponent implements OnInit, OnChanges{
     if(changes.hasOwnProperty("visibleSidebar")){
       this.visibleSidebar = changes.visibleSidebar.currentValue;
     }
+  }
+
+  getHeaderLink(){
+    return "/"+this.headerLinkPrefix;
   }
 
   onChangeMode() {

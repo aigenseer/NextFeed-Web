@@ -9,5 +9,6 @@ import {Survey} from "../../../model/survey/survey.model";
 export class SurveyOverviewComponent {
 
   @Input() surveys: Survey[] = [];
+  @Input() displayCaption: boolean = true;
 
 }

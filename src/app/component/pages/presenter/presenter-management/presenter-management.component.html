@@ -1,7 +1,7 @@
-<app-header></app-header>
+<app-header [headerLinkPrefix]="'presenter/'" ></app-header>
 <app-content>
 
-  <app-presenter-create-session-dialog [visible]="openNewSessionDialog" (onHide)="onClosedCreateSessionDialog($event)" ></app-presenter-create-session-dialog>
+  <app-presenter-create-session-dialog [(visible)]="openNewSessionDialog" (onHide)="onClosedCreateSessionDialog($event)" ></app-presenter-create-session-dialog>
 
   <div class="grid flex-column">
     <div class="col">
