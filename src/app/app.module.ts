@@ -82,6 +82,7 @@ import {SurveyResultVisualizationDialogComponent} from './component/molecules/su
 import {SidebarModule} from 'primeng/sidebar';
 import {TooltipModule} from 'primeng/tooltip';
 import { AcceptDialogComponent } from './component/molecules/accept-dialog/accept-dialog.component';
+import { ParticipantTableComponent } from './component/molecules/participant-table/participant-table.component';
 
 @NgModule({
   declarations: [
@@ -128,7 +129,8 @@ import { AcceptDialogComponent } from './component/molecules/accept-dialog/accep
     SurveyLiveAnswerDialogComponent,
     SurveyAnswerEventVisualizationComponent,
     SurveyResultVisualizationDialogComponent,
-    AcceptDialogComponent
+    AcceptDialogComponent,
+    ParticipantTableComponent
   ],
   imports: [
     BrowserModule,
@@ -174,7 +176,7 @@ import { AcceptDialogComponent } from './component/molecules/accept-dialog/accep
   providers: [
     MessageService,
     ConfirmationService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

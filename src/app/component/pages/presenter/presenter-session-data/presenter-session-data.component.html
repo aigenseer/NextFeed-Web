@@ -1,21 +1,47 @@
-
-<app-header></app-header>
-
+<app-header [(visibleSidebar)]="visibleSidebar" [headerLinkPrefix]="'presenter/'" >
+  <div class="p-sidebar-element p-sidebar-element-button" (click)="onDownloadData()" >
+    <span class="p-sidebar-element-icon" ><i class="pi pi-save"></i></span>
+    <span class="p-sidebar-element-text" >Download Session Data</span>
+  </div>
+  <div class="p-sidebar-element p-sidebar-element-button" (click)="onDeleteSession()" >
+    <span class="p-sidebar-element-icon" ><i class="pi pi-trash"></i></span>
+    <span class="p-sidebar-element-text" >Delete this Session</span>
+  </div>
+</app-header>
 <app-content>
-  <div *ngIf="getSessionId">
+  <div *ngIf="session">
     <div class="grid flex-column">
+
       <div class="col">
-        <p-card>
-          <p-tabView>
-            <p-tabPanel header="Data">
-              Data
-            </p-tabPanel>
-            <p-tabPanel header="Settings" rightIcon="pi pi-cog" >
-              <button (click)="onDeleteSession()" pButton label="Delete Session" type="button" icon="pi pi-trash" class="p-button-danger" iconPos="right"></button>
-            </p-tabPanel>
-          </p-tabView>
+        <p-card header="Mood" >
+          Mood
         </p-card>
       </div>
+
+      <div class="col">
+        <p-card header="Questions" >
+          <app-question-table-overview [questions]="getQuestions()" [customColumnHeaders]="customColumnHeaders" [customHeader]="customHeader" ></app-question-table-overview>
+          <ng-template #customHeader let-question='question'>
+            <td class="rating-buttons">
+              {{question.closed | date : 'hh:mm:ss'}}
+            </td>
+          </ng-template>
+        </p-card>
+      </div>
+
+      <div class="col">
+        <p-card header="Survey" >
+          <app-survey-overview [surveys]="getSurveys()" [displayCaption]="false" ></app-survey-overview>
+        </p-card>
+      </div>
+
+      <div class="col">
+        <p-card header="Participant" >
+          <app-participant-table [participants]="getParticipants()" ></app-participant-table>
+        </p-card>
+      </div>
+
+
     </div>
   </div>
 </app-content>

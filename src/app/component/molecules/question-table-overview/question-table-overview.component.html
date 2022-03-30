@@ -1,4 +1,4 @@
-<p-table #dt [value]="questions" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+<p-table #dt [value]="questions" dataKey="id" styleClass="p-datatable-customers"
            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
            [filterDelay]="0">
@@ -8,6 +8,7 @@
         <div class="p-d-flex p-jc-between p-ai-center">
           Question
           <p-sortIcon field="message"></p-sortIcon>
+          <p-columnFilter type="text" field="message" display="menu"></p-columnFilter>
         </div>
       </th>
       <th pSortableColumn="created">
@@ -22,9 +23,12 @@
           <p-sortIcon field="rating"></p-sortIcon>
         </div>
       </th>
-      <th *ngFor="let columnHeaders of customColumnHeaders">
+      <th *ngFor="let columnHeaders of customColumnHeaders" [pSortableColumn]="columnHeaders.field && columnHeaders.sort && columnHeaders.sort === true ? columnHeaders.field : ''"  >
         <div class="p-d-flex p-jc-between p-ai-center">
           {{columnHeaders.title}}
+          <ng-template [ngIf]="columnHeaders.field && columnHeaders.sort && columnHeaders.sort === true" >
+            <p-sortIcon field="{{columnHeaders.field}}"></p-sortIcon>
+          </ng-template>
         </div>
       </th>
     </tr>

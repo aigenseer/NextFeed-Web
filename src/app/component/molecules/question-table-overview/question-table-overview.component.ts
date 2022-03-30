@@ -4,6 +4,8 @@ import {timer} from "rxjs";
 
 export interface ICustomColumnHeader{
   title: string;
+  field?: string;
+  sort?: boolean;
 }
 
 @Component({
