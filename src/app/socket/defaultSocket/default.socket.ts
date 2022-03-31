@@ -6,8 +6,11 @@ import {Observable, Subscriber} from "rxjs";
 
 export abstract class DefaultSocket {
 
+  private isConnected = false;
   private stompClient: Stomp.Client|null = null;
   private observersWaitForConnection: Subscriber<Frame|Error>[] = []
+  private observersWaitForReconnection: Subscriber<Frame|Error>[] = []
+  private currentReconnectTimeout: NodeJS.Timeout|null = null;
 
   protected getEndpointUrl(): String{
     if(!environment.production){
@@ -34,12 +37,21 @@ export abstract class DefaultSocket {
     });
   }
 
+  public waitForReconnection(): Observable<Frame|Error>
+  {
+    return new Observable<Frame|Error>(observer => {
+      this.observersWaitForReconnection.push(observer);
+    });
+  }
+
   private stompClientConnect(observer: any, token: string, autoReconnect: boolean = true){
     this.stompClient = Stomp.over(new SockJS(this.getEndpointUrl()+'ws'));
     this.stompClient.connect({token}, (frame) => {
       if(frame !== undefined){
         observer.next(frame);
         this.observersWaitForConnection.map(o => o.next(frame));
+        if(this.isConnected) this.observersWaitForReconnection.map(o => o.next(frame));
+        this.isConnected = true;
       }else {
         let error = new Error("Can not connect to server");
         observer.next(error);
@@ -50,7 +62,7 @@ export abstract class DefaultSocket {
       observer.next(error);
       this.observersWaitForConnection.map(o => o.next(error));
       if(autoReconnect){
-        setTimeout(() =>{
+        this.currentReconnectTimeout = setTimeout(() =>{
           this.stompClientConnect(observer, token, autoReconnect);
         }, 3000);
       }
@@ -58,7 +70,11 @@ export abstract class DefaultSocket {
   }
 
   public disconnect(){
+    if(this.currentReconnectTimeout!==null) clearTimeout(this.currentReconnectTimeout);
+    this.observersWaitForReconnection = [];
+    this.observersWaitForConnection = [];
     this.stompClient?.disconnect(() => {});
+    this.isConnected = false;
   }
 
   protected getDataByFrame<T>(res: Frame): T|null

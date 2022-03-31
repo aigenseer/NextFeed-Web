@@ -17,7 +17,7 @@ import {HttpResponse} from "@angular/common/http";
 export class SessionService extends DefaultService{
 
   getInitialData(sessionId: number){
-    return firstValueFrom(this.http.get<SessionData>(this.getAPIUrl()+`session/${sessionId}/initial`));
+    return firstValueFrom(this.http.get<SessionData|null>(this.getAPIUrl()+`session/${sessionId}/initial`));
   }
 
   createSession(name: string){

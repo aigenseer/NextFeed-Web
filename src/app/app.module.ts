@@ -81,8 +81,9 @@ import {SurveyAnswerEventVisualizationComponent} from './component/molecules/sur
 import {SurveyResultVisualizationDialogComponent} from './component/molecules/survey-result-visualization-dialog/survey-result-visualization-dialog.component';
 import {SidebarModule} from 'primeng/sidebar';
 import {TooltipModule} from 'primeng/tooltip';
-import { AcceptDialogComponent } from './component/molecules/accept-dialog/accept-dialog.component';
-import { ParticipantTableComponent } from './component/molecules/participant-table/participant-table.component';
+import {AcceptDialogComponent} from './component/molecules/accept-dialog/accept-dialog.component';
+import {ParticipantTableComponent} from './component/molecules/participant-table/participant-table.component';
+import {BadgeModule} from 'primeng/badge';
 
 @NgModule({
   declarations: [
@@ -171,7 +172,8 @@ import { ParticipantTableComponent } from './component/molecules/participant-tab
     MessageModule,
     ProgressBarModule,
     SidebarModule,
-    TooltipModule
+    TooltipModule,
+    BadgeModule
   ],
   providers: [
     MessageService,

@@ -19,6 +19,7 @@ import {
 } from "../../../organisms/abstract-active-session-management/abstract-active-session-management.component";
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 import {environment} from "../../../../../environments/environment";
+import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
 
 const AVERAGE_LABEL = "Average";
 
@@ -45,7 +46,8 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
     public readonly adminSocket: AdminSocket,
     private readonly store: Store<IAppAdminState>,
     private readonly waitDialogService: WaitDialogService,
-    private readonly confirmationService: ConfirmationService
+    private readonly confirmationService: ConfirmationService,
+    private readonly acceptDialogService: AcceptDialogService
   ) {
     super(router, route, messageService, sessionService);
   }
@@ -60,6 +62,9 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
 
   ngOnDestroy() {
     this.adminSocket.disconnect();
+    this.displayShareCodeDialog = false;
+    this.visibleSidebar = false;
+    this.sessionCode = "";
   }
 
   protected getToken()
@@ -72,10 +77,13 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   }
 
   private connectToSocket(token: string){
+    this.adminSocket.disconnect();
     this.waitDialogService.open("Wait for connection");
-    this.adminSocket.connect(token).subscribe((next) => {
+    this.adminSocket.connect(token, false).subscribe((next) => {
       if(next instanceof Error){
-        this.waitDialogService.open("Connection lost");
+        this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
+          this.logOutSession();
+        });
       }else {
         this.waitDialogService.close();
         this.adminSocket.onJoinParticipant(this.getSessionId()).subscribe(p => this.onJoinParticipant(p));
@@ -112,6 +120,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   }
 
   protected logOutSession(){
+    this.adminSocket?.disconnect();
     this.store.dispatch(removeCurrentDataSession());
     super.logOutSession();
   }
