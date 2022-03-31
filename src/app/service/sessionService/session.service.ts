@@ -9,7 +9,7 @@ import {SurveyTemplate} from "../../model/surveyTemplate/survey-template.model";
 import {Survey} from "../../model/survey/survey.model";
 import {Session} from "../../model/session/session.model";
 import {Participant} from "../../model/participant/participant.model";
-import {HttpResponse} from "@angular/common/http";
+import {MoodEntity} from "../../model/moodEntitiy/mood-entity.model";
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +54,8 @@ export class SessionService extends DefaultService{
             let template = new SurveyTemplate(s.template.id, s.template.name, s.template.type, s.template.question, s.template.duration, s.template.publishResults);
             surveys[String(s.id)] = new Survey(s.id, template, s.answers, s.timestamp);
           }
-          return new Session(v.id, v.name, v.sessionCode, participants, questions, surveys, v.closed);
+          let moodEntities = v.moodEntities.map(e => new MoodEntity(e.id, e.value, e.timestamp)).sort((x, y) =>  x.timestamp - y.timestamp);
+          return new Session(v.id, v.name, v.sessionCode, participants, moodEntities, questions, surveys, v.closed);
         })
       ));
   }

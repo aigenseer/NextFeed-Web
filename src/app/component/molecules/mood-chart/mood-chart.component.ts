@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {EChartsOption} from "echarts";
 import moment from "moment";
+import {ColorUtils} from "../../../lib/ColorUtils";
 
 export interface IMoodLineValue{
   label: string
@@ -82,17 +83,6 @@ export class MoodChartComponent implements OnInit {
     }, 1000);
   }
 
-  private hslToHex(h: number, s: number, l: number){
-    l /= 100;
-    const a = s * Math.min(l, 1 - l) / 100;
-    const f = (n: number) => {
-      const k = (n + h / 30) % 12;
-      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-      return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
-    };
-    return `#${f(0)}${f(8)}${f(4)}`;
-  }
-
   private buildOptionsByMoodValues(moodValues: IMoodValue[]){
     let series: any = {};
     let data: any = {
@@ -122,7 +112,7 @@ export class MoodChartComponent implements OnInit {
         showSymbol: false,
         hoverAnimation: false,
         data: series[label],
-        color: this.hslToHex(i*hslHFactor + 190, 67, 67)
+        color: ColorUtils.hslToHex(i*hslHFactor + 190, 67, 67)
       });
       data.legend.data.push(label)
     }

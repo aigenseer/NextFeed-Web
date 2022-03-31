@@ -72,6 +72,11 @@ export class PresenterSessionDataComponent extends AbstractSessionManagementComp
     return Object.values(this.session.surveys);
   }
 
+  getMoodEntities(){
+    if(this.session == null) return [];
+    return this.session.moodEntities;
+  }
+
   getParticipants() {
     if(this.session == null) return [];
     return this.session.participants
