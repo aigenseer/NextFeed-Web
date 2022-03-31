@@ -84,6 +84,7 @@ import {TooltipModule} from 'primeng/tooltip';
 import {AcceptDialogComponent} from './component/molecules/accept-dialog/accept-dialog.component';
 import {ParticipantTableComponent} from './component/molecules/participant-table/participant-table.component';
 import {BadgeModule} from 'primeng/badge';
+import { MoodDataChartComponent } from './component/molecules/mood-data-chart/mood-data-chart.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import {BadgeModule} from 'primeng/badge';
     SurveyAnswerEventVisualizationComponent,
     SurveyResultVisualizationDialogComponent,
     AcceptDialogComponent,
-    ParticipantTableComponent
+    ParticipantTableComponent,
+    MoodDataChartComponent
   ],
   imports: [
     BrowserModule,
