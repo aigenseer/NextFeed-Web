@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../service/authenticationService/authentication.service";
 import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
@@ -39,7 +39,6 @@ export class PresenterManagementComponent implements OnInit{
   ngOnInit(): void {
     this.observerToken().subscribe(token => {
       this.connectToEndpoints(token);
-      this.loadPageData();
     });
   }
 
@@ -70,6 +69,7 @@ export class PresenterManagementComponent implements OnInit{
           this.waitDialogService.open("Connection lost");
         }else {
           //connect to endpoints
+          this.loadPageData();
           this.waitDialogService.close();
           this.existsCurrentSession().then(([exists, sessionData]) => {
             if(exists){
