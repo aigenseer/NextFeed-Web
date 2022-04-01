@@ -26,10 +26,9 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {ShareSessionCodeDialogComponent} from './component/organisms/share-session-code-dialog/share-session-code-dialog.component';
 import {StoreModule} from "@ngrx/store";
-import {adminCurrentSessionReducer, adminTokenReducer} from "./state/admin/admin.token.reducer";
+import {adminCurrentSessionReducer} from "./state/admin/admin.token.reducer";
 import {
   participantQuestionReducer,
-  participantTokenReducer,
   participantVotedQuestionReducer
 } from "./state/participant/participant.reducer";
 import {FormsModule} from "@angular/forms";
@@ -85,6 +84,7 @@ import {AcceptDialogComponent} from './component/molecules/accept-dialog/accept-
 import {ParticipantTableComponent} from './component/molecules/participant-table/participant-table.component';
 import {BadgeModule} from 'primeng/badge';
 import { MoodDataChartComponent } from './component/molecules/mood-data-chart/mood-data-chart.component';
+import {tokenReducer} from "./state/token/token.reducer";
 
 @NgModule({
   declarations: [
@@ -153,9 +153,8 @@ import { MoodDataChartComponent } from './component/molecules/mood-data-chart/mo
     CheckboxModule,
     TableModule,
     StoreModule.forRoot({
-      adminToken: adminTokenReducer,
+      token: tokenReducer,
       adminCurrentSessionData: adminCurrentSessionReducer,
-      participantToken: participantTokenReducer,
       participantQuestionIds: participantQuestionReducer,
       participantVotedQuestions: participantVotedQuestionReducer
     }),

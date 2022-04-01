@@ -14,13 +14,11 @@ import {IAppParticipantState, IVotedQuestion} from "../../../../state/participan
 import {
   selectParticipantData,
   selectQuestionIds,
-  selectTokenCode,
   selectVotedQuestions
 } from "../../../../state/participant/participant.selector";
 import {
   deleteVotedQuestion,
   pushQuestionId,
-  removeToken,
   votedQuestion
 } from "../../../../state/participant/participant.actions";
 import {Question} from "../../../../model/question/question.model";
@@ -29,11 +27,13 @@ import {
   AbstractActiveSessionManagementComponent
 } from "../../../organisms/abstract-active-session-management/abstract-active-session-management.component";
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
-import {SurveyTemplate, SurveyType} from "../../../../model/surveyTemplate/survey-template.model";
+import {SurveyTemplate} from "../../../../model/surveyTemplate/survey-template.model";
 import {SurveyService} from "../../../../service/surveyService/survey.service";
 import {Survey} from "../../../../model/survey/survey.model";
 import {removeCurrentDataSession} from "../../../../state/admin/admin.actions";
 import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
+import {selectToken} from "../../../../state/token/token.selector";
+import {removeToken} from "../../../../state/token/token.actions";
 
 const AVERAGE_LABEL = "Average";
 const MY_MOOD_LABEL = "You";
@@ -83,7 +83,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
 
   protected getToken()
   {
-    return firstValueFrom(this.store.pipe(select(selectTokenCode), take(1)));
+    return firstValueFrom(this.store.pipe(select(selectToken), take(1)));
   }
 
   private loadData(){

@@ -46,7 +46,8 @@ export abstract class DefaultSocket {
 
   private stompClientConnect(observer: any, token: string, autoReconnect: boolean = true){
     this.stompClient = Stomp.over(new SockJS(this.getEndpointUrl()+'ws'));
-    this.stompClient.connect({token}, (frame) => {
+
+    this.stompClient.connect({"Authorization": token, login: token}, (frame) => {
       if(frame !== undefined){
         observer.next(frame);
         this.observersWaitForConnection.map(o => o.next(frame));
