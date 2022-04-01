@@ -1,9 +1,8 @@
 import Cookies, {CookieAttributes} from "js-cookie";
 
 export enum StoreIds {
-  adminToken = 'adminToken',
+  token = 'Authorization',
   adminCurrentSessionData = 'adminCurrentSessionData',
-  participantToken = 'participantToken',
   participantQuestion = 'participantQuestion',
   participantVotedQuestions = 'participantVotedQuestions',
 }

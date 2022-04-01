@@ -9,12 +9,12 @@ import {SessionService} from "../../../../service/sessionService/session.service
 import {select, Store} from "@ngrx/store";
 import {IAppAdminState} from "../../../../state/admin/app.admin.state";
 import {firstValueFrom} from "rxjs";
-import {selectTokenCode} from "../../../../state/admin/admin.selector";
 import {take} from "rxjs/operators";
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 import {Session} from "../../../../model/session/session.model";
 import {ICustomColumnHeader} from "../../../molecules/question-table-overview/question-table-overview.component";
 import FileSaver from 'file-saver';
+import {selectToken} from "../../../../state/token/token.selector";
 
 @Component({
   selector: 'app-presenter-session-data',
@@ -58,7 +58,7 @@ export class PresenterSessionDataComponent extends AbstractSessionManagementComp
 
   protected getToken()
   {
-    return firstValueFrom(this.store.pipe(select(selectTokenCode), take(1)))
+    return firstValueFrom(this.store.pipe(select(selectToken), take(1)))
   }
 
 

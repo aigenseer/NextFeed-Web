@@ -9,7 +9,7 @@ import {
 } from "../../../organisms/abstract-session-management/abstract-session-management.component";
 import {select, Store} from "@ngrx/store";
 import {IAppAdminState} from "../../../../state/admin/app.admin.state";
-import {selectCurrentSessionData, selectTokenCode} from "../../../../state/admin/admin.selector";
+import {selectCurrentSessionData} from "../../../../state/admin/admin.selector";
 import {take} from "rxjs/operators";
 import {removeCurrentDataSession} from "../../../../state/admin/admin.actions";
 import {firstValueFrom} from "rxjs";
@@ -20,6 +20,7 @@ import {
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 import {environment} from "../../../../../environments/environment";
 import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
+import {selectToken} from "../../../../state/token/token.selector";
 
 const AVERAGE_LABEL = "Average";
 
@@ -69,7 +70,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
 
   protected getToken()
   {
-    return firstValueFrom(this.store.pipe(select(selectTokenCode), take(1)))
+    return firstValueFrom(this.store.pipe(select(selectToken), take(1)))
   }
 
   public startConnection(token: string){

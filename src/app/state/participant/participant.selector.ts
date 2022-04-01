@@ -1,24 +1,13 @@
 import {createSelector} from "@ngrx/store";
 import {IAppParticipantState, IVotedQuestion} from "./app.participant.state";
-import {Token} from "../../model/token/token.model";
 import jwt_decode from "jwt-decode";
-
-export const selectToken = createSelector(
-  (state: IAppParticipantState) => state.participantToken,
-  (token: Token) => token,
-);
-
-export const selectTokenCode = createSelector(
-  (state: IAppParticipantState) => state.participantToken,
-  (token: Token) => token.token,
-);
 
 export const selectParticipantData = createSelector(
   (state: IAppParticipantState) => {
-    return state.participantToken;
+    return state.token;
   },
-  (token: Token) => {
-    let payload = jwt_decode(token.token) as any;
+  (token: string) => {
+    let payload = jwt_decode(token) as any;
     if(payload.hasOwnProperty("id") && payload.hasOwnProperty("username")){
       return {id: payload.id, nickname: payload.username};
     }

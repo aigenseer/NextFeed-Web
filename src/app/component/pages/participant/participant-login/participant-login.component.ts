@@ -4,7 +4,7 @@ import {AuthenticationService} from "../../../../service/authenticationService/a
 import {MessageService} from "primeng/api";
 import {Store} from "@ngrx/store";
 import {IAppParticipantState} from "../../../../state/participant/app.participant.state";
-import {setToken} from "../../../../state/participant/participant.actions";
+import {setToken} from "../../../../state/token/token.actions";
 
 @Component({
   selector: 'app-participant-login',
@@ -36,7 +36,7 @@ export class ParticipantLoginComponent{
     }
     if(this.nickname.length > 0 && this.sessionCode.length > 0 && this.sessionId !== null){
       this.authenticationService.getParticipantToken(this.sessionId, this.nickname, this.sessionCode).then(token => {
-        this.store.dispatch(setToken({token}));
+        this.store.dispatch(setToken({token: token.token}));
         this.navigateToSessionById(this.sessionId as number);
       }).catch(() => {
         this.messageService.add({ severity: 'error', summary: 'Failed', detail: 'Login failed.', life: 4000 });

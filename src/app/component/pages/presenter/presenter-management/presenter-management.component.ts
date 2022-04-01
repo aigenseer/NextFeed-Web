@@ -3,18 +3,19 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../service/authenticationService/authentication.service";
 import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
 import {SessionService} from "../../../../service/sessionService/session.service";
-import {selectCurrentSessionData, selectToken} from "../../../../state/admin/admin.selector";
+import {selectCurrentSessionData} from "../../../../state/admin/admin.selector";
 import {select, Store} from "@ngrx/store";
 import {IAppAdminState} from "../../../../state/admin/app.admin.state";
-import {setCurrentDataSession, setToken} from "../../../../state/admin/admin.actions";
+import {setCurrentDataSession} from "../../../../state/admin/admin.actions";
 import {firstValueFrom, Observable} from "rxjs";
 import {Token} from "../../../../model/token/token.model";
 import {take} from "rxjs/operators";
 import {defaultSessionData} from "../../../../state/admin/admin.token.reducer";
 import {ISessionData} from "../../../../model/sessionCreateData/session-create-data.model";
-import {Question} from "../../../../model/question/question.model";
 import {SessionMetadata} from "../../../../model/sessionMetadata/session-metadata.model";
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
+import {selectToken} from "../../../../state/token/token.selector";
+import {setToken} from "../../../../state/token/token.actions";
 
 @Component({
   selector: 'app-presenter-management',
@@ -38,21 +39,26 @@ export class PresenterManagementComponent implements OnInit{
 
   ngOnInit(): void {
     this.observerToken().subscribe(token => {
+      // this.loadPageData();
       this.connectToEndpoints(token);
     });
   }
 
-  updateToken(){
-    this.authenticationService.getAdminToken().then(token => {
-      this.store.dispatch(setToken({token}));
+  updateToken(): Promise<string>
+  {
+    return new Promise((resolve, reject) => {
+      this.authenticationService.getAdminToken().then((token: Token) => {
+        this.store.dispatch(setToken({token: token.token}));
+        resolve(token.token);
+      }).catch(reject);
     });
   }
 
   observerToken(){
-    return new Observable<Token>(observer => {
+    return new Observable<string>(observer => {
       this.store.select(selectToken).subscribe(token => {
-        if(token.token.length === 0){
-          this.updateToken();
+        if(token.length === 0){
+          this.updateToken().then(t => observer.next(t));
         }else{
           observer.next(token);
         }
@@ -60,23 +66,23 @@ export class PresenterManagementComponent implements OnInit{
     });
   }
 
-  connectToEndpoints(token: Token){
-    this.token = token.token;
+  connectToEndpoints(token: string){
+    this.token = token;
     this.adminSocket.disconnect();
     this.waitDialogService.open("Wait for connection");
-    this.adminSocket.connect(token.token).subscribe((next) => {
-        if(next instanceof Error){
-          this.waitDialogService.open("Connection lost");
-        }else {
-          //connect to endpoints
-          this.loadPageData();
-          this.waitDialogService.close();
-          this.existsCurrentSession().then(([exists, sessionData]) => {
-            if(exists){
-              this.navigateToSession(sessionData);
-            }
-          });
-        }
+    this.adminSocket.connect(token, false).subscribe((next) => {
+      if(next instanceof Error){
+        this.waitDialogService.open("Connection lost");
+      }else {
+        //connect to endpoints
+        this.loadPageData();
+        this.waitDialogService.close();
+        this.existsCurrentSession().then(([exists, sessionData]) => {
+          if(exists){
+            this.navigateToSession(sessionData);
+          }
+        });
+      }
     });
   }
 
