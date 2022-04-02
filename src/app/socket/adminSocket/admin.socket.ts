@@ -18,7 +18,12 @@ export class AdminSocket extends SharedCallsSocket {
 
   public onJoinParticipant(sessionId: number): Observable<Participant>
   {
-    return this.subscribe<Participant>('/admin/session/'+sessionId+'/user/onjoin');
+    return this.subscribe<Participant>(`/admin/session/${sessionId}/user/onjoin`);
+  }
+
+  public onParticipantConnectionStatus(sessionId: number)
+  {
+    return this.subscribe<Participant[]>(`/admin/session/${sessionId}/participant/connections/status`);
   }
 
   public closeQuestion(sessionId: number, question: Question){

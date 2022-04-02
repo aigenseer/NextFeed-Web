@@ -40,11 +40,15 @@ export class SessionService extends DefaultService{
     return firstValueFrom(this.http.post<Question>(this.getAPIUrl()+`session/${sessionId}/question/create`, question));
   }
 
+  killParticipant(sessionId: number, participantId: number, blocked: boolean){
+    return firstValueFrom(this.http.get(this.getAPIUrl()+`session/presenter/${sessionId}/participant/${participantId}/kill/${blocked? 1: 0}`));
+  }
+
   getSession(sessionId: number){
     return firstValueFrom(this.http.get<Session>(this.getAPIUrl()+`session/presenter/${sessionId}/data`)
       .pipe(
         map((v: Session) => {
-          let participants: Participant[] = v.participants.map(p => new Participant(p.id, p.nickname));
+          let participants: Participant[] = v.participants.map(p => new Participant(p.id, p.nickname, p.connected));
           let questions: {[key: string]: Question} = {};
           for (const q of Object.values(v.questions)) {
             questions[String(q.id)] = new Question(q.id, q.participantId, q.message, q.rating, q.created, q.closed);

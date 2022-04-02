@@ -115,9 +115,11 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
 
   private connectToSocket(token: string){
     this.waitDialogService.open("Wait for connection");
-    this.participantSocket.connect(token).subscribe((next) => {
+    this.participantSocket.connect(token, false).subscribe((next) => {
       if(next instanceof Error){
-        this.waitDialogService.open("Connection lost");
+        this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
+          this.logOutSession();
+        });
       }else {
         this.waitDialogService.close();
         this.participantSocket.onJoinParticipant(this.getSessionId()).subscribe(p => this.onJoinParticipant(p));
