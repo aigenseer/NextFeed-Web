@@ -80,7 +80,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   private connectToSocket(token: string){
     this.adminSocket.disconnect();
     this.waitDialogService.open("Wait for connection");
-    this.adminSocket.connect(token, false).subscribe((next) => {
+    this.adminSocket.connect(token).subscribe((next) => {
       if(next instanceof Error){
         this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
           this.logOutSession();
@@ -91,6 +91,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
         this.adminSocket.onUpdateQuestion(this.getSessionId()).subscribe(q => this.addQuestion(q))
         this.adminSocket.onUpdateMood(this.getSessionId()).subscribe(value => this.updateMoodAverageLineChart(value));
         this.adminSocket.onClose(this.getSessionId()).subscribe(value => this.onCloseSession());
+        this.adminSocket.onParticipantConnectionStatus(this.getSessionId()).subscribe(p => this.updateParticipants(p))
       }
     });
   }
@@ -143,5 +144,29 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
     this.displayShareCodeDialog = true;
   }
 
+  private updateParticipants(participants: Participant[]) {
+    this.participants = participants
+  }
+
+  onKillParticipant(participant: Participant) {
+    this.confirmationService.confirm({
+      header: `Disconnect Participant (${participant.nickname})`,
+      message: "Do you really want to deregister the participant?",
+      accept: () => {
+        setTimeout(() => {
+          this.confirmationService.confirm({
+            header: `Block Participant (${participant.nickname})`,
+            message: "Should the participant be blocked?",
+            accept: () => {
+              this.sessionService.killParticipant(this.getSessionId(), participant.id, true);
+            },
+            reject: () =>{
+              this.sessionService.killParticipant(this.getSessionId(), participant.id, false);
+            }
+          });
+        }, 1000);
+      }
+    });
+  }
 
 }

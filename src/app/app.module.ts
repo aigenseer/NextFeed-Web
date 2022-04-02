@@ -85,6 +85,7 @@ import {ParticipantTableComponent} from './component/molecules/participant-table
 import {BadgeModule} from 'primeng/badge';
 import { MoodDataChartComponent } from './component/molecules/mood-data-chart/mood-data-chart.component';
 import {tokenReducer} from "./state/token/token.reducer";
+import { ParticipantConnectionTableComponent } from './component/molecules/participant-connection-table/participant-connection-table.component';
 
 @NgModule({
   declarations: [
@@ -133,7 +134,8 @@ import {tokenReducer} from "./state/token/token.reducer";
     SurveyResultVisualizationDialogComponent,
     AcceptDialogComponent,
     ParticipantTableComponent,
-    MoodDataChartComponent
+    MoodDataChartComponent,
+    ParticipantConnectionTableComponent
   ],
   imports: [
     BrowserModule,
