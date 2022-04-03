@@ -78,7 +78,6 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   }
 
   private connectToSocket(token: string){
-    this.adminSocket.disconnect();
     this.waitDialogService.open("Wait for connection");
     this.adminSocket.connect(token).subscribe((next) => {
       if(next instanceof Error){
