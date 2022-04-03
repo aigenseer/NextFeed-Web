@@ -1,4 +1,4 @@
-<p-table #dt2 [value]="sessionsMetadata" dataKey="sessionId"
+<p-table #dt2 [value]="sessionsMetadata" dataKey="sessionId" sortField="closed" [sortOrder]="-1"
          [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
          [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
          selectionMode="single" [(selection)]="selectedSessionMetadata" (onRowSelect)="onRowSelect()"

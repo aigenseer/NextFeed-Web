@@ -31,8 +31,8 @@ export class ParticipantSocket extends SharedCallsSocket {
     return this.subscribe<Participant>(`/participant/session/${sessionId}/user/onjoin`);
   }
 
-  public sendMood(sessionId: number, participantId: number, value: number){
-    this.getStompClient().send(`/participant/session/${sessionId}/mood/${participantId}/${value}`, {});
+  public sendMood(sessionId: number, value: number){
+    this.getStompClient().send(`/participant/session/${sessionId}/mood/${value}`, {});
   }
 
   public onUpdateMood(sessionId: number){

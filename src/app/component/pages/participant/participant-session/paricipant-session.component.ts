@@ -175,7 +175,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
 
   onSliderChange(value: number) {
     this.moodLineValues[MY_MOOD_LABEL] = value;
-    this.participantSocket.sendMood(this.getSessionId() as number, this.participantId, value);
+    this.participantSocket.sendMood(this.getSessionId() as number, value);
   }
 
   onCreateSurvey(surveyId: number, surveyTemplate: SurveyTemplate){
