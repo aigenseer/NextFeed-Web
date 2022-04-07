@@ -4,7 +4,7 @@ import {Participant} from "../participant/participant.model";
 
 describe('SessionData', () => {
   let question = new Question(null, null, "message", 0, new Date().getTime(), null);
-  let participant = new Participant(99, "nickname");
+  let participant = new Participant(99, "nickname", true);
   let sessionData = new SessionData([question], [participant]);
 
   it('should create an instance', () => {
