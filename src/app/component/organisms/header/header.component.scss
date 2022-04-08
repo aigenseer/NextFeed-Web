@@ -9,6 +9,14 @@
 img{
   width: 60px;
 }
+
+.version{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-right: 10px
+}
+
 .spacer {
   flex: 1;
 }
@@ -105,7 +113,6 @@ img{
     }
 
   }
-
 
 }
 
