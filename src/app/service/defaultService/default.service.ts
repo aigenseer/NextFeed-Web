@@ -10,7 +10,7 @@ export abstract class DefaultService {
   constructor(protected http: HttpClient) { }
 
   protected getAPIUrl(): String{
-    return location.origin.replace("4200", String(environment.port))+"/";
+    return location.origin.replace("4200", String(environment.port))+"/api/";
   }
 
   protected httpOptions = {
