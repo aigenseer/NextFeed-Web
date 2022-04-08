@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ThemeService} from "../../../service/themeService/ThemeService";
 import {LocalStorage} from "../../../lib/LocalStorage";
+import p from '../../../../../package.json';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ export class HeaderComponent implements OnInit, OnChanges{
   @Input() headerLinkPrefix: string = "";
   @Output() visibleSidebarChange: EventEmitter<boolean> = new EventEmitter();
   constructor(private readonly themeService: ThemeService) {}
+  public version: string = p.version;
 
   ngOnInit(): void {
     let themeMode = LocalStorage.getOrDefault("theme-mode", "light");
