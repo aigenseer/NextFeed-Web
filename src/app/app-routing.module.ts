@@ -15,10 +15,10 @@ import {
 
 
 const routes: Routes = [
-  { path: 'aboutus', component: AboutUsComponent },
-  { path: 'copyright', component: CopyrightComponent },
-  { path: 'dataprotection', component: DataProtectionComponent },
-  { path: 'imprint', component: ImprintComponent },
+  { path: 'page/aboutus', component: AboutUsComponent },
+  { path: 'page/copyright', component: CopyrightComponent },
+  { path: 'page/dataprotection', component: DataProtectionComponent },
+  { path: 'page/imprint', component: ImprintComponent },
   { path: 'presenter', component: PresenterManagementComponent },
   { path: 'presenter/:sessionId',  component: PresenterSessionComponent },
   { path: 'presenter/:sessionId/data',  component: PresenterSessionDataComponent },
@@ -30,6 +30,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],
+  // imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
