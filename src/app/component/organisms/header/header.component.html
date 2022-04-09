@@ -1,4 +1,4 @@
-<div class="toolbar" role="banner">
+<div class="toolbar" role="banner" *ngIf="minimalHeader==false" >
   <img
     [routerLink]="getHeaderLink()"
     alt="LectureFeed"
@@ -7,8 +7,12 @@
   <h2 [routerLink]="getHeaderLink()" >LectureFeed</h2>
   <div class="spacer"></div>
   <button pButton pRipple type="button" icon="pi pi-ellipsis-v" pTooltip="Settings" styleClass="p-button-sm" class="p-button-rounded p-button-text p-button-secondary" (click)="onCloseSidebar()"></button>
-
 </div>
+
+<div id="minimal-header" *ngIf="minimalHeader" >
+  <button pButton pRipple type="button" icon="pi pi-ellipsis-v" pTooltip="Settings" styleClass="p-button-sm" class="p-button-rounded p-button-text p-button-secondary" (click)="onCloseSidebar()"></button>
+</div>
+
 <p-sidebar [(visible)]="visibleSidebar" position="right" [baseZIndex]="103" [showCloseIcon]="false" (onHide)="onHideSidebar()" (onShow)="onShowSidebar()"  >
   <div class="p-sidebar-header p-sidebar-header-custom p-sidebar-container">
     <h2>Settings</h2>

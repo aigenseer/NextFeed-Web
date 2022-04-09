@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {ThemeService} from "../../../service/themeService/ThemeService";
 import {LocalStorage} from "../../../lib/LocalStorage";
 import p from '../../../../../package.json';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -13,13 +14,20 @@ export class HeaderComponent implements OnInit, OnChanges{
   @Input() visibleSidebar: boolean = false;
   @Input() headerLinkPrefix: string = "";
   @Output() visibleSidebarChange: EventEmitter<boolean> = new EventEmitter();
-  constructor(private readonly themeService: ThemeService) {}
+  minimalHeader: boolean = false;
+  constructor(
+    private readonly themeService: ThemeService,
+    private route: ActivatedRoute
+  ) {}
   public version: string = p.version;
 
   ngOnInit(): void {
     let themeMode = LocalStorage.getOrDefault("theme-mode", "light");
     this.dark = themeMode === "dark";
     this.themeService.switchTheme(themeMode);
+    this.route.queryParams.subscribe(value => {
+      this.minimalHeader = value.hasOwnProperty("minimalheader") && value.minimalheader == 1;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
