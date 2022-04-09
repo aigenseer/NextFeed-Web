@@ -46,11 +46,23 @@ img{
   margin-right: 0.5em;
 }
 
+#minimal-header{
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  background-color: var(--primary-color);
+  transition: right 0.3s;
+  border-radius: 3px;
+}
+
+#minimal-header:hover{
+  right: 0;
+}
+
 ::ng-deep {
   .p-sidebar-header:not(.p-sidebar-header-custom){
     display: none;
   }
-
 
   .p-sidebar-content{
     height: 100%;
