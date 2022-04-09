@@ -1,11 +1,11 @@
-<footer>
+<footer *ngIf="visible">
   <div>
-    <span [routerLink]="'/copyright'">Copyright LectureFeed</span>
+    <span [routerLink]="'/page/copyright'">Copyright LectureFeed</span>
   </div>
   <div>
-    <span [routerLink]="'/aboutus'">About us</span>
-    <span [routerLink]="'/dataprotection'">Data Protection</span>
-    <span [routerLink]="'/imprint'">Imprints</span>
+    <span [routerLink]="'/page/aboutus'">About us</span>
+    <span [routerLink]="'/page/dataprotection'">Data Protection</span>
+    <span [routerLink]="'/page/imprint'">Imprints</span>
   </div>
 </footer>
 

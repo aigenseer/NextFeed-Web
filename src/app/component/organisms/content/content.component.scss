@@ -1,7 +1,7 @@
 .content {
   margin: 82px auto 32px;
   padding: 0 16px;
-  height: 100%;
+  min-height: calc(100vh - 150px);
 }
 
 :host *{
