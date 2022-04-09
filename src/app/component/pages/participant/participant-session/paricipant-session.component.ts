@@ -22,7 +22,9 @@ import {
   votedQuestion
 } from "../../../../state/participant/participant.actions";
 import {Question} from "../../../../model/question/question.model";
-import {IQuestionTemplate} from "../../../molecules/create-question/create-question.component";
+import {
+  IQuestionMessageTemplate
+} from "../../../molecules/create-question/create-question.component";
 import {
   AbstractActiveSessionManagementComponent
 } from "../../../organisms/abstract-active-session-management/abstract-active-session-management.component";
@@ -163,9 +165,13 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
     super.logOutSession();
   }
 
-  onCreatedQuestionTemplate(createdQuestion: IQuestionTemplate) {
-    this.sessionService.createQuestion(this.sessionId as number, new Question(null, createdQuestion.anonymous? null: this.participantId, createdQuestion.message, 0, new Date().getTime(), null))
-      .then(question => this.addOwnQuestion(question))
+  onCreatedQuestionTemplate(createdQuestion: IQuestionMessageTemplate) {
+    this.sessionService.createQuestion(this.sessionId as number, {
+        participantId: this.participantId,
+        message: createdQuestion.message,
+        anonymous: createdQuestion.anonymous,
+        created: new Date().getTime()
+    }).then(question => this.addOwnQuestion(question))
   }
 
   onVotedQuestion(vote: IVotedQuestion) {

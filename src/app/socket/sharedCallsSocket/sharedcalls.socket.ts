@@ -9,11 +9,6 @@ import {Survey} from "../../model/survey/survey.model";
 })
 export class SharedCallsSocket extends DefaultSocket {
 
-  public onCloseSurvey(sessionId: number, surveyId: number): Observable<number>
-  {
-    return this.subscribe<number>(`/session/${sessionId}/survey/${surveyId}/onclose`);
-  }
-
   public onClose(sessionId: number): Observable<void>
   {
     return this.subscribe<void>(`/session/${sessionId}/onclose`);

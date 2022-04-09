@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {DefaultService} from "../defaultService/default.service";
 import {SessionData} from "../../model/sessionData/session-data.model";
 import {SessionCreateData} from "../../model/sessionCreateData/session-create-data.model";
-import {firstValueFrom, map, Observable} from "rxjs";
-import {Question} from "../../model/question/question.model";
+import {firstValueFrom, map} from "rxjs";
+import {IQuestionTemplate, Question} from "../../model/question/question.model";
 import {SessionMetadata} from "../../model/sessionMetadata/session-metadata.model";
 import {SurveyTemplate} from "../../model/surveyTemplate/survey-template.model";
 import {Survey} from "../../model/survey/survey.model";
@@ -36,8 +36,8 @@ export class SessionService extends DefaultService{
     return firstValueFrom(this.http.delete<void>(this.getAPIUrl()+`session/presenter/${sessionId}`));
   }
 
-  createQuestion(sessionId: number, question: Question){
-    return firstValueFrom(this.http.post<Question>(this.getAPIUrl()+`session/${sessionId}/question/create`, question));
+  createQuestion(sessionId: number, template: IQuestionTemplate){
+    return firstValueFrom(this.http.post<Question>(this.getAPIUrl()+`session/${sessionId}/question/create`, template));
   }
 
   killParticipant(sessionId: number, participantId: number, blocked: boolean){
@@ -51,7 +51,7 @@ export class SessionService extends DefaultService{
           let participants: Participant[] = v.participants.map(p => new Participant(p.id, p.nickname, p.connected));
           let questions: {[key: string]: Question} = {};
           for (const q of Object.values(v.questions)) {
-            questions[String(q.id)] = new Question(q.id, q.participantId, q.message, q.rating, q.created, q.closed);
+            questions[String(q.id)] = new Question(q.id, q.participant, q.message, q.rating, q.created, q.closed);
           }
           let surveys: {[key: string]: Survey} = {};
           for (const s of Object.values(v.surveys)) {

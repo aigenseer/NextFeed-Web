@@ -1,9 +1,16 @@
-<p-table #dt [value]="questions" dataKey="id" styleClass="p-datatable-customers"
+<p-table #dt [value]="questions" dataKey="id" styleClass="p-datatable-customers" sortField="rating" [sortOrder]="-1"
            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
            [filterDelay]="0">
   <ng-template pTemplate="header">
     <tr>
+      <th pSortableColumn="participant">
+        <div class="p-d-flex p-jc-between p-ai-center">
+          Participant
+          <p-sortIcon field="message"></p-sortIcon>
+          <p-columnFilter type="text" field="participant.nickname" display="menu"></p-columnFilter>
+        </div>
+      </th>
       <th pSortableColumn="message">
         <div class="p-d-flex p-jc-between p-ai-center">
           Question
@@ -35,6 +42,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-question>
     <tr>
+      <td><p-chip label="{{question.anonymous? 'Anonymous': question.participant.nickname}}"></p-chip></td>
       <td>{{question.message}}</td>
       <td>{{question.created | date: 'h:mm:ss'}}</td>
       <td>{{question.rating}}</td>

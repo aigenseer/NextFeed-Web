@@ -3,7 +3,7 @@ import {Question} from "../question/question.model";
 import {Participant} from "../participant/participant.model";
 
 describe('SessionData', () => {
-  let question = new Question(null, null, "message", 0, new Date().getTime(), null);
+  let question = new Question(99, new Participant(99, "nickname", false), "message", 0, new Date().getTime(), null);
   let participant = new Participant(99, "nickname", true);
   let sessionData = new SessionData([question], [participant]);
 

@@ -18,12 +18,17 @@ export class ParticipantSocket extends SharedCallsSocket {
 
   public onUpdateQuestion(sessionId: number): Observable<Question>
   {
-    return this.subscribe<Question>(`/participant/session/${sessionId}/question/onupdate`);
-  }
-
-  public onQuestion(): Observable<Question>
-  {
-    return this.subscribe<Question>('/admin/question')
+    return this.subscribe<Question>(`/participant/session/${sessionId}/question/onupdate`).pipe(
+      map((data: Question) =>
+        new Question(
+          data.id,
+          new Participant(data.participant.id, data.participant.nickname, data.participant.connected),
+          data.message,
+          data.rating,
+          data.created,
+          data.closed
+          ))
+    );
   }
 
   public onJoinParticipant(sessionId: number): Observable<Participant>
