@@ -85,7 +85,8 @@ import {ParticipantTableComponent} from './component/molecules/participant-table
 import {BadgeModule} from 'primeng/badge';
 import { MoodDataChartComponent } from './component/molecules/mood-data-chart/mood-data-chart.component';
 import {tokenReducer} from "./state/token/token.reducer";
-import { ParticipantConnectionTableComponent } from './component/molecules/participant-connection-table/participant-connection-table.component';
+import {ParticipantConnectionTableComponent} from './component/molecules/participant-connection-table/participant-connection-table.component';
+import {ChipModule} from 'primeng/chip';
 
 @NgModule({
   declarations: [
@@ -176,7 +177,8 @@ import { ParticipantConnectionTableComponent } from './component/molecules/parti
     ProgressBarModule,
     SidebarModule,
     TooltipModule,
-    BadgeModule
+    BadgeModule,
+    ChipModule
   ],
   providers: [
     MessageService,

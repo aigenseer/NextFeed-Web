@@ -1,7 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Question} from "../../../model/question/question.model";
 
-export interface IQuestionTemplate{
+export interface IQuestionMessageTemplate{
   message: string;
   anonymous: boolean;
 }
@@ -13,7 +12,7 @@ export interface IQuestionTemplate{
 })
 export class CreateQuestionComponent implements OnInit {
 
-  @Output() onCreatedQuestion: EventEmitter<IQuestionTemplate> = new EventEmitter();
+  @Output() onCreatedQuestion: EventEmitter<IQuestionMessageTemplate> = new EventEmitter();
   message: string = "";
   anonymous: string[] = [];
 

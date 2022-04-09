@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Question} from "../../../model/question/question.model";
-import {IQuestionTemplate} from "../../molecules/create-question/create-question.component";
+import {IQuestionMessageTemplate} from "../../molecules/create-question/create-question.component";
 
 @Component({
   selector: 'app-new-question',
@@ -10,7 +10,7 @@ import {IQuestionTemplate} from "../../molecules/create-question/create-question
 export class NewQuestionComponent{
 
   @Input() questions: Question[] = [];
-  @Output() onCreatedQuestion: EventEmitter<IQuestionTemplate> = new EventEmitter();
+  @Output() onCreatedQuestion: EventEmitter<IQuestionMessageTemplate> = new EventEmitter();
 
 
 }
