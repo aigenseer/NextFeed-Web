@@ -87,6 +87,8 @@ import { MoodDataChartComponent } from './component/molecules/mood-data-chart/mo
 import {tokenReducer} from "./state/token/token.reducer";
 import {ParticipantConnectionTableComponent} from './component/molecules/participant-connection-table/participant-connection-table.component';
 import {ChipModule} from 'primeng/chip';
+import {BreadcrumbModule} from 'primeng/breadcrumb';
+
 
 @NgModule({
   declarations: [
@@ -178,7 +180,8 @@ import {ChipModule} from 'primeng/chip';
     SidebarModule,
     TooltipModule,
     BadgeModule,
-    ChipModule
+    ChipModule,
+    BreadcrumbModule
   ],
   providers: [
     MessageService,

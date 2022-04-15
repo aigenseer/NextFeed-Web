@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {CustomRouterService} from "../../../service/customRouter/custom-router.service";
 
 @Component({
   selector: 'app-content',
@@ -9,11 +9,9 @@ import {ActivatedRoute} from "@angular/router";
 export class ContentComponent implements OnInit{
   minimalHeader: boolean = false;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private customRouterService: CustomRouterService) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(value => {
-      this.minimalHeader = value.hasOwnProperty("minimalheader") && value.minimalheader == 1;
-    });
+    this.minimalHeader = this.customRouterService.getObserverQueryParams().minimalheader as boolean;
   }
 }

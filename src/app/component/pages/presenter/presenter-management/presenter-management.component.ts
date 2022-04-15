@@ -16,6 +16,7 @@ import {SessionMetadata} from "../../../../model/sessionMetadata/session-metadat
 import {WaitDialogService} from "../../../../service/waitDialogService/wait-dialog.service";
 import {selectToken} from "../../../../state/token/token.selector";
 import {setToken} from "../../../../state/token/token.actions";
+import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
 
 @Component({
   selector: 'app-presenter-management',
@@ -34,7 +35,8 @@ export class PresenterManagementComponent implements OnInit{
     private readonly sessionService: SessionService,
     private readonly adminSocket: AdminSocket,
     private readonly store: Store<IAppAdminState>,
-    private readonly waitDialogService: WaitDialogService
+    private readonly waitDialogService: WaitDialogService,
+    private readonly customRouterService: CustomRouterService
   ) {}
 
   ngOnInit(): void {
@@ -125,7 +127,7 @@ export class PresenterManagementComponent implements OnInit{
   }
 
   onSelectSessionMetadata(sessionMetadata: SessionMetadata) {
-    this.router.navigate([['presenter', sessionMetadata.sessionId, 'data'].join('/')]);
+    this.customRouterService.navigateWithObserverQueryParams([['presenter', sessionMetadata.sessionId, 'data'].join('/')]);
   }
 
 }

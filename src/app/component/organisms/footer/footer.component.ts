@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {CustomRouterService} from "../../../service/customRouter/custom-router.service";
 
 @Component({
   selector: 'app-footer',
@@ -9,12 +9,10 @@ import {ActivatedRoute} from "@angular/router";
 export class FooterComponent implements OnInit {
   visible: boolean = true;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private customRouterService: CustomRouterService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(value => {
-      this.visible = !(value.hasOwnProperty("hidefooter") && value.hidefooter == 1);
-    });
+    this.visible = !this.customRouterService.getObserverQueryParams().hidefooter as boolean;
   }
 
 }

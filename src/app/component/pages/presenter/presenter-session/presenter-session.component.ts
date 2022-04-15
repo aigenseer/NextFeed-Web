@@ -21,6 +21,7 @@ import {WaitDialogService} from "../../../../service/waitDialogService/wait-dial
 import {environment} from "../../../../../environments/environment";
 import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
 import {selectToken} from "../../../../state/token/token.selector";
+import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
 
 const AVERAGE_LABEL = "Average";
 
@@ -48,7 +49,8 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
     private readonly store: Store<IAppAdminState>,
     private readonly waitDialogService: WaitDialogService,
     private readonly confirmationService: ConfirmationService,
-    private readonly acceptDialogService: AcceptDialogService
+    private readonly acceptDialogService: AcceptDialogService,
+    private readonly customRouterService: CustomRouterService
   ) {
     super(router, route, messageService, sessionService);
   }
@@ -101,7 +103,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   }
 
   public navigateToLogin(){
-    this.router.navigate(['/presenter']);
+    this.customRouterService.navigateWithObserverQueryParams(['/presenter']);
   }
 
   onClickCloseSession(){

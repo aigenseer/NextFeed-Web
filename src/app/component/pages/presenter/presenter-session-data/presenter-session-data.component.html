@@ -10,7 +10,11 @@
 </app-header>
 <app-content>
   <div *ngIf="session">
+
     <div class="grid flex-column">
+      <div class="col">
+        <p-breadcrumb [model]="items" [home]="home" (onItemClick)="onClickBreadcrumbItem($event)" ></p-breadcrumb>
+      </div>
 
       <div class="col">
         <p-card header="Mood" >

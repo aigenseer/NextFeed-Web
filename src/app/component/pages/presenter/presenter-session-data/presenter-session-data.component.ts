@@ -15,6 +15,8 @@ import {Session} from "../../../../model/session/session.model";
 import {ICustomColumnHeader} from "../../../molecules/question-table-overview/question-table-overview.component";
 import FileSaver from 'file-saver';
 import {selectToken} from "../../../../state/token/token.selector";
+import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
+import {MenuItem} from 'primeng/api'
 
 @Component({
   selector: 'app-presenter-session-data',
@@ -25,6 +27,8 @@ export class PresenterSessionDataComponent extends AbstractSessionManagementComp
 
   visibleSidebar: boolean = false;
   session: Session|null = null;
+  items: MenuItem[] = [];
+  home: MenuItem
 
   constructor(
     protected readonly router: Router,
@@ -33,9 +37,11 @@ export class PresenterSessionDataComponent extends AbstractSessionManagementComp
     protected readonly sessionService: SessionService,
     private confirmationService: ConfirmationService,
     private readonly waitDialogService: WaitDialogService,
-    private readonly store: Store<IAppAdminState>
+    private readonly store: Store<IAppAdminState>,
+    private readonly customRouterService: CustomRouterService
   ) {
     super(router, route, messageService);
+    this.home = {icon: 'pi pi-home', id: 'home'};
   }
 
   customColumnHeaders: ICustomColumnHeader[] = [
@@ -52,6 +58,7 @@ export class PresenterSessionDataComponent extends AbstractSessionManagementComp
         this.sessionService.getSession(this.getSessionId()).then(session => {
           this.waitDialogService.close();
           this.session = session;
+          this.items.push({label: this.session.name})
         })
     });
   }
@@ -89,7 +96,7 @@ export class PresenterSessionDataComponent extends AbstractSessionManagementComp
       message: 'Do you really want to delete this session?',
       accept: () => {
         this.sessionService.deleteSession(this.getSessionId() as number).then(() => {
-          this.router.navigate(['presenter']);
+          this.customRouterService.navigateWithObserverQueryParams(['/presenter']);
         });
       }
     });
@@ -108,5 +115,13 @@ export class PresenterSessionDataComponent extends AbstractSessionManagementComp
         })
       }
     });
+  }
+
+  onClickBreadcrumbItem(e: any) {
+    if(e.hasOwnProperty('item') && e.item.hasOwnProperty("id")){
+      switch (e.item.id) {
+        case 'home': this.customRouterService.navigateWithObserverQueryParams(['/presenter'])
+      }
+    }
   }
 }
