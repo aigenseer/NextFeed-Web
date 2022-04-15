@@ -190,6 +190,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
     this.currentSurveyTemplate = surveyTemplate;
     this.participantSocket.onSurveyResult(this.sessionId as number, this.currentSurveyId).subscribe(survey => {
       this.currentSurvey = survey;
+      this.currentSurveyTemplate = null;
     });
   }
 
@@ -198,7 +199,7 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   onCloseSurveyLiveAnswerDialog(value: string) {
-    if(this.currentSurveyTemplate !== null && this.currentSurveyId !== null){
+    if(value.length > 0 && this.currentSurveyTemplate !== null && this.currentSurveyId !== null){
       this.surveyService.sendAnswer(this.getSessionId() as number, this.currentSurveyId, value).then(() =>{
         this.messageService.add({ severity: 'success', summary: 'Successfully', detail: 'Data has been sent.', life: 2000 })
       })

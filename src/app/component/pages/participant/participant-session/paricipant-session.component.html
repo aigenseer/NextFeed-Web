@@ -12,12 +12,12 @@
     <app-survey-result-visualization-dialog [survey]="this.currentSurvey" (onClose)="onCloseSurveyResult()" ></app-survey-result-visualization-dialog>
 
     <div class="grid">
-      <div class="col">
+      <div class="col-12  lg:col-6">
         <p-card header="My Questions">
           <app-new-question [questions]="questions | questionFilterByIds: questionIds" (onCreatedQuestion)="onCreatedQuestionTemplate($event)"></app-new-question>
         </p-card>
       </div>
-      <div class="col">
+      <div class="col-12  lg:col-6">
         <p-card class="mood-card" header="Mood" >
           <div class="flex justify-content-center align-items-center mood-content">
             <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
@@ -25,9 +25,13 @@
           </div>
         </p-card>
       </div>
+
+      <div class="col-12 sm:col-12 md:col-12 lg:col-12">
+        <p-card header="Questions" >
+          <app-participant-question-table [questions]="questions | questionFilterByClosed" [votedQuestions]="votedQuestions" (onVotedQuestion)="onVotedQuestion($event)" ></app-participant-question-table>
+        </p-card>
+      </div>
     </div>
-    <p-card>
-      <app-participant-question-table [questions]="questions | questionFilterByClosed" [votedQuestions]="votedQuestions" (onVotedQuestion)="onVotedQuestion($event)" ></app-participant-question-table>
-    </p-card>
+
   </div>
 </app-content>

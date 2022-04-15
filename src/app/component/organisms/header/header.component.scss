@@ -53,6 +53,7 @@ img{
   background-color: var(--primary-color);
   transition: right 0.3s;
   border-radius: 3px;
+  z-index: 100;
 }
 
 #minimal-header:hover{

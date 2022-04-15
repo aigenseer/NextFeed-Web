@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {ThemeService} from "../../../service/themeService/ThemeService";
 import {LocalStorage} from "../../../lib/LocalStorage";
 import p from '../../../../../package.json';
-import {ActivatedRoute} from "@angular/router";
+import {CustomRouterService} from "../../../service/customRouter/custom-router.service";
 
 @Component({
   selector: 'app-header',
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit, OnChanges{
   minimalHeader: boolean = false;
   constructor(
     private readonly themeService: ThemeService,
-    private route: ActivatedRoute
+    private readonly customRouterService: CustomRouterService
   ) {}
   public version: string = p.version;
 
@@ -25,9 +25,7 @@ export class HeaderComponent implements OnInit, OnChanges{
     let themeMode = LocalStorage.getOrDefault("theme-mode", "light");
     this.dark = themeMode === "dark";
     this.themeService.switchTheme(themeMode);
-    this.route.queryParams.subscribe(value => {
-      this.minimalHeader = value.hasOwnProperty("minimalheader") && value.minimalheader == 1;
-    });
+    this.minimalHeader = this.customRouterService.getObserverQueryParams().minimalheader as boolean;
   }
 
   ngOnChanges(changes: SimpleChanges) {

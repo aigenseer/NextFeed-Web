@@ -42,10 +42,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-question>
     <tr>
-      <td><p-chip label="{{question.anonymous? 'Anonymous': question.participant.nickname}}"></p-chip></td>
-      <td>{{question.message}}</td>
-      <td>{{question.created | date: 'h:mm:ss'}}</td>
-      <td>{{question.rating}}</td>
+      <td><span class="p-column-title">Participant</span><p-chip label="{{question.anonymous? 'Anonymous': question.participant.nickname}}"></p-chip></td>
+      <td><span class="p-column-title">Message</span>{{question.message}}</td>
+      <td><span class="p-column-title">Created</span>{{question.created | date: 'h:mm:ss'}}</td>
+      <td><span class="p-column-title">Rating</span>{{question.rating}}</td>
       <ng-container
         [ngTemplateOutlet]="currentCustomHeader"
         [ngTemplateOutletContext]="{question:question}">
