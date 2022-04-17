@@ -1,5 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ShareSessionCodeDialogComponent} from './share-session-code-dialog.component';
+import {ConfirmationService, MessageService} from "primeng/api";
+import {EnvironmentService} from "../../../service/environmentService/environment.service";
+import {RouterTestingModule} from "@angular/router/testing";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {StoreModule} from "@ngrx/store";
 
 describe('ShareSessionCodeDialogComponent', () => {
   let component: ShareSessionCodeDialogComponent;
@@ -7,7 +12,9 @@ describe('ShareSessionCodeDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ShareSessionCodeDialogComponent]
+      imports: [HttpClientTestingModule],
+      declarations: [ShareSessionCodeDialogComponent],
+      providers:[EnvironmentService]
     })
     .compileComponents();
   });
