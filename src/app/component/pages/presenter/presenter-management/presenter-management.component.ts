@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../service/authenticationService/authentication.service";
 import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
@@ -17,6 +17,8 @@ import {WaitDialogService} from "../../../../service/waitDialogService/wait-dial
 import {selectToken} from "../../../../state/token/token.selector";
 import {setToken} from "../../../../state/token/token.actions";
 import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
+import {EnvironmentService} from "../../../../service/environmentService/environment.service";
+import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
 
 @Component({
   selector: 'app-presenter-management',
@@ -36,7 +38,9 @@ export class PresenterManagementComponent implements OnInit{
     private readonly adminSocket: AdminSocket,
     private readonly store: Store<IAppAdminState>,
     private readonly waitDialogService: WaitDialogService,
-    private readonly customRouterService: CustomRouterService
+    private readonly customRouterService: CustomRouterService,
+    private readonly environmentService: EnvironmentService,
+    private readonly acceptDialogService: AcceptDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -102,14 +106,20 @@ export class PresenterManagementComponent implements OnInit{
   }
 
   createSession(name: string){
-    this.sessionService.createSession(name).then(sessionData => {
-      this.store.dispatch(setCurrentDataSession({sessionData}));
-      this.navigateToSession(sessionData);
+    this.environmentService.getEnvironmentInfo().then(info => {
+      if(info.routingIpInterface === null){
+        this.acceptDialogService.open("Network error", "Session could not be started. No network connection was found. Please check your network settings.");
+      }else{
+        this.sessionService.createSession(name).then(sessionData => {
+          this.store.dispatch(setCurrentDataSession({sessionData}));
+          this.navigateToSession(sessionData);
+        });
+      }
     });
   }
 
   navigateToSession(sessionData: ISessionData){
-    this.router.navigate([['presenter', sessionData.id].join('/')]);
+    this.customRouterService.navigateWithObserverQueryParams([['presenter', sessionData.id].join('/')]);
   }
 
   onCreateSession(){

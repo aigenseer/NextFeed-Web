@@ -22,6 +22,7 @@ import {environment} from "../../../../../environments/environment";
 import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
 import {selectToken} from "../../../../state/token/token.selector";
 import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
+import {EnvironmentService} from "../../../../service/environmentService/environment.service";
 
 const AVERAGE_LABEL = "Average";
 
