@@ -12,7 +12,11 @@ export type ParseCallback<T> = (jsonObject: any) => T
 export class CookieStore {
 
   static set(id: StoreIds, entry: string, options: CookieAttributes = {}){
-    Cookies.set(id, entry, Object.assign({ secure: true, sameSite: 'strict'}, options));
+    try {
+      Cookies.set(id, entry, Object.assign({ }, options));
+    }catch (e){
+      console.error(e);
+    }
   }
 
   static setObject(id: StoreIds, entryObject: any, options: CookieAttributes = {}){

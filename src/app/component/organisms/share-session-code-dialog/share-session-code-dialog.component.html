@@ -7,7 +7,13 @@
     </p>
     <p>Session Code: <button pButton pRipple type="button" title="copy" class="p-button-outlined" label="{{sessionCode}}" ngxClipboard [cbContent]="this.sessionCode"  ></button></p>
     <ng-template pTemplate="footer"></ng-template>
-
+    
+    <ngx-qrcode-styling
+      [data]="{{getShareLink()}}"
+      [config]=".\qrCodeOptions.json"
+      >
+    </ngx-qrcode-styling>
+      
   </p-dialog>
   <app-backdrop [visible]="visible" ></app-backdrop>
 </div>

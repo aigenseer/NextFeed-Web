@@ -88,6 +88,8 @@ import {tokenReducer} from "./state/token/token.reducer";
 import {ParticipantConnectionTableComponent} from './component/molecules/participant-connection-table/participant-connection-table.component';
 import {ChipModule} from 'primeng/chip';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
+
 
 
 @NgModule({
@@ -141,6 +143,7 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     ParticipantConnectionTableComponent
   ],
   imports: [
+    NgxQrcodeStylingModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
