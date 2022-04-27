@@ -9,8 +9,8 @@
     <ng-template pTemplate="footer"></ng-template>
     
     <ngx-qrcode-styling
-      [data]="{{getShareLink()}}"
-      [config]=".\qrCodeOptions.json"
+      [data]="getShareLink()"
+      [config]="config"
       >
     </ngx-qrcode-styling>
       
