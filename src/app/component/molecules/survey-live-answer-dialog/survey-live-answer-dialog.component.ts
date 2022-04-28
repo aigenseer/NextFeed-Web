@@ -42,7 +42,7 @@ export class SurveyLiveAnswerDialogComponent implements OnChanges {
         if(this.template !== null) this.onSend();
       }else{
         this.currentTime += 1;
-        this.progressBarValue = 100 - this.currentTime / maxTime * 100;
+        this.progressBarValue = Number((100 - this.currentTime / maxTime * 100).toFixed(2));
       }
     }, 1000);
   }

@@ -1,6 +1,6 @@
 <app-survey-selector-dialog [templates]="templates" [(visible)]="visibleSelectorDialog" (onCreateTemplate)="onCreateSurveyByTemplate($event)" (onSelectTemplate)="onCreateBySelectTemplateId($event)"  ></app-survey-selector-dialog>
 
-<app-survey-live-view-dialog [(template)]="currentSurveyTemplate" [(survey)]="currentSurvey" [(displayResult)]="currentSurveyDisplayResult" (onClose)="onCloseCurrentSurvey()" ></app-survey-live-view-dialog>
+<app-survey-live-view-dialog [(survey)]="currentSurvey" [(displayResult)]="currentSurveyDisplayResult" (onClose)="onCloseCurrentSurvey()" [enableMinimize]="true" (onClickMinimize)="onClickMinimize()" ></app-survey-live-view-dialog>
 
 <app-survey-overview [surveys]="surveys" >
   <button pButton type="button" label="Start new" (click)="onClickNew()" ></button>

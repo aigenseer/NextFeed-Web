@@ -9,32 +9,32 @@ import {SurveyTemplate} from "../../../model/surveyTemplate/survey-template.mode
 })
 export class SurveyLiveViewDialogComponent implements OnChanges {
 
-  @Input() displayResult: boolean = true;
+  @Input() displayResult: boolean = false;
   @Output() displayResultChange: EventEmitter<boolean> = new EventEmitter();
-  @Input() template: SurveyTemplate|null = null;
-  @Output() templateChange: EventEmitter<SurveyTemplate|null> = new EventEmitter();
   @Input() survey: Survey|null = null;
   @Output() surveyChange: EventEmitter<Survey|null> = new EventEmitter();
   @Output() onClose: EventEmitter<void> = new EventEmitter();
+
+  @Input()  enableMinimize: boolean = false;
+  @Output() onClickMinimize: EventEmitter<boolean> = new EventEmitter();
+
   private currentTime: number = 0;
   private timer: NodeJS.Timeout | undefined;
   progressBarValue: number = 100;
 
-  constructor() { }
-
   isVisible(){
-    return this.template !== null;
+    return this.survey !== null && !this.survey.background;
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.hasOwnProperty("template")){
-      if(changes.template.currentValue === null){
-        this.template = null;
+    if(changes.hasOwnProperty("survey")){
+      if(changes.survey.currentValue === null){
+        this.survey = null;
       }else{
         this.progressBarValue = 100;
-        this.template = changes.template.currentValue;
+        this.survey = changes.survey.currentValue;
         this.currentTime = 0;
-        this.startTimer(this.template?.duration as number);
+        this.startTimer(this.survey?.template?.duration as number);
       }
     }
   }
@@ -45,13 +45,16 @@ export class SurveyLiveViewDialogComponent implements OnChanges {
         clearInterval(this.timer as NodeJS.Timeout);
       }else{
         this.currentTime += 1;
-        this.progressBarValue = 100 - this.currentTime / maxTime * 100;
+        this.progressBarValue = Number((100 - this.currentTime / maxTime * 100).toFixed(2));
       }
     }, 1000);
   }
 
-
   onHide() {
     this.onClose.emit()
+  }
+
+  clickMinimize() {
+    this.onClickMinimize.emit();
   }
 }

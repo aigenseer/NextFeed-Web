@@ -22,7 +22,7 @@ import {environment} from "../../../../../environments/environment";
 import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
 import {selectToken} from "../../../../state/token/token.selector";
 import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
-import {EnvironmentService} from "../../../../service/environmentService/environment.service";
+import {SurveyListenerService} from "../../../../service/surveyListenerService/survey-listener.service";
 
 const AVERAGE_LABEL = "Average";
 
@@ -51,7 +51,8 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
     private readonly waitDialogService: WaitDialogService,
     private readonly confirmationService: ConfirmationService,
     private readonly acceptDialogService: AcceptDialogService,
-    private readonly customRouterService: CustomRouterService
+    private readonly customRouterService: CustomRouterService,
+    private readonly surveyListenerService: SurveyListenerService
   ) {
     super(router, route, messageService, sessionService);
   }
@@ -94,6 +95,15 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
         this.adminSocket.onUpdateMood(this.getSessionId()).subscribe(value => this.updateMoodAverageLineChart(value));
         this.adminSocket.onClose(this.getSessionId()).subscribe(value => this.onCloseSession());
         this.adminSocket.onParticipantConnectionStatus(this.getSessionId()).subscribe(p => this.updateParticipants(p))
+        this.adminSocket?.onCreateSurvey(this.getSessionId()).subscribe(survey =>{
+          this.surveyListenerService.onNewSurvey(survey);
+          this.adminSocket?.onUpdateSurvey(this.getSessionId(), survey.id).subscribe(survey =>{
+            this.surveyListenerService.onNewSurvey(survey);
+          });
+          this.adminSocket?.onSurveyResult(this.getSessionId(), survey.id).subscribe(survey =>{
+            this.surveyListenerService.onNewSurvey(survey);
+          });
+        });
       }
     });
   }
