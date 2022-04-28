@@ -5,6 +5,7 @@ export class Survey{
   private readonly _answers: string[]
   private readonly _timestamp: number
   private readonly _template: SurveyTemplate
+  private _background: boolean = false;
 
   constructor(id: number, template: SurveyTemplate,  answers: string[], timestamp: number) {
     this._id = id;
@@ -27,6 +28,14 @@ export class Survey{
 
   get timestamp(): number {
     return this._timestamp;
+  }
+
+  get background(): boolean {
+    return this._background;
+  }
+
+  set background(value: boolean) {
+    this._background = value;
   }
 
 }

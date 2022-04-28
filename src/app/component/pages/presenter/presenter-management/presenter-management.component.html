@@ -3,11 +3,11 @@
 
   <app-presenter-create-session-dialog [(visible)]="openNewSessionDialog" (onHide)="onClosedCreateSessionDialog($event)" ></app-presenter-create-session-dialog>
 
-  <div class="grid flex-column">
+  <div class="grid flex-column" >
     <div class="col">
       <p-card header="Sessions" >
         <app-presenter-session-metadata-overview [sessionsMetadata]="sessionsMetadata" (onSelectSessionMetadata)="onSelectSessionMetadata($event)" >
-          <button (click)="onCreateSession()" pButton type="button" label="Create Session" ></button>
+          <button (keyup.enter)="onCreateSession()" (click)="onCreateSession()" pButton type="button" label="Create Session" ></button>
         </app-presenter-session-metadata-overview>
       </p-card>
     </div>

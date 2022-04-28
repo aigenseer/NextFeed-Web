@@ -88,6 +88,7 @@ import {tokenReducer} from "./state/token/token.reducer";
 import {ParticipantConnectionTableComponent} from './component/molecules/participant-connection-table/participant-connection-table.component';
 import {ChipModule} from 'primeng/chip';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import {SurveyFabComponent} from './component/molecules/survey-fab/survey-fab.component';
 
 
 @NgModule({
@@ -138,7 +139,8 @@ import {BreadcrumbModule} from 'primeng/breadcrumb';
     AcceptDialogComponent,
     ParticipantTableComponent,
     MoodDataChartComponent,
-    ParticipantConnectionTableComponent
+    ParticipantConnectionTableComponent,
+    SurveyFabComponent
   ],
   imports: [
     BrowserModule,
