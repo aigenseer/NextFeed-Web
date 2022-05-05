@@ -20,17 +20,13 @@ export class ShareSessionCodeDialogComponent implements OnChanges{
   public config: Options = {
     "width":300,"height":300,
     "margin":0,
-    "qrOptions":{"typeNumber":0,"mode":"Byte","errorCorrectionLevel":"Q"},
+    "qrOptions":{"typeNumber":0,"mode":"Byte","errorCorrectionLevel":"L"},
     "imageOptions":{"hideBackgroundDots":true,"imageSize":0.4,"margin":0},
     "dotsOptions":{"type":"rounded","color":"#1a6b41","gradient":{"type":"radial","rotation":0,"colorStops":[{"offset":0,"color":"#009688"},{"offset":1,"color":"#004942"}]}},
     "backgroundOptions":{"color":"#ffffff","gradient":undefined},
-    "image":"src/assets/lecturefeed_logo.svg",
-    
     "cornersSquareOptions":{"type":"extra-rounded","color":"#006a61","gradient":undefined},
-    
     "cornersDotOptions":{"type":undefined,"color":"#1b4f46"},
-    
-    
+
 }
 
   constructor(
