@@ -18,15 +18,13 @@ export class ShareSessionCodeDialogComponent implements OnChanges{
   environmentInfo: EnvironmentInfo|null = null;
 
   public config: Options = {
-    "width":300,"height":300,
     "margin":0,
     "qrOptions":{"typeNumber":0,"mode":"Byte","errorCorrectionLevel":"L"},
-    "imageOptions":{"hideBackgroundDots":true,"imageSize":0.4,"margin":0},
+    "imageOptions":{"hideBackgroundDots":true,"imageSize":0.9,"margin":0},
     "dotsOptions":{"type":"rounded","color":"#1a6b41","gradient":{"type":"radial","rotation":0,"colorStops":[{"offset":0,"color":"#009688"},{"offset":1,"color":"#004942"}]}},
     "backgroundOptions":{"color":"#fff0","gradient":undefined},
     "cornersSquareOptions":{"type":"extra-rounded","color":"#006a61","gradient":undefined},
     "cornersDotOptions":{"type":undefined,"color":"#1b4f46"},
-
 }
 
   constructor(

@@ -1,5 +1,5 @@
 <div *ngIf="environmentInfo" >
-  <p-dialog header="Share Link" [(visible)]="visible"  [draggable]="false" (onHide)="onHideDialog()" [baseZIndex]="102">
+  <p-dialog header="Share Link" [(visible)]="visible" [maximizable]="true" [draggable]="false" (onHide)="onHideDialog()" [baseZIndex]="102">
     <p>Successfully created new Session.</p>
     <p>
       <a href="{{getShareLink()}}" target="_blank">Participant-Link</a>
@@ -7,13 +7,13 @@
     </p>
     <p>Session Code: <button pButton pRipple type="button" title="copy" class="p-button-outlined" label="{{sessionCode}}" ngxClipboard [cbContent]="this.sessionCode"  ></button></p>
     <ng-template pTemplate="footer"></ng-template>
-    
     <ngx-qrcode-styling
       [data]="getShareLink()"
+      [image]="'../../../assets/lecturefeed_logo.svg'"
       [config]="config"
       >
     </ngx-qrcode-styling>
-      
+
   </p-dialog>
   <app-backdrop [visible]="visible" ></app-backdrop>
 </div>
