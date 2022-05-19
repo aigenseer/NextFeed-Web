@@ -88,6 +88,7 @@ import {tokenReducer} from "./state/token/token.reducer";
 import {ParticipantConnectionTableComponent} from './component/molecules/participant-connection-table/participant-connection-table.component';
 import {ChipModule} from 'primeng/chip';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
+import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
 import {SurveyFabComponent} from './component/molecules/survey-fab/survey-fab.component';
 
 
@@ -143,6 +144,7 @@ import {SurveyFabComponent} from './component/molecules/survey-fab/survey-fab.co
     SurveyFabComponent
   ],
   imports: [
+    NgxQrcodeStylingModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
