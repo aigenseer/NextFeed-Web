@@ -7,13 +7,14 @@
     </p>
     <p>Session Code: <button pButton pRipple type="button" title="copy" class="p-button-outlined" label="{{sessionCode}}" ngxClipboard [cbContent]="this.sessionCode"  ></button></p>
     <ng-template pTemplate="footer"></ng-template>
-    <ngx-qrcode-styling
-      [data]="getShareLink()"
-      [image]="'../../../assets/lecturefeed_logo.svg'"
-      [config]="config"
+    <div class="qr-code-container" >
+      <ngx-qrcode-styling
+        [data]="getShareLink()"
+        [image]="'../../../assets/lecturefeed_logo.svg'"
+        [config]="config"
       >
-    </ngx-qrcode-styling>
-
+      </ngx-qrcode-styling>
+    </div>
   </p-dialog>
   <app-backdrop [visible]="visible" ></app-backdrop>
 </div>

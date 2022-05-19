@@ -4,3 +4,33 @@ p{
   justify-content: space-between;
   max-width:300px
 }
+
+.qr-code-container, ngx-qrcode-styling{
+  display: flex;
+  justify-content: center;
+}
+
+.qr-code-container{
+  margin-top: 10px;
+}
+
+.qr-code-container > *{
+  width: 100%;
+}
+
+
+
+::ng-deep {
+
+  canvas {
+    //width: 200px;
+    width: 100%;
+  }
+
+  .p-dialog-maximized .qr-code-container canvas{
+    width: 50%;
+  }
+
+}
+
+
