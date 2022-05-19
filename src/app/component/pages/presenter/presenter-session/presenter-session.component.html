@@ -17,16 +17,17 @@
   <div *ngIf="getSessionId">
 
     <app-share-session-code-dialog *ngIf="sessionCode" [(visible)]="displayShareCodeDialog" (onHide)="onHideShareCodeDialog()" [sessionId]="sessionId" [sessionCode]="sessionCode" ></app-share-session-code-dialog>
+    <app-survey-fab></app-survey-fab>
 
     <div class="grid flex-column">
       <div class="col">
         <p-card>
           <p-tabView>
-            <p-tabPanel header="Mood" [selected]="true" >
+            <p-tabPanel header="Mood" >
               <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
             </p-tabPanel>
-            <p-tabPanel header="Servey" >
-              <app-presenter-survey [adminSocket]="adminSocket" [sessionId]="getSessionId()" ></app-presenter-survey>
+            <p-tabPanel header="Survey" [selected]="true" >
+              <app-presenter-survey [sessionId]="getSessionId()" ></app-presenter-survey>
             </p-tabPanel>
             <p-tabPanel header="Participants" >
               <app-participant-connection-table [participants]="participants" (onSelectParticipant)="onKillParticipant($event)" ></app-participant-connection-table>

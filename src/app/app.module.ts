@@ -89,7 +89,7 @@ import {ParticipantConnectionTableComponent} from './component/molecules/partici
 import {ChipModule} from 'primeng/chip';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
-
+import {SurveyFabComponent} from './component/molecules/survey-fab/survey-fab.component';
 
 
 @NgModule({
@@ -140,7 +140,8 @@ import { NgxQrcodeStylingModule } from 'ngx-qrcode-styling';
     AcceptDialogComponent,
     ParticipantTableComponent,
     MoodDataChartComponent,
-    ParticipantConnectionTableComponent
+    ParticipantConnectionTableComponent,
+    SurveyFabComponent
   ],
   imports: [
     NgxQrcodeStylingModule,
