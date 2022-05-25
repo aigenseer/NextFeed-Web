@@ -23,10 +23,10 @@
       <div class="col">
         <p-card>
           <p-tabView>
-            <p-tabPanel header="Mood" >
+            <p-tabPanel header="Mood" [selected]="true" >
               <app-mood-chart [moodLineValues]="moodLineValues" ></app-mood-chart>
             </p-tabPanel>
-            <p-tabPanel header="Survey" [selected]="true" >
+            <p-tabPanel header="Survey" >
               <app-presenter-survey [sessionId]="getSessionId()" ></app-presenter-survey>
             </p-tabPanel>
             <p-tabPanel header="Participants" >
