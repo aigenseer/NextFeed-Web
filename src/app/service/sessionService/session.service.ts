@@ -17,35 +17,35 @@ import {MoodEntity} from "../../model/moodEntitiy/mood-entity.model";
 export class SessionService extends DefaultService{
 
   getInitialData(sessionId: number){
-    return firstValueFrom(this.http.get<SessionData|null>(this.getAPIUrl()+`session/${sessionId}/initial`));
+    return firstValueFrom(this.http.get<SessionData|null>(this.getAPIUrl()+`session-service/v1/session/${sessionId}/initial`));
   }
 
   createSession(name: string){
-    return firstValueFrom(this.http.post<SessionCreateData>(this.getAPIUrl()+"session/presenter/create", {name}));
+    return firstValueFrom(this.http.post<SessionCreateData>(this.getAPIUrl()+"session-service/v1/session/presenter/create", {name}));
   }
 
   closeSession(sessionId: number){
-    return firstValueFrom(this.http.get<void>(this.getAPIUrl()+`session/presenter/${sessionId}/close`));
+    return firstValueFrom(this.http.get<void>(this.getAPIUrl()+`session-service/v1/session/presenter/${sessionId}/close`));
   }
 
   getSessionsMetadata(){
-    return firstValueFrom(this.http.get<SessionMetadata[]>(this.getAPIUrl()+"session/presenter/sessions/metadata"));
+    return firstValueFrom(this.http.get<SessionMetadata[]>(this.getAPIUrl()+"session-service/v1/session/presenter/sessions/metadata"));
   }
 
   deleteSession(sessionId: number){
-    return firstValueFrom(this.http.delete<void>(this.getAPIUrl()+`session/presenter/${sessionId}`));
+    return firstValueFrom(this.http.delete<void>(this.getAPIUrl()+`session-service/v1/session/presenter/${sessionId}`));
   }
 
   createQuestion(sessionId: number, template: IQuestionTemplate){
-    return firstValueFrom(this.http.post<Question>(this.getAPIUrl()+`session/${sessionId}/question/create`, template));
+    return firstValueFrom(this.http.post<Question>(this.getAPIUrl()+`session-service/v1/session/${sessionId}/question/create`, template));
   }
 
   killParticipant(sessionId: number, participantId: number, blocked: boolean){
-    return firstValueFrom(this.http.get(this.getAPIUrl()+`session/presenter/${sessionId}/participant/${participantId}/kill/${blocked? 1: 0}`));
+    return firstValueFrom(this.http.get(this.getAPIUrl()+`session-service/v1/session/presenter/${sessionId}/participant/${participantId}/kill/${blocked? 1: 0}`));
   }
 
   getSession(sessionId: number){
-    return firstValueFrom(this.http.get<Session>(this.getAPIUrl()+`session/presenter/${sessionId}/data`)
+    return firstValueFrom(this.http.get<Session>(this.getAPIUrl()+`session-service/v1/session/presenter/${sessionId}/data`)
       .pipe(
         map((v: Session) => {
           let participants: Participant[] = v.participants.map(p => new Participant(p.id, p.nickname, p.connected));
@@ -66,7 +66,7 @@ export class SessionService extends DefaultService{
 
   getSessionCSVZip(sessionId: number)
   {
-    return firstValueFrom(this.http.get(this.getAPIUrl()+`session/presenter/${sessionId}/data/download`, { responseType: 'blob', observe: 'response' }).pipe(
+    return firstValueFrom(this.http.get(this.getAPIUrl()+`session-service/v1/session/presenter/${sessionId}/data/download`, { responseType: 'blob', observe: 'response' }).pipe(
       map(res => res.body)
     ));
   }

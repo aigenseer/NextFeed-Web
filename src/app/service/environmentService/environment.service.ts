@@ -9,7 +9,7 @@ import {EnvironmentInfo} from "../../model/environmentInfo/environment-info.mode
 export class EnvironmentService extends DefaultService{
 
   getEnvironmentInfo(){
-    return firstValueFrom(this.http.get<EnvironmentInfo>(this.getAPIUrl()+`environment/info`)
+    return firstValueFrom(this.http.get<EnvironmentInfo>(this.getAPIUrl()+`obsolet-service/v1/environment/info`)
       .pipe(
         map((v: EnvironmentInfo) => new EnvironmentInfo(v.routingIpInterface)
       )));

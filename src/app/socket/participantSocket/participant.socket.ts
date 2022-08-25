@@ -12,13 +12,13 @@ import {SurveyTemplate} from "../../model/surveyTemplate/survey-template.model";
 export class ParticipantSocket extends SharedCallsSocket {
 
   public voteQuestionId(sessionId: number, questionId: number, vote: boolean){
-    let path = vote ? `/participant/session/${sessionId}/question/${questionId}/rating/up`: `/participant/session/${sessionId}/question/${questionId}/rating/down`
+    let path = vote ? `/socket/question-socket/v1/participant/session/${sessionId}/question/${questionId}/rating/up`: `/socket/session-socket/v1/participant/session/${sessionId}/question/${questionId}/rating/down`
     this.getStompClient().send(path, {});
   }
 
   public onUpdateQuestion(sessionId: number): Observable<Question>
   {
-    return this.subscribe<Question>(`/participant/session/${sessionId}/question/onupdate`).pipe(
+    return this.subscribe<Question>(`/socket/question-socket/v1/participant/session/${sessionId}/question/onupdate`).pipe(
       map((data: Question) =>
         new Question(
           data.id,
@@ -33,19 +33,19 @@ export class ParticipantSocket extends SharedCallsSocket {
 
   public onJoinParticipant(sessionId: number): Observable<Participant>
   {
-    return this.subscribe<Participant>(`/participant/session/${sessionId}/user/onjoin`);
+    return this.subscribe<Participant>(`/socket/session-socket/v1/participant/session/${sessionId}/user/onjoin`);
   }
 
   public sendMood(sessionId: number, value: number){
-    this.getStompClient().send(`/participant/session/${sessionId}/mood/${value}`, {});
+    this.getStompClient().send(`/socket/session-socket/v1/participant/session/${sessionId}/mood/${value}`, {});
   }
 
   public onUpdateMood(sessionId: number){
-    return this.subscribe<number>(`/participant/session/${sessionId}/mood/onupdate`);
+    return this.subscribe<number>(`/socket/session-socket/v1/participant/session/${sessionId}/mood/onupdate`);
   }
 
   public onSurveyResult(sessionId: number, surveyId: number){
-    return this.subscribe<Survey>(`/participant/session/${sessionId}/survey/${surveyId}/onresult`)
+    return this.subscribe<Survey>(`/socket/survey-socket/v1/participant/session/${sessionId}/survey/${surveyId}/onresult`)
       .pipe(
         map(v => this.castSurvey(v))
       );
@@ -53,7 +53,7 @@ export class ParticipantSocket extends SharedCallsSocket {
 
   public onCreateSurvey(sessionId: number): Observable<{surveyId: number, surveyTemplate: SurveyTemplate}>
   {
-    return this.subscribe<{surveyId: number, surveyTemplate: SurveyTemplate}>(`/participant/session/${sessionId}/survey/oncreate`).pipe(
+    return this.subscribe<{surveyId: number, surveyTemplate: SurveyTemplate}>(`/socket/survey-socket/v1/participant/session/${sessionId}/survey/oncreate`).pipe(
       map((data: {surveyId: number, surveyTemplate: SurveyTemplate}) =>  ({surveyId: data.surveyId, surveyTemplate: this.castSurveyTemplate(data.surveyTemplate)}))
     );
   }

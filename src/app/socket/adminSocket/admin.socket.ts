@@ -11,44 +11,44 @@ import {SurveyTemplate} from "../../model/surveyTemplate/survey-template.model";
 })
 export class AdminSocket extends SharedCallsSocket {
 
-  public onQuestion(): Observable<Question>
-  {
-    return this.subscribe<Question>('/admin/question')
-  }
+  // public onQuestion(): Observable<Question>
+  // {
+  //   return this.subscribe<Question>('/socket/session-socket/v1/admin/question')
+  // }
 
   public onJoinParticipant(sessionId: number): Observable<Participant>
   {
-    return this.subscribe<Participant>(`/admin/session/${sessionId}/user/onjoin`);
+    return this.subscribe<Participant>(`/socket/session-socket/v1/admin/session/${sessionId}/user/onjoin`);
   }
 
   public onParticipantConnectionStatus(sessionId: number)
   {
-    return this.subscribe<Participant[]>(`/admin/session/${sessionId}/participant/connections/status`);
+    return this.subscribe<Participant[]>(`/socket/v1/session-socket/admin/session/${sessionId}/participant/connections/status`);
   }
 
   public closeQuestion(sessionId: number, question: Question){
-    this.getStompClient().send(`/admin/session/${sessionId}/question/${question.id}/close`);
+    this.getStompClient().send(`/socket/question-socket/v1/admin/session/${sessionId}/question/${question.id}/close`);
   }
 
   public onUpdateQuestion(sessionId: number): Observable<Question>
   {
-    return this.subscribe<Question>(`/admin/session/${sessionId}/question/onupdate`);
+    return this.subscribe<Question>(`/socket/question-socket/v1/admin/session/${sessionId}/question/onupdate`);
   }
 
   public onUpdateMood(sessionId: number){
-    return this.subscribe<number>(`/admin/session/${sessionId}/mood/onupdate`);
+    return this.subscribe<number>(`/socket/session-socket/v1/admin/session/${sessionId}/mood/onupdate`);
   }
 
   public onUpdateSurvey(sessionId: number, surveyId: number): Observable<Survey>
   {
-    return this.subscribe<Survey>(`/admin/session/${sessionId}/survey/${surveyId}/onupdate`)
+    return this.subscribe<Survey>(`/socket/survey-socket/v1/admin/session/${sessionId}/survey/${surveyId}/onupdate`)
       .pipe(
         map(v => this.castSurvey(v))
       );
   }
 
   public onSurveyResult(sessionId: number, surveyId: number){
-    return this.subscribe<Survey>(`/admin/session/${sessionId}/survey/${surveyId}/onresult`)
+    return this.subscribe<Survey>(`/socket/survey-socket/v1/admin/session/${sessionId}/survey/${surveyId}/onresult`)
       .pipe(
         map(v => this.castSurvey(v))
       );
@@ -56,7 +56,7 @@ export class AdminSocket extends SharedCallsSocket {
 
   public onCreateSurvey(sessionId: number): Observable<Survey>
   {
-    return this.subscribe<Survey>(`/admin/session/${sessionId}/survey/oncreate`).pipe(
+    return this.subscribe<Survey>(`/socket/survey-socket/v1/admin/session/${sessionId}/survey/oncreate`).pipe(
       map((v: Survey) =>  this.castSurvey(v))
     );
   }
