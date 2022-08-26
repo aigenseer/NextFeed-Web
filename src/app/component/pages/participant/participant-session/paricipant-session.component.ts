@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Participant} from "../../../../model/participant/participant.model";
-import {ParticipantSocket} from "../../../../socket/participantSocket/participant.socket";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {SessionService} from "../../../../service/sessionService/session.service";
 import {
@@ -32,10 +31,12 @@ import {WaitDialogService} from "../../../../service/waitDialogService/wait-dial
 import {SurveyTemplate} from "../../../../model/surveyTemplate/survey-template.model";
 import {SurveyService} from "../../../../service/surveyService/survey.service";
 import {Survey} from "../../../../model/survey/survey.model";
-import {removeCurrentDataSession} from "../../../../state/admin/admin.actions";
 import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
 import {selectToken} from "../../../../state/token/token.selector";
 import {removeToken} from "../../../../state/token/token.actions";
+import {ParticipantSessionSocket} from "../../../../socket/participant/sessionSocket/participant.session.socket";
+import {ParticipantQuestionSocket} from "../../../../socket/participant/questionSocket/participant.question.socket";
+import {ParticipantSurveySocket} from "../../../../socket/participant/surveySocket/participant.survey.socket";
 
 const AVERAGE_LABEL = "Average";
 const MY_MOOD_LABEL = "You";
@@ -65,7 +66,9 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
     protected readonly route: ActivatedRoute,
     protected readonly messageService: MessageService,
     protected readonly sessionService: SessionService,
-    protected readonly participantSocket: ParticipantSocket,
+    private readonly sessionSocket: ParticipantSessionSocket,
+    private readonly questionSocket: ParticipantQuestionSocket,
+    private readonly surveySocket: ParticipantSurveySocket,
     private readonly store: Store<IAppParticipantState>,
     private readonly waitDialogService: WaitDialogService,
     private readonly surveyService: SurveyService,
@@ -80,7 +83,9 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
   }
 
   ngOnDestroy() {
-    this.participantSocket.disconnect();
+    this.sessionSocket.disconnect();
+    this.questionSocket.disconnect();
+    this.surveySocket.disconnect();
   }
 
   protected getToken()
@@ -117,18 +122,36 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
 
   private connectToSocket(token: string){
     this.waitDialogService.open("Wait for connection");
-    this.participantSocket.connect(token, false).subscribe((next) => {
+    this.sessionSocket.connect(token, false).subscribe((next) => {
       if(next instanceof Error){
         this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
           this.logOutSession();
         });
       }else {
         this.waitDialogService.close();
-        this.participantSocket.onJoinParticipant(this.getSessionId()).subscribe(p => this.onJoinParticipant(p));
-        this.participantSocket.onUpdateQuestion(this.getSessionId()).subscribe(q => this.addQuestion(q));
-        this.participantSocket.onUpdateMood(this.getSessionId()).subscribe(value => this.updateMoodAverageLineChart(value));
-        this.participantSocket.onCreateSurvey(this.getSessionId()).subscribe(t => this.onCreateSurvey(t.surveyId, t.surveyTemplate));
-        this.participantSocket.onClose(this.getSessionId()).subscribe(() => this.onCloseSession());
+        this.sessionSocket.onJoinParticipant(this.getSessionId()).subscribe(p => this.onJoinParticipant(p));
+        this.sessionSocket.onUpdateMood(this.getSessionId()).subscribe(value => this.updateMoodAverageLineChart(value));
+        this.sessionSocket.onClose(this.getSessionId()).subscribe(() => this.onCloseSession());
+      }
+    });
+    this.questionSocket.connect(token, false).subscribe((next) => {
+      if(next instanceof Error){
+        this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
+          this.logOutSession();
+        });
+      }else {
+        this.waitDialogService.close();
+        this.questionSocket.onUpdateQuestion(this.getSessionId()).subscribe(q => this.addQuestion(q));
+      }
+    });
+    this.surveySocket.connect(token, false).subscribe((next) => {
+      if(next instanceof Error){
+        this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
+          this.logOutSession();
+        });
+      }else {
+        this.waitDialogService.close();
+        this.surveySocket.onCreateSurvey(this.getSessionId()).subscribe(t => this.onCreateSurvey(t.surveyId, t.surveyTemplate));
       }
     });
   }
@@ -176,19 +199,19 @@ export class ParticipantSessionComponent extends AbstractActiveSessionManagement
 
   onVotedQuestion(vote: IVotedQuestion) {
     this.store.dispatch(votedQuestion({ votedQuestion: vote }));
-    this.participantSocket.voteQuestionId(this.sessionId as number, vote.questionId, vote.vote);
+    this.questionSocket.voteQuestionId(this.sessionId as number, vote.questionId, vote.vote);
   }
 
   onSliderChange(value: number) {
     this.moodLineValues[MY_MOOD_LABEL] = value;
-    this.participantSocket.sendMood(this.getSessionId() as number, value);
+    this.sessionSocket.sendMood(this.getSessionId() as number, value);
   }
 
   onCreateSurvey(surveyId: number, surveyTemplate: SurveyTemplate){
     this.currentSurvey = null;
     this.currentSurveyId = surveyId;
     this.currentSurveyTemplate = surveyTemplate;
-    this.participantSocket.onSurveyResult(this.sessionId as number, this.currentSurveyId).subscribe(survey => {
+    this.surveySocket.onSurveyResult(this.sessionId as number, this.currentSurveyId).subscribe(survey => {
       this.currentSurvey = survey;
       this.currentSurveyTemplate = null;
     });

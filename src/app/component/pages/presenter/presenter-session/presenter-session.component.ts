@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Participant} from "../../../../model/participant/participant.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ConfirmationService, MessageService} from "primeng/api";
-import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
 import {SessionService} from "../../../../service/sessionService/session.service";
 import {
   IAbstractSessionManagementComponent
@@ -23,6 +22,9 @@ import {AcceptDialogService} from "../../../../service/acceptDialogService/accep
 import {selectToken} from "../../../../state/token/token.selector";
 import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
 import {SurveyListenerService} from "../../../../service/surveyListenerService/survey-listener.service";
+import {PresenterSessionSocket} from "../../../../socket/presenter/sessionSocket/presenter.session.socket";
+import {PresenterQuestionSocket} from "../../../../socket/presenter/questionSocket/presenter.question.socket";
+import {PresenterSurveySocket} from "../../../../socket/presenter/surveySocket/presenter.survey.socket";
 
 const AVERAGE_LABEL = "Average";
 
@@ -46,7 +48,9 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
     protected readonly route: ActivatedRoute,
     protected readonly messageService: MessageService,
     protected readonly sessionService: SessionService,
-    public readonly adminSocket: AdminSocket,
+    private readonly sessionSocket: PresenterSessionSocket,
+    private readonly questionSocket: PresenterQuestionSocket,
+    private readonly surveySocket: PresenterSurveySocket,
     private readonly store: Store<IAppAdminState>,
     private readonly waitDialogService: WaitDialogService,
     private readonly confirmationService: ConfirmationService,
@@ -66,7 +70,9 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   }
 
   ngOnDestroy() {
-    this.adminSocket.disconnect();
+    this.sessionSocket.disconnect();
+    this.questionSocket.disconnect();
+    this.surveySocket.disconnect();
     this.displayShareCodeDialog = false;
     this.visibleSidebar = false;
     this.sessionCode = "";
@@ -83,27 +89,43 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
 
   private connectToSocket(token: string){
     this.waitDialogService.open("Wait for connection");
-    this.adminSocket.connect(token).subscribe((next) => {
+    this.surveySocket.connect(token).subscribe((next) => {
+      if(next instanceof Error){
+        this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
+          this.logOutSession();
+        });
+      }else {
+        this.surveySocket?.onCreateSurvey(this.getSessionId()).subscribe(survey =>{
+          this.surveyListenerService.onNewSurvey(survey);
+          this.surveySocket?.onUpdateSurvey(this.getSessionId(), survey.id).subscribe(survey =>{
+            this.surveyListenerService.onNewSurvey(survey);
+          });
+          this.surveySocket?.onSurveyResult(this.getSessionId(), survey.id).subscribe(survey =>{
+            this.surveyListenerService.onNewSurvey(survey);
+          });
+        });
+      }
+    });
+    this.questionSocket.connect(token).subscribe((next) => {
+      if(next instanceof Error){
+        this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
+          this.logOutSession();
+        });
+      }else {
+        this.questionSocket.onUpdateQuestion(this.getSessionId()).subscribe(q => this.addQuestion(q))
+      }
+    });
+    this.sessionSocket.connect(token).subscribe((next) => {
       if(next instanceof Error){
         this.acceptDialogService.open("Connection lost", "Session are closed.").then(() => {
           this.logOutSession();
         });
       }else {
         this.waitDialogService.close();
-        this.adminSocket.onJoinParticipant(this.getSessionId()).subscribe(p => this.onJoinParticipant(p));
-        this.adminSocket.onUpdateQuestion(this.getSessionId()).subscribe(q => this.addQuestion(q))
-        this.adminSocket.onUpdateMood(this.getSessionId()).subscribe(value => this.updateMoodAverageLineChart(value));
-        this.adminSocket.onClose(this.getSessionId()).subscribe(value => this.onCloseSession());
-        this.adminSocket.onParticipantConnectionStatus(this.getSessionId()).subscribe(p => this.updateParticipants(p))
-        this.adminSocket?.onCreateSurvey(this.getSessionId()).subscribe(survey =>{
-          this.surveyListenerService.onNewSurvey(survey);
-          this.adminSocket?.onUpdateSurvey(this.getSessionId(), survey.id).subscribe(survey =>{
-            this.surveyListenerService.onNewSurvey(survey);
-          });
-          this.adminSocket?.onSurveyResult(this.getSessionId(), survey.id).subscribe(survey =>{
-            this.surveyListenerService.onNewSurvey(survey);
-          });
-        });
+        this.sessionSocket.onJoinParticipant(this.getSessionId()).subscribe(p => this.onJoinParticipant(p));
+        this.sessionSocket.onUpdateMood(this.getSessionId()).subscribe(value => this.updateMoodAverageLineChart(value));
+        this.sessionSocket.onClose(this.getSessionId()).subscribe(value => this.onCloseSession());
+        this.sessionSocket.onParticipantConnectionStatus(this.getSessionId()).subscribe(p => this.updateParticipants(p))
       }
     });
   }
@@ -134,7 +156,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   }
 
   protected logOutSession(){
-    this.adminSocket?.disconnect();
+    this.ngOnDestroy();
     this.store.dispatch(removeCurrentDataSession());
     super.logOutSession();
   }
@@ -144,7 +166,7 @@ export class PresenterSessionComponent extends AbstractActiveSessionManagementCo
   }
 
   onClosedQuestion(question: Question) {
-    this.adminSocket.closeQuestion(this.sessionId as number, question);
+    this.questionSocket.closeQuestion(this.sessionId as number, question);
   }
 
   updateMoodAverageLineChart(value: number){

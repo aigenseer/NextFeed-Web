@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../service/authenticationService/authentication.service";
-import {AdminSocket} from "../../../../socket/adminSocket/admin.socket";
 import {SessionService} from "../../../../service/sessionService/session.service";
 import {selectCurrentSessionData} from "../../../../state/admin/admin.selector";
 import {select, Store} from "@ngrx/store";
@@ -19,6 +18,7 @@ import {setToken} from "../../../../state/token/token.actions";
 import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
 import {EnvironmentService} from "../../../../service/environmentService/environment.service";
 import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
+import {PresenterSessionSocket} from "../../../../socket/presenter/sessionSocket/presenter.session.socket";
 
 @Component({
   selector: 'app-presenter-management',
@@ -35,7 +35,8 @@ export class PresenterManagementComponent implements OnInit{
     private readonly router: Router,
     private readonly authenticationService: AuthenticationService,
     private readonly sessionService: SessionService,
-    private readonly adminSocket: AdminSocket,
+    // private readonly adminSocket: AdminSocket,
+    private readonly sessionSocket: PresenterSessionSocket,
     private readonly store: Store<IAppAdminState>,
     private readonly waitDialogService: WaitDialogService,
     private readonly customRouterService: CustomRouterService,
@@ -74,9 +75,9 @@ export class PresenterManagementComponent implements OnInit{
 
   connectToEndpoints(token: string){
     this.token = token;
-    this.adminSocket.disconnect();
+    this.sessionSocket.disconnect();
     this.waitDialogService.open("Wait for connection");
-    this.adminSocket.connect(token, false).subscribe((next) => {
+    this.sessionSocket.connect(token, false).subscribe((next) => {
       if(next instanceof Error){
         this.waitDialogService.open("Connection lost");
       }else {

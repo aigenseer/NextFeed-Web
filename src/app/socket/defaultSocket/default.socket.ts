@@ -11,12 +11,18 @@ export abstract class DefaultSocket {
   private observersWaitForConnection: Subscriber<Frame|Error>[] = []
   private observersWaitForReconnection: Subscriber<Frame|Error>[] = []
   private currentReconnectTimeout: NodeJS.Timeout|null = null;
+  private endpointPrefix: string;
 
-  protected getEndpointUrl(): String{
-    if(!environment.production){
-      return location.origin.replace("4200", "8080")+"/";
-    }
-    return location.origin+"/";
+  constructor(endpointPrefix: string) {
+    this.endpointPrefix = endpointPrefix;
+  }
+
+  protected getEndpointPrefix(){
+    return this.endpointPrefix;
+  }
+
+  protected getEndpointUrl(): string{
+    return location.origin.replace("4200", String(environment.port));
   }
 
   public getStompClient(): any {
@@ -45,7 +51,7 @@ export abstract class DefaultSocket {
   }
 
   private stompClientConnect(observer: any, token: string, autoReconnect: boolean = true){
-    this.stompClient = Stomp.over(new SockJS(this.getEndpointUrl()+'api/ws'));
+    this.stompClient = Stomp.over(new SockJS(`${this.getEndpointUrl()}${this.getEndpointPrefix()}/ws`));
 
     this.stompClient.connect({"Authorization": token, login: token}, (frame) => {
       if(frame !== undefined){
