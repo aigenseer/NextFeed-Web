@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {EnvironmentService} from "../../../service/environmentService/environment.service";
 import {EnvironmentInfo} from "../../../model/environmentInfo/environment-info.model";
 import { Options } from 'ngx-qrcode-styling';
 
@@ -15,7 +14,6 @@ export class ShareSessionCodeDialogComponent implements OnChanges{
   @Input() visible: boolean = false;
   @Output() visibleChange: EventEmitter<boolean> = new EventEmitter();
   @Output() onHide: EventEmitter<void> = new EventEmitter();
-  environmentInfo: EnvironmentInfo|null = null;
 
   public config: Options = {
     "margin":0,
@@ -27,13 +25,6 @@ export class ShareSessionCodeDialogComponent implements OnChanges{
     "cornersDotOptions":{"type":undefined,"color":"#1b4f46"},
 }
 
-  constructor(
-    private readonly environmentService: EnvironmentService) {
-    this.environmentService.getEnvironmentInfo().then(info => {
-      this.environmentInfo = info;
-    })
-  }
-
   ngOnChanges(changes: SimpleChanges) {
     if(changes.hasOwnProperty("visible")){
       this.visible = changes.visible.currentValue;
@@ -41,7 +32,7 @@ export class ShareSessionCodeDialogComponent implements OnChanges{
   }
 
   getShareLink(){
-    return `${location.protocol}//${this.environmentInfo?.routingIpInterface}:${location.port}/#/participant/join/${this.sessionId}`
+    return `${location.origin}/#/participant/join/${this.sessionId}`
   }
 
   onHideDialog() {

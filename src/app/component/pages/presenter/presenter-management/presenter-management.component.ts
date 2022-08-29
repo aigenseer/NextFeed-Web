@@ -16,7 +16,6 @@ import {WaitDialogService} from "../../../../service/waitDialogService/wait-dial
 import {selectToken} from "../../../../state/token/token.selector";
 import {setToken} from "../../../../state/token/token.actions";
 import {CustomRouterService} from "../../../../service/customRouter/custom-router.service";
-import {EnvironmentService} from "../../../../service/environmentService/environment.service";
 import {AcceptDialogService} from "../../../../service/acceptDialogService/accept-dialog.service";
 import {PresenterSessionSocket} from "../../../../socket/presenter/sessionSocket/presenter.session.socket";
 
@@ -40,7 +39,6 @@ export class PresenterManagementComponent implements OnInit{
     private readonly store: Store<IAppAdminState>,
     private readonly waitDialogService: WaitDialogService,
     private readonly customRouterService: CustomRouterService,
-    private readonly environmentService: EnvironmentService,
     private readonly acceptDialogService: AcceptDialogService,
   ) {}
 
@@ -54,7 +52,7 @@ export class PresenterManagementComponent implements OnInit{
   updateToken(): Promise<string>
   {
     return new Promise((resolve, reject) => {
-      this.authenticationService.getAdminToken().then((token: Token) => {
+      this.authenticationService.getPresenterToken().then((token: Token) => {
         this.store.dispatch(setToken({token: token.token}));
         resolve(token.token);
       }).catch(reject);
@@ -107,15 +105,9 @@ export class PresenterManagementComponent implements OnInit{
   }
 
   createSession(name: string){
-    this.environmentService.getEnvironmentInfo().then(info => {
-      if(info.routingIpInterface === null){
-        this.acceptDialogService.open("Network error", "Session could not be started. No network connection was found. Please check your network settings.");
-      }else{
-        this.sessionService.createSession(name).then(sessionData => {
-          this.store.dispatch(setCurrentDataSession({sessionData}));
-          this.navigateToSession(sessionData);
-        });
-      }
+    this.sessionService.createSession(name).then(sessionData => {
+      this.store.dispatch(setCurrentDataSession({sessionData}));
+      this.navigateToSession(sessionData);
     });
   }
 

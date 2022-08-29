@@ -10,7 +10,7 @@ import {ISurveyTemplate, SurveyTemplate} from "../../model/surveyTemplate/survey
 export class SurveyService extends DefaultService{
 
   getSurveysBySessionId(sessionId: number){
-    return firstValueFrom(this.http.get<Survey[]>(this.getAPIUrl()+`survey-service/v1/admin/session/${sessionId}/surveys`)
+    return firstValueFrom(this.http.get<Survey[]>(this.getAPIUrl()+`survey-service/v1/presenter/session/${sessionId}/surveys`)
       .pipe(
         map((values: Survey[]) =>
           values.map(v => new Survey(v.id, new SurveyTemplate(v.template.id, v.template.name, v.template.type, v.template.question, v.template.duration, v.template.publishResults), v.answers, v.timestamp)))
@@ -19,7 +19,7 @@ export class SurveyService extends DefaultService{
   }
 
   getTemplatesBySessionId(sessionId: number){
-    return firstValueFrom(this.http.get<SurveyTemplate[]>(this.getAPIUrl()+`survey-service/v1/admin/session/${sessionId}/survey/templates`)
+    return firstValueFrom(this.http.get<SurveyTemplate[]>(this.getAPIUrl()+`survey-service/v1/presenter/session/${sessionId}/survey/templates`)
       .pipe(
         map((values: SurveyTemplate[]) =>
           values.map(v => new SurveyTemplate(v.id, v.name, v.type, v.question, v.duration, v.publishResults)))
@@ -27,14 +27,14 @@ export class SurveyService extends DefaultService{
   }
 
   createByTemplate(sessionId: number, template: ISurveyTemplate){
-    return firstValueFrom(this.http.post<SurveyTemplate>(this.getAPIUrl()+`survey-service/v1/admin/session/${sessionId}/survey/create`, template)
+    return firstValueFrom(this.http.post<SurveyTemplate>(this.getAPIUrl()+`survey-service/v1/presenter/session/${sessionId}/survey/create`, template)
       .pipe(
         map((v: SurveyTemplate) =>  new SurveyTemplate(v.id, v.name, v.type, v.question, v.duration, v.publishResults))
       ));
   }
 
   createByTemplateId(sessionId: number, id: number){
-    return firstValueFrom(this.http.get(this.getAPIUrl()+`survey-service/v1/admin/session/${sessionId}/survey/create/${id}`));
+    return firstValueFrom(this.http.get(this.getAPIUrl()+`survey-service/v1/presenter/session/${sessionId}/survey/create/${id}`));
   }
 
   sendAnswer(sessionId: number, surveyId: number, value: string){

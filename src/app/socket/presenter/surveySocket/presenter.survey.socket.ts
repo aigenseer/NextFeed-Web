@@ -15,14 +15,14 @@ export class PresenterSurveySocket extends DefaultSocket {
 
   public onUpdateSurvey(sessionId: number, surveyId: number): Observable<Survey>
   {
-    return this.subscribe<Survey>(`${this.getEndpointPrefix()}/v1/admin/session/${sessionId}/survey/${surveyId}/onupdate`)
+    return this.subscribe<Survey>(`${this.getEndpointPrefix()}/v1/presenter/session/${sessionId}/survey/${surveyId}/onupdate`)
       .pipe(
         map(v => this.surveyUtils.castSurvey(v))
       );
   }
 
   public onSurveyResult(sessionId: number, surveyId: number){
-    return this.subscribe<Survey>(`${this.getEndpointPrefix()}/v1/admin/session/${sessionId}/survey/${surveyId}/onresult`)
+    return this.subscribe<Survey>(`${this.getEndpointPrefix()}/v1/presenter/session/${sessionId}/survey/${surveyId}/onresult`)
       .pipe(
         map(v => this.surveyUtils.castSurvey(v))
       );
@@ -30,7 +30,7 @@ export class PresenterSurveySocket extends DefaultSocket {
 
   public onCreateSurvey(sessionId: number): Observable<Survey>
   {
-    return this.subscribe<Survey>(`/socket/survey-socket/v1/admin/session/${sessionId}/survey/oncreate`).pipe(
+    return this.subscribe<Survey>(`/socket/survey-socket/v1/presenter/session/${sessionId}/survey/oncreate`).pipe(
       map((v: Survey) => {
         console.log(v)
         return this.surveyUtils.castSurvey(v);

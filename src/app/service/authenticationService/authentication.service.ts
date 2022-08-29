@@ -9,12 +9,12 @@ import {firstValueFrom} from 'rxjs';
 })
 export class AuthenticationService extends DefaultService{
 
-  getAdminToken(){
-    return firstValueFrom(this.http.get<Token>(this.getAPIUrl()+"obsolet-service/v1/auth/admin"));
+  getPresenterToken(){
+    return firstValueFrom(this.http.get<Token>(this.getAPIUrl()+"authorization-service/v1/test/auth"));
   }
 
   getParticipantToken(sessionId: number, nickname: string, sessionCode: string){
-    return firstValueFrom(this.http.post<Token>(this.getAPIUrl()+"obsolet-service/v1/auth/participant", {sessionId, nickname, sessionCode}));
+    return firstValueFrom(this.http.post<Token>(this.getAPIUrl()+"authorization-service/v1/participant/auth", {sessionId, nickname, sessionCode}));
   }
 
 }

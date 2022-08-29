@@ -19,16 +19,16 @@ export class PresenterSessionSocket extends DefaultSocket {
 
   public onJoinParticipant(sessionId: number): Observable<Participant>
   {
-    return this.subscribe<Participant>(`${this.getEndpointPrefix()}/v1/admin/session/${sessionId}/user/onjoin`);
+    return this.subscribe<Participant>(`${this.getEndpointPrefix()}/v1/presenter/session/${sessionId}/user/onjoin`);
   }
 
   public onParticipantConnectionStatus(sessionId: number)
   {
-    return this.subscribe<Participant[]>(`${this.getEndpointPrefix()}/v1/admin/session/${sessionId}/participant/connections/status`);
+    return this.subscribe<Participant[]>(`${this.getEndpointPrefix()}/v1/presenter/session/${sessionId}/participant/connections/status`);
   }
 
   public onUpdateMood(sessionId: number){
-    return this.subscribe<number>(`${this.getEndpointPrefix()}/v1/admin/session/${sessionId}/mood/onupdate`);
+    return this.subscribe<number>(`${this.getEndpointPrefix()}/v1/presenter/session/${sessionId}/mood/onupdate`);
   }
 
 

@@ -15,12 +15,12 @@ export class PresenterQuestionSocket extends DefaultSocket {
   }
 
   public closeQuestion(sessionId: number, question: Question){
-    this.getStompClient().send(`${this.getEndpointPrefix()}/v1/admin/session/${sessionId}/question/${question.id}/close`);
+    this.getStompClient().send(`${this.getEndpointPrefix()}/v1/presenter/session/${sessionId}/question/${question.id}/close`);
   }
 
   public onUpdateQuestion(sessionId: number): Observable<Question>
   {
-    return this.subscribe<Question>(`${this.getEndpointPrefix()}/v1/admin/session/${sessionId}/question/onupdate`);
+    return this.subscribe<Question>(`${this.getEndpointPrefix()}/v1/presenter/session/${sessionId}/question/onupdate`);
   }
 
 }
