@@ -8,6 +8,7 @@ export const selectParticipantData = createSelector(
   },
   (token: string) => {
     let payload = jwt_decode(token) as any;
+    console.log(payload)
     if(payload.hasOwnProperty("id") && payload.hasOwnProperty("username")){
       return {id: payload.id, nickname: payload.username};
     }

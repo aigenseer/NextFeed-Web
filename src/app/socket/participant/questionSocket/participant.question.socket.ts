@@ -21,7 +21,7 @@ export class ParticipantQuestionSocket extends DefaultSocket {
 
   public onUpdateQuestion(sessionId: number): Observable<Question>
   {
-    return this.subscribe<Question>(`${this.getEndpointPrefix()}/v1/presenter/session/${sessionId}/question/onupdate`).pipe(
+    return this.subscribe<Question>(`${this.getEndpointPrefix()}/v1/participant/session/${sessionId}/question/onupdate`).pipe(
       map((data: Question) =>
         new Question(
           data.id,
